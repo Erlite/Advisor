@@ -1,5 +1,3 @@
-*Pour la version française: [LISEZ-MOI.MD](https://github.com/game-creators-area/Advisor/blob/master/LISEZ-MOI.MD)*
-
 <p align="center">
   <img width="256" height="256" src="https://user-images.githubusercontent.com/25248023/113520130-542d8d00-9591-11eb-8104-d5abd8ecb660.png">
 </p>
@@ -9,7 +7,7 @@
 <div />
 
 
-## Wait isn't this meant to be on s&box
+## Wait isn't this meant to be on s&box?
 
 Indeed, but this is the Garry's Mod version. Simply because s&box has no support for addons right now and likely won't have any for a while.
 
