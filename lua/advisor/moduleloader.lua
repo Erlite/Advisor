@@ -12,7 +12,9 @@ include("advisor/loaderconfig.lua")
             - shared files
         - sv
             - server only files.
---]]
+
+    Yeah this is probably the most overkill thing I've written, but does it work? Hell yeah.
+--]] 
 
 Advisor = Advisor or {}
 Advisor.ModuleUtils = Advisor.ModuleUtils or {}
@@ -281,4 +283,4 @@ function Advisor.Modules.LoadAllModules()
         if loaderConfig.ignoredModules[dir] then continue end
         LoadModule(dir)
     end
-end
+end 
