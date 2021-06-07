@@ -1,3 +1,7 @@
+-- This is distributed under the MIT license since I made it public in Advisor's repository
+-- Feel free to use it in your addons or gamemodes. You'll need a couple of modifications for gamemodes but I'm sure you'll figure them out, it's mostly filesystem paths.
+-- Don't forget to replace the global table (Advisor) with your own.
+
 AddCSLuaFile()
 include("advisor/module.lua")
 include("advisor/loaderconfig.lua")
@@ -180,9 +184,12 @@ local function LoadModule(moduleName, numRecursions)
         for _, path in pairs(moduleConfig:GetLoadOrder()) do
             local loadPath = searchPath .. path
             local fileModulePath = modulePath .. path
+
+            fileModulePath = string.Replace(loadPath, "\\", "/") -- Replace back slashes with forward slashes.
             fileModulePath = string.Replace(fileModulePath, "//", "/") -- Remove excess slashes
             fileModulePath = string.Trim(fileModulePath, "/")  -- Remove leading and trailing slashes
 
+            loadPath = string.Replace(loadPath, "\\", "/") -- Replace back slashes with forward slashes.
             loadPath = string.Replace(loadPath, "//", "/") -- Remove excess slashes
             loadPath = string.Replace(loadPath, "*", "") -- No wildcards
             loadPath = string.Trim(loadPath, "/") -- Remove leading and trailing slashes
