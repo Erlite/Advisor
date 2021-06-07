@@ -52,7 +52,9 @@ loaderConfig =
         "logging", -- Advisor's logging module which is just about used by everything.
     },
 
+    -- Use this to disable modules if you wanna.
     ignoredModules = 
     {
+        -- "someModuleName",
     }
 }

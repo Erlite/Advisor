@@ -1,5 +1,11 @@
 AddCSLuaFile()
 
+--[[
+    Every module folder must have a configuration file.
+    The name of the file must be module_[modulename].lua (e.g. module_logging.lua)
+    Check out advisor-modules/logging/module_logging.lua for an example.
+--]]
+
 Module = {}
 Module.__index = Module
 
