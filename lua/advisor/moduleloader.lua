@@ -25,9 +25,9 @@ Advisor.ModuleUtils = Advisor.ModuleUtils or {}
 Advisor.Modules = Advisor.Modules or {}
 Advisor.Modules.LoadedFiles = {}
 Advisor.Modules.LoadedDirectories = {}
+Advisor.Modules.FolderName = "advisor-modules"
 
 local loadedModules = {}
-local moduleFolderName = "advisor-modules"
 
 -- Surrogates for file.Exists() and file.IsDir() for directories
 function Advisor.ModuleUtils.DirExists(name, path)
@@ -81,7 +81,7 @@ local function RealmInclude(path, fileName, recSpace)
     local realm = string.sub(fileName, 0, 2)
     realm = string.lower(realm)
 
-    local action = 
+    local action =
     {
         ["sv"] = function() ServerInclude(path, fileName, recSpace) end,
         ["sh"] = function() SharedInclude(path, fileName, recSpace) end,
@@ -93,7 +93,7 @@ local function RealmInclude(path, fileName, recSpace)
         action[realm]()
         Advisor.Modules.LoadedFiles[path .. fileName] = true
     else
-        ErrorNoHalt("Invalid realm \'" .. realm .. "\' in file \'" .. fileN.. "\'.")
+        MsgC(Color(255, 90, 90), "Invalid realm \'" .. realm .. "\' in file \'" .. fileName.. "\'.\n")
     end
 end
 
@@ -114,8 +114,8 @@ local function LoadModule(moduleName, numRecursions)
     end
 
     -- Get the module's directory from its name.
-    local searchPath = string.format("%s/%s/", moduleFolderName, moduleName)
-    local modulePath = moduleFolderName .. "/" .. moduleName .. "/"
+    local searchPath = string.format("%s/%s/", Advisor.Modules.FolderName, moduleName)
+    local modulePath = Advisor.Modules.FolderName .. "/" .. moduleName .. "/"
 
     -- Return if already loaded.
     if Advisor.Modules.LoadedDirectories[modulePath] then
@@ -139,7 +139,6 @@ local function LoadModule(moduleName, numRecursions)
 
     -- If the module is empty, quit.
     if #moduleFiles == 0 && table.GetFirstValue(moduleDirectory) == nil then
-        print(" - Module is empty.")
         return
     end 
 
@@ -266,6 +265,7 @@ local function LoadModule(moduleName, numRecursions)
     end
 end
 
+-- You must call this function in a shared realm to load all modules. Do it as soon as possible.
 function Advisor.Modules.LoadAllModules()
 
     -- Splash screen baby
@@ -284,10 +284,18 @@ function Advisor.Modules.LoadAllModules()
         LoadModule(mod)
     end
 
-    local _, modules = file.Find(moduleFolderName .. "/*", "LUA")
+    local _, modules = file.Find(Advisor.Modules.FolderName .. "/*", "LUA")
     for _, dir in pairs(modules) do
         if loadedModules[dir] then continue end
         if loaderConfig.ignoredModules[dir] then continue end
         LoadModule(dir)
     end
+
+    print()
+    print() 
+    print("=== Finished loading all modules ===")
+    print()
+    print()
+
+    Advisor.SQL.Initialize()
 end 
