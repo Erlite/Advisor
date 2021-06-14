@@ -61,7 +61,7 @@ local function RunMigration(version)
     end)
 end
 
-function Advisor.SQL.Migrate(funcSuccess)
+function Advisor.SQL.Migrate()
     if not Advisor.SQL.IsInitialized then
         Advisor.Log.Error(LogSQL, "Cannot migrate database: SQL module is not initialized.")
         return 

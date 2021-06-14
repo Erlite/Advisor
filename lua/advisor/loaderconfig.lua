@@ -13,7 +13,7 @@ loaderConfig =
         "  %@@@@@@@@@@@@@@@",
         "  ///@@@   @@@@@@@",
         "  /////@@@     @@@",
-        "  ////////*  @@@@@",
+        "  ////////   @@@@@",
         "  //////  ./  @@@@",
         "  ////   ////  @@@",
         "  ///////////////@",
@@ -31,9 +31,12 @@ loaderConfig =
     --]]
     loadOrder =
     {
+        "utils", -- Miscellaneous utilities.
         "logging", -- Advisor's logging module which is just about used by everything.
         "localization", -- Localization module used to translate 
         "replicate", -- A high performance networking library for tables.
+        "sql", -- Advisor's data persistence module.
+        "framework", -- Advisor's core module.
     },
 
     -- Use this to disable modules if you wanna.

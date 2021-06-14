@@ -43,7 +43,7 @@ function Advisor.SQL.OnInitialized()
     Advisor.SQL.IsInitialized = true
 
     -- Handle migrating the database if it is out of date (or doesn't exist)
-    Advisor.SQL.Migrate(Advisor.SQL.OnMigrationSucceeded)
+    Advisor.SQL.Migrate()
 end
 
 function Advisor.SQL.OnMigrationSucceeded()

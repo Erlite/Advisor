@@ -297,5 +297,8 @@ function Advisor.Modules.LoadAllModules()
     print()
     print()
 
-    Advisor.SQL.Initialize()
+    -- TODO: remove
+    if SERVER then 
+        Advisor.SQL.Initialize()
+    end
 end 

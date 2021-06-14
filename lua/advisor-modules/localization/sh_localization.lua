@@ -69,13 +69,13 @@ function Advisor.Localization.Key(name, value)
 end
 
 -- Used to get a localized string out of a namespace and key.
-function Advisor.Localization.Localize(namespace, key)
+function Advisor.Localization.Localize(namespace, key, ...)
     if languages[Advisor.Localization.ConfiguredLanguage] == nil then
         Advisor.Log.Error( LogLocalization, "Set to invalid language '%s', defaulting to english.", Advisor.Localization.ConfiguredLanguage or "nil" )
         Advisor.Localization.ConfiguredLanguage = "english"
     end
     if languages[Advisor.Localization.ConfiguredLanguage][namespace] != nil && languages[Advisor.Localization.ConfiguredLanguage][namespace][key] then
-        return languages[Advisor.Localization.ConfiguredLanguage][namespace][key]
+        return string.format(languages[Advisor.Localization.ConfiguredLanguage][namespace][key], ...)
     else
         Advisor.Log.Error( LogLocalization, "Attempted to get localization for unknown key '%s'", key )
         return string.format("#%s.%s", namespace, key)

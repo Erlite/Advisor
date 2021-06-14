@@ -6,7 +6,7 @@
     4- Translate the localized strings below. Your language will now be available.
 
     - Translating keys:
-        Key("playerhasfaction", "THIS IS THE PART YOU MODIFY")
+        Key("somekeyname_DONOTTOUCH", "THIS IS THE PART YOU MODIFY")
         - Do NOT modify key names or namespace names as you'll just break the localization.
 
     - If this file has an error the language will most likely not be available.
@@ -19,4 +19,25 @@ local EndNamespace = Advisor.Localization.EndNamespace
 local Key = Advisor.Localization.Key
 
 Language("english")    
+
+    Namespace("users")
+        Key("new_user_connected", "%s connected for the first time.")
+        Key("existing_user_connected", "%s connected, last seen %s ago.")
+    EndNamespace()
+
+    Namespace("dates")
+        Key("years", "years")
+        Key("year", "year")
+        Key("months", "months")
+        Key("month", "month")
+        Key("days", "days")
+        Key("day", "day")
+        Key("hours", "hours")
+        Key("hour", "hour")
+        Key("minutes", "minutes")
+        Key("minute", "minute")
+        Key("seconds", "seconds")
+        Key("second", "second")
+    EndNamespace()
+
 EndLanguage()
