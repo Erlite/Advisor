@@ -153,9 +153,12 @@ local function LoadModule(moduleName, numRecursions)
             ErrorNoHalt(string.format(" - Invalid module file, skipping module.\n", moduleName))
             return
         else
-            -- Send the module config file to clients.
-            AddCSLuaFile(moduleConfigPath)
             
+            if SERVER and not moduleConfig:IsServerOnly() then 
+                -- Send the module config file to clients.
+                AddCSLuaFile(moduleConfigPath) 
+            end
+
             if moduleName:lower() != moduleConfig:GetName():lower() then
                 print(" - " .. moduleConfig:GetName())
             end

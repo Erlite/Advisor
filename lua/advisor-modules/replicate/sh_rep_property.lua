@@ -28,7 +28,7 @@ function RepProperty:new(inName, inType)
     {
         name = inName,
         type = inType,
-        bits = 32,
+        bits = nil,
         value_type = nil,
         condition = nil,
         depends_on = nil,

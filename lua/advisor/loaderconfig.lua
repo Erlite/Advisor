@@ -35,6 +35,7 @@ loaderConfig =
         "logging", -- Advisor's logging module which is just about used by everything.
         "localization", -- Localization module used to translate 
         "replicate", -- A high performance networking library for tables.
+        "metatables", -- Advisor's metatables.
         "sql", -- Advisor's data persistence module.
         "framework", -- Advisor's core module.
     },

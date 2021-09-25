@@ -28,4 +28,13 @@ Language("french")
         Key("second", "seconde")
     EndNamespace()
 
+    Namespace("parsers")
+        Key("unimplemented", "Le parseur pour les arguments de type '%s' n'a pas été implémenté.")
+        Key("failed_number", "Impossible de parser '%s' en nombre valide.")
+        Key("empty_string", "Impossible de parser du texte vide ou blanc en argument.")
+        Key("self_is_console", "Vous ne pouvez pas vous cibler sur la console.")
+        Key("no_target", "Impossible de trouver une cible.")
+        Key("ambiguous_target", "Plusieurs cibles correspondent au nom donné, veuillez ré-essayer avec un nom plus précis.")
+    EndNamespace()
+
 EndLanguage()

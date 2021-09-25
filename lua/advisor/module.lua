@@ -34,6 +34,10 @@ function Module:GetLoadOrder()
     return self.loadOrder
 end
 
+function Module:IsServerOnly()
+    return self.server_only and self.server_only == true
+end
+
 function Module:Validate()
     return self.name && #self.name != 0 && self.description && #self.description != 0 && self.loadOrder
 end

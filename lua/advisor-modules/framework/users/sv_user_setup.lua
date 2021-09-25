@@ -25,12 +25,22 @@ local function OnPlayerDataRetrieved(success, message, result, affectedRows, par
     if not ply then return end
 
     -- Update or insert the player data.
-    local query =
-    [[
-        INSERT INTO 'advisor_users' (steamid64, joined_at, last_seen)
-        VALUES ({{steamid64}}, {{time}}, {{time}})
-        ON CONFLICT(steamid64) DO UPDATE SET last_seen = {{time}};
-    ]]
+    local query
+
+    if user then 
+        query =
+        [[
+            UPDATE 'advisor_users'
+            SET last_seen = {{time}}
+            WHERE steamid64 = {{steamid64}}
+        ]]
+    else
+        query =
+        [[
+            INSERT INTO 'advisor_users' (steamid64, joined_at, last_seen)
+            VALUES ({{steamid64}}, {{time}}, {{time}})
+        ]]
+    end
 
     local params = 
     {

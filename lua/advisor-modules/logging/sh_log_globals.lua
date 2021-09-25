@@ -11,6 +11,7 @@ LogError = Advisor.Log.RegisterLogLevel( LogVerbosity(999, "Error", Color(255, 9
 -- Categories. Same as above, feel free to add your own either under this or as globals elsewhere.
 -- Order is category name, and default verbosity
 LogConfig = Advisor.Log.RegisterLogCategory( LogCategory("Config", LogInfo) )
+LogCommands = Advisor.Log.RegisterLogCategory( LogCategory("Commands", LogInfo) )
 LogAdvisor = Advisor.Log.RegisterLogCategory( LogCategory("Advisor", LogInfo) )
 LogLocalization = Advisor.Log.RegisterLogCategory( LogCategory("Localization", LogInfo) )
 LogNet = Advisor.Log.RegisterLogCategory( LogCategory("Net", LogInfo) )

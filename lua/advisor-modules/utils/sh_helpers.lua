@@ -1,6 +1,10 @@
 Advisor = Advisor or {}
 Advisor.Utils = Advisor.Utils or {}
 
+function GetterFunc(tbl, key, name)
+    tbl["Get" .. name] = function() return tbl[key] end
+end
+
 function Advisor.Utils.TimestampToReadableText(timestamp)
     local LOC = Advisor.Localization.Localize
 

@@ -185,7 +185,7 @@ function Replicate.Funcs.WriteString(prop, value)
 end
 
 function Replicate.Funcs.WriteData(prop, value)
-    net.WriteUInt(#value, 16)
+    net.WriteUInt(#value, prop:GetBits() or 16)
     net.WriteData(value, #value)
 end
 
@@ -199,6 +199,7 @@ end
 
 function Replicate.Funcs.WriteUInt(prop, value)
     Replicate.Assert.IsValidBitAmount(prop:GetBits())
+    PrintTable(value)
     net.WriteUInt(value, prop:GetBits())
 end
 
@@ -265,7 +266,7 @@ function Replicate.Funcs.ReadString(prop)
 end
 
 function Replicate.Funcs.ReadData(prop)
-    local len = net.ReadUInt(16)
+    local len = net.ReadUInt(prop:GetBits() or 16)
     return net.ReadData(len)
 end
 

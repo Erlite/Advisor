@@ -44,12 +44,12 @@ local function RunMigration(version)
     db:query(data, {}, function(success, message, result, affectedRows)
         if success then
             Advisor.Log.Info(LogSQL, "Success! Affected rows: %i", #affectedRows)
-            SetMigrationVersion(version)
 
             if migrations[version + 1] then
                 RunMigration(version + 1)
             else
                 Advisor.Log.Info(LogSQL, "All migrations completed.")
+                SetMigrationVersion(version)
                 Advisor.SQL.OnMigrationSucceeded()
             end
             return
@@ -123,7 +123,7 @@ function Advisor.SQL.OnVersionRetrieved(success, message, result, affectedRows)
         end
 
         if version ~= #migrations + 1 then
-            Advisor.Log.Error(LogSQL, "Migration '%s' does not follow versioning order. Versions must be ordinal and increment one by one.", fileName)
+            Advisor.Log.Error(LogSQL, "Migration '%s' does not follow versioning order. Versions must be ordinal.", fileName)
             Advisor.Log.Error(LogSQL, "Aborting migrations.")
             return
         end

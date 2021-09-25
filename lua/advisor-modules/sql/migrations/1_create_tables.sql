@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS 'advisor_roles'
 (
     id                  BIGINT AUTO_INCREMENT,
     name                TEXT NOT NULL,
-    description         TEXT NOT NULL,
     color               INTEGER NOT NULL,
+    position            TINYINT NOT NULL,
     hoisted             BIT NOT NULL,
     weight              TINYINT NOT NULL,
 

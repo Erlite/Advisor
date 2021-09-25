@@ -6,11 +6,12 @@ function Advisor.Role.new()
     local tbl =
     {
         id = 0,
+        position = 0,
         name = "",
-        description = "",
         color = 0xFFFFFF,
         hoisted = 0,
         weight = 0,
+        permissions = {}
     }
 
     setmetatable(tbl, Advisor.Role)
@@ -18,17 +19,20 @@ function Advisor.Role.new()
 end
 
 AccessorFunc(Advisor.Role, "id", "ID", FORCE_NUMBER)
+AccessorFunc(Advisor.Role, "position", "Position", FORCE_NUMBER)
 AccessorFunc(Advisor.Role, "name", "Name", FORCE_STRING)
-AccessorFunc(Advisor.Role, "description", "Description", FORCE_STRING)
 AccessorFunc(Advisor.Role, "weight", "Weight", FORCE_NUMBER)
+AccessorFunc(Advisor.Role, "permissions", "Permissions")
 
 function Advisor.Role:GetReplicatedProperties(rt)
     rt:AddUInt("id", 32)
+    rt:AddUInt("position", 8)
     rt:AddString("name")
-    rt:AddString("description")
     rt:AddUInt("color", 24)
     rt:AddBit("hoisted")
     rt:AddUInt("weight", 8)
+
+    rt:AddTable("permissions", Advisor.Permissions)
 end
 
 -- Convert the 4-byte integer representation of the color to a Color table

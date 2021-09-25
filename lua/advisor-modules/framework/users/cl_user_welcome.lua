@@ -16,5 +16,4 @@ local function OnPlayerConnected(len)
     chat.AddText(LOC("users", "existing_user_connected", ply:Nick(), str))
 end
 
-
 net.Receive("Advisor.BroadcastPlayerConnected", OnPlayerConnected)
