@@ -3,12 +3,13 @@ Advisor.CommandArg = {}
 Advisor.CommandArg.__index = Advisor.CommandArg
 
 function Advisor.CommandArg.new()
-    
     local tbl = 
     {
         name = "",
         description = ""
         type = nil,
+        optional = false,
+        default = nil,
     }
 
     setmetatable(tbl, Advisor.CommandArg)
@@ -17,17 +18,12 @@ end
 
 AccessorFunc(Advisor.CommandArg, "name", "Name")
 AccessorFunc(Advisor.CommandArg, "description", "Description")
+AccessorFunc(Advisor.CommandArg, "optional", "Optional")
+AccessorFunc(Advisor.CommandArg, "default", "Default")
+GetterFunc(Advisor.CommandArg, "type", "Type")
 
 function Advisor.CommandArg:SetType(t)
-    local found = false
-    for _, v in pairs(Advisor.ArgType) do
-        if v == t then 
-            found = true
-            break
-        end
-    end
-
-    if not found then
+    if not Advisor.CommandHandler.HasParser(t) then
         ErrorNoHaltWithStack(string.format("Cannot set argument type to unknown type %s", tostring(t) or "nil"))
         return
     end

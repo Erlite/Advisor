@@ -48,6 +48,20 @@ function PlayerParser:Parse(ctx, rawArgument)
         return false, { namespace = "parsers", key = "no_target" }
     end
 
+    -- Target the player you're looking at.
+    if arg == "@" then
+        if not sender then
+            return false, { namespace = "parsers", key = "no_target" }
+        end
+
+        local ent = sender:GetEyeTraceNoCursor().Entity
+        if IsValid(ent) and ent:IsPlayer() then
+            return true, {{ steamid = ent:SteamID64(), ply = ent }}
+        else
+            return false, { namespace = "parsers", key = "no_target" }
+        end
+    end
+
     -- Find by SteamID
     -- Check if the argument is a steamid (and parse it to a steamid64 if it isn't one already)
     -- Since Lua patterns are dumb compared to regex, this will have to do.
@@ -75,7 +89,6 @@ function PlayerParser:Parse(ctx, rawArgument)
 
     -- Find by approximate name
     -- Only allow if there's only one possible player.
-    
     for _, v in ipairs(allPlayers) then
         local foundPos, endPos, _ = string.find(v:Name():lower(), lowArg)
         if foundPos ~= nil then
@@ -91,3 +104,5 @@ function PlayerParser:Parse(ctx, rawArgument)
 
     return false, { namespace = "parsers", key = "no_target" }
 end
+
+Advisor.CommandHandler.RegisterParser("player", PlayerParser)

@@ -5,7 +5,7 @@ Advisor.CommandContext.__index = Advisor.CommandContext
 function Advisor.CommandContext.new()
     local tbl = 
     {
-        command = "",
+        command = nil,
         sender = nil,
         rawMessage = "",
         parsedArguments = {},
@@ -16,7 +16,7 @@ function Advisor.CommandContext.new()
     return tbl
 end
 
-AccessorFunc(Advisor.CommandContext, "command", "Command", FORCE_STRING)
+AccessorFunc(Advisor.CommandContext, "command", "Command")
 AccessorFunc(Advisor.CommandContext, "sender", "Sender")
 AccessorFunc(Advisor.CommandContext, "rawMessage", "RawMessage")
 AccessorFunc(Advisor.CommandContext, "passedArguments", "PassedArguments")

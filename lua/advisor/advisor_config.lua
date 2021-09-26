@@ -33,3 +33,11 @@ Advisor.Config.DatabaseConfig =
     -- Port to use when connecting to the database (defaults to 3306)
     port = 3306
 }
+
+Advisor.Config.Commands = 
+{
+    -- The prefix used for chat commands i.e. !ban, !slay
+    Prefix = "!",
+    -- Whether or not commands are case sensitive.
+    CaseSensitive = false,
+}

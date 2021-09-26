@@ -39,3 +39,57 @@ function Advisor.Utils.TimestampToReadableText(timestamp)
 
     return "0 " .. LOC("dates", "seconds")
 end
+
+function Advisor.Utils.ToStringArray(text)
+    text = string.Trim(text)
+    local args = {}
+    local currentArg = ""
+
+    local inQuote = false
+    local inApostrophes = false
+    local isEscaped = false
+
+    for i = 1, #text do
+        local currentChar = text:sub(i, i)
+        if isEscaped then
+            currentArg = currentArg .. currentChar
+            isEscaped = false
+            continue
+        end
+
+        local nextIndex = i + 1
+        if currentChar == "\\" then
+            isEscaped = true
+        elseif currentChar == "'" then
+            if not inQuote && (#currentArg == 0 or #text == nextIndex or text:sub(nextIndex, nextIndex) == " ") then
+                inApostrophes = not inApostrophes
+            else
+                currentArg = currentArg .. currentChar
+            end
+        elseif currentChar == '"' then
+            if not inApostrophes && (#currentArg == 0 or #text == nextIndex or text:sub(nextIndex, nextIndex) == " ") then
+                inQuote = not inQuote
+            else
+                currentArg = currentArg .. currentChar
+            end
+        else
+            if currentChar == " " then
+                if inQuote or inApostrophes then
+                    currentArg = currentArg .. currentChar
+                elseif #currentArg ~= 0 then
+                    args[#args + 1] = currentArg
+                    currentArg = ""
+                end
+            else
+                currentArg = currentArg .. currentChar
+            end
+        end
+
+        if inQuote or inApostrophes then
+            currentArg = string.TrimRight(currentArg)
+        end
+
+        args[#args + 1] = currentArg
+        return args
+    end
+end

@@ -1,11 +1,9 @@
 local NumberParser = {}
 
-function NumberParser:Parse(ctx, argType, raw)
-    local LOC = Advisor.Localization.Localize
-
+function NumberParser:Parse(ctx, raw)
     local parsed = tonumber(raw)
     if not parsed then
-        return false, { namespace = "parsers", key = "failed_number" }
+        return false, { namespace = "parsers", key = "failed_number", args = { raw } }
     end
 
     return true, parsed

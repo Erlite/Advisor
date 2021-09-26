@@ -41,12 +41,17 @@ Language("english")
     EndNamespace()
 
     Namespace("parsers")
-        Key("unimplemented", "Parser for argument type '%s' has not been implemented.")
+        Key("unknown", "No parser found for argument type '%s'.")
+        Key("unimplemented", "Parser for argument type has not been implemented.")
         Key("failed_number", "Failed to parse '%s' into a valid number.")
         Key("empty_string", "Failed to parse an argument from empty or whitespace text.")
         Key("self_is_console", "You cannot target yourself on the console.")
         Key("no_target", "Could not find any target.")
         Key("ambiguous_target", "Found multiple targets from the given name, please try again with a more accurate one.")
+    EndNamespace()
+
+    Namespace("commands")
+        Key("missing_argument", "Missing argument '%s'.")
     EndNamespace()
 
 EndLanguage()
