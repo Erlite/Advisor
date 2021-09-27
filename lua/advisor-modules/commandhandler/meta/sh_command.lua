@@ -64,11 +64,11 @@ end
     Adds an optional argument to this command.
     @param name The name of the argument.
     @param argtype The type of this argument (see parsers)
-    @param description Optional description for this argument.
     @param default The default value for this argument if it isn't given by the user.
+    @param description Optional description for this argument.
     @returns The command, as to chain functions.
 --]]
-function Advisor.Command:AddOptionalArgument(name, argType, description, default)
+function Advisor.Command:AddOptionalArgument(name, argType, default, description)
     if not isstring(name) or #name == 0 then
         ErrorNoHaltWithStack(string.format("Could not add argument with invalid name '%s'", name or "nil"))
         return
@@ -81,8 +81,8 @@ function Advisor.Command:AddOptionalArgument(name, argType, description, default
 
     local arg = Advisor.CommandArg()
     arg:SetName(name)
-    arg:SetType(argType)
     arg:SetDescription(description or "")
+    arg:SetType(argType)
     arg:SetOptional(true)
     arg:SetDefault(default)
 

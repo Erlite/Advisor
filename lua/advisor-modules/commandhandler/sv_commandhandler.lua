@@ -28,6 +28,7 @@ function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
     local cmdArgs = cmd:GetArguments()
     local ctx = Advisor.CommandContext()
     ctx:SetCommand(cmd)
+    ctx:SetSender(sender)
     ctx:SetRawMessage(text)
     ctx:SetArguments(parsedArgs)
 
@@ -40,14 +41,15 @@ function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
 
     for i = 1, #cmdArgs do
         local arg = cmdArgs[i]
+        local msgArg = args[i + 1]
         local parser = Advisor.CommandHandler.GetParser(arg:GetType())
         if not parser then 
             Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "parsers", "unknown", arg:GetType())
             return ""
         end
 
-        if args[i] then
-            local success, result = parser:Parse(ctx, args[i])
+        if msgArg then
+            local success, result = parser:Parse(ctx, msgArg)
             if not success then 
                 Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), result.namespace, result.key, unpack(result.args or {}))
                 return ""
