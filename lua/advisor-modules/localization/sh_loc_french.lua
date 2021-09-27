@@ -39,6 +39,7 @@ Language("french")
     EndNamespace()
 
     Namespace("commands")
+        Key("unknown_command", "Commande inconnue.")
         Key("missing_argument", "Argument manquant '%s'.")
     EndNamespace()
 

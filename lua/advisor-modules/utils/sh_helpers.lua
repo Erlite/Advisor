@@ -2,7 +2,7 @@ Advisor = Advisor or {}
 Advisor.Utils = Advisor.Utils or {}
 
 function GetterFunc(tbl, key, name)
-    tbl["Get" .. name] = function() return tbl[key] end
+    tbl["Get" .. name] = function(self) return self[key] end
 end
 
 function Advisor.Utils.TimestampToReadableText(timestamp)
@@ -88,8 +88,8 @@ function Advisor.Utils.ToStringArray(text)
         if inQuote or inApostrophes then
             currentArg = string.TrimRight(currentArg)
         end
-
-        args[#args + 1] = currentArg
-        return args
     end
+
+    args[#args + 1] = currentArg
+    return args
 end

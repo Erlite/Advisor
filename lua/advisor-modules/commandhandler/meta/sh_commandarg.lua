@@ -6,7 +6,7 @@ function Advisor.CommandArg.new()
     local tbl = 
     {
         name = "",
-        description = ""
+        description = "",
         type = nil,
         optional = false,
         default = nil,

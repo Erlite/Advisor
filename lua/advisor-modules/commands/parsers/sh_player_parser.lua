@@ -22,7 +22,7 @@ function PlayerParser:Parse(ctx, rawArgument)
 
     -- Target everyone except yourself
     if arg == "!^" then
-        for _, v in ipairs(allPlayers) then
+        for _, v in ipairs(allPlayers) do
             if not sender or v ~= sender then
                 plys[#plys + 1] = { steamid = v:SteamID64(), ply = v }
             end
@@ -37,7 +37,7 @@ function PlayerParser:Parse(ctx, rawArgument)
 
     -- Target all players on the server.
     if arg == "*" then
-        for _, v in ipairs(allPlayers) then 
+        for _, v in ipairs(allPlayers) do 
             plys[#plys + 1] = { steamid = v:SteamID64(), ply = v } 
         end
 
@@ -81,7 +81,7 @@ function PlayerParser:Parse(ctx, rawArgument)
     local lowArg = arg:lower()
 
     -- Find by exact name match (case insensitive)
-    for _, v in ipairs(allPlayers) then
+    for _, v in ipairs(allPlayers) do
         if v:Name():lower() == lowArg then 
             return true, {{ steamid = v:SteamID64(), ply = v }}
         end
@@ -89,10 +89,10 @@ function PlayerParser:Parse(ctx, rawArgument)
 
     -- Find by approximate name
     -- Only allow if there's only one possible player.
-    for _, v in ipairs(allPlayers) then
+    for _, v in ipairs(allPlayers) do
         local foundPos, endPos, _ = string.find(v:Name():lower(), lowArg)
         if foundPos ~= nil then
-            plys[#plys + 1] = { steamid = v:SteamID64()), ply = v } 
+            plys[#plys + 1] = { steamid = v:SteamID64(), ply = v } 
         end
     end
 

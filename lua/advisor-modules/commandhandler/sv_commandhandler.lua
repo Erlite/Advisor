@@ -30,7 +30,7 @@ function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
     ctx:SetCommand(cmd)
     ctx:SetSender(sender)
     ctx:SetRawMessage(text)
-    ctx:SetArguments(parsedArgs)
+    ctx:SetParsedArguments(parsedArgs)
 
     -- Check that we have enough arguments to satisfy the command's request.
     if #args - 1 < cmd:GetRequiredAmount() then
@@ -65,10 +65,10 @@ function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
     end
 
     -- If we have more arguments than required, we'll grab the remainding text and add it as the last argument.
-    if #args > #cmdArgs then
+    if #args - 1 > #cmdArgs then
         local remainder = ""
-        for i = #cmdArgs + 1, #args do
-            remainder = remainder .. args[i]
+        for i = #cmdArgs + 1, #args - 1 do
+            remainder = remainder .. args[i + 1]
         end
 
         parsedArgs[#parsedArgs + 1] = remainder
@@ -76,6 +76,7 @@ function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
 
     -- And now we execute the command.
     cmd.Callback(ctx, unpack(parsedArgs))
+    return ""
 end
 
 hook.Add("PlayerSay", "Advisor.HandleCommand", Advisor.CommandHandler.OnPlayerMessage)

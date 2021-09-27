@@ -54,7 +54,7 @@ function Advisor.CommandHandler.RegisterCommand(category, name, description)
 
     Advisor.Log.Debug(LogCommands, "Registered command '%s' in category '%s'.", name, category)
 
-    if not Advisor.Config.Commands.CaseSensitive then
+    if SERVER and not Advisor.Config.Commands.CaseSensitive then
         name = name:lower()
     end
     

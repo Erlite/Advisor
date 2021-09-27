@@ -19,7 +19,7 @@ end
 AccessorFunc(Advisor.CommandContext, "command", "Command")
 AccessorFunc(Advisor.CommandContext, "sender", "Sender")
 AccessorFunc(Advisor.CommandContext, "rawMessage", "RawMessage")
-AccessorFunc(Advisor.CommandContext, "passedArguments", "PassedArguments")
+AccessorFunc(Advisor.CommandContext, "parsedArguments", "ParsedArguments")
 GetterFunc(Advisor.CommandContext, "time", "Time")
 
 setmetatable(Advisor.CommandContext, {__call = Advisor.CommandContext.new})
