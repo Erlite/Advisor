@@ -61,6 +61,22 @@ function PlayerParser:Parse(ctx, rawArgument)
             return false, { namespace = "parsers", key = "no_target" }
         end
     end
+    
+    -- Target a random player
+    if arg == "?" then
+        local randomNumber = math.random(1, player.GetCount())
+        local randomTarget = player.GetAll()[randomNumber]
+
+        if IsValid(randomTarget) then
+            plys[#plys + 1] = { steamid = randomTarget:SteamID64(), ply = randomTarget } 
+        end
+
+        if #plys > 0 then
+            return true, plys
+        end
+
+        return false, { namespace = "parsers", key = "no_target" }
+    end
 
     -- Find by SteamID
     -- Check if the argument is a steamid (and parse it to a steamid64 if it isn't one already)
