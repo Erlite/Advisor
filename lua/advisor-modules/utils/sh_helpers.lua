@@ -88,11 +88,24 @@ function Advisor.Utils.ToStringArray(text)
 
     if inQuote or inApostrophes then
         currentArg = string.TrimRight(currentArg)
-        if #currentArg > 1 then 
+        local lastChar = currentArg:sub(#currentArg, #currentArg)
+        if #currentArg > 1 and (lastChar == '"' or lastChar == "'") then 
             currentArg = currentArg:sub(1, #currentArg - 1)
+        else
+            -- this means a single quote/apostrophe was removed, uh oh.
+            -- thankfully we can fix this, we'll just add it back to the start of this string.
+            currentArg = (inQuote and '"' or "'") .. currentArg
+
+            -- But wait, since it's supposed to be taken as a single argument, this means the current argument is supposed to be split!!
+            local newArgs = string.Split(currentArg, " ")
+            for j = 1, #newArgs do
+                args[#args + 1] = newArgs[j]
+            end
+
+            return args
         end
     end
 
     args[#args + 1] = currentArg
     return args
-end
+end 
