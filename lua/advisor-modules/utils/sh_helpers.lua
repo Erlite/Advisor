@@ -84,9 +84,12 @@ function Advisor.Utils.ToStringArray(text)
                 currentArg = currentArg .. currentChar
             end
         end
+    end
 
-        if inQuote or inApostrophes then
-            currentArg = string.TrimRight(currentArg)
+    if inQuote or inApostrophes then
+        currentArg = string.TrimRight(currentArg)
+        if #currentArg > 1 then 
+            currentArg = currentArg:sub(1, #currentArg - 1)
         end
     end
 

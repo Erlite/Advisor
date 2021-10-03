@@ -10,6 +10,7 @@ function Advisor.CommandArg.new()
         type = nil,
         optional = false,
         default = nil,
+        remainder = false,
     }
 
     setmetatable(tbl, Advisor.CommandArg)
@@ -20,6 +21,7 @@ AccessorFunc(Advisor.CommandArg, "name", "Name")
 AccessorFunc(Advisor.CommandArg, "description", "Description")
 AccessorFunc(Advisor.CommandArg, "optional", "Optional")
 AccessorFunc(Advisor.CommandArg, "default", "Default")
+AccessorFunc(Advisor.CommandArg, "remainder", "Remainder")
 GetterFunc(Advisor.CommandArg, "type", "Type")
 
 function Advisor.CommandArg:SetType(t)

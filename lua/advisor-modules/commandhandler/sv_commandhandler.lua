@@ -1,27 +1,15 @@
 Advisor = Advisor or {}
 Advisor.CommandHandler = Advisor.CommandHandler or {}
 
-function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
-    -- Check if the message starts with the prefix.
-    text = string.Trim(text)
-    if not string.StartWith(text, Advisor.Config.Commands.Prefix) or #text == 1 then return end
-
-    -- Remove the prefix
-    text = text:sub(2, #text):Trim()
-
-    local args = Advisor.Utils.ToStringArray(text)
-    if #args == 0 then return end
-
-    local commandTxt = Advisor.Config.Commands.CaseSensitive and args[1] or args[1]:lower()
-    local cmd = Advisor.CommandHandler.GetCommand(commandTxt)
-
-    if not cmd then 
-        Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "commands", "unknown_command")
-        return ""
+function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
+    if not cmd or getmetatable(cmd) ~= Advisor.Command then 
+        PrintTable(cmd)
+        ErrorNoHaltWithStack(string.format("Expected Advisor.Command, got: '%s'", cmd and type(cmd) or "nil"))
+        return 
     end
 
     if not isfunction(cmd.Callback) then
-        return ""
+        return
     end
 
     local parsedArgs = {}
@@ -29,11 +17,11 @@ function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
     local ctx = Advisor.CommandContext()
     ctx:SetCommand(cmd)
     ctx:SetSender(sender)
-    ctx:SetRawMessage(text)
+    ctx:SetRawMessage(raw)
     ctx:SetParsedArguments(parsedArgs)
 
     -- Check that we have enough arguments to satisfy the command's request.
-    if #args - 1 < cmd:GetRequiredAmount() then
+    if #args < cmd:GetRequiredAmount() then
         local missingArg = cmdArgs[#args]
         Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "commands", "missing_argument", missingArg:GetName())
         return ""
@@ -41,7 +29,11 @@ function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
 
     for i = 1, #cmdArgs do
         local arg = cmdArgs[i]
-        local msgArg = args[i + 1]
+        local msgArg = args[i]
+
+        -- break if the argument is a remainder one
+        if arg:GetRemainder() then break end
+
         local parser = Advisor.CommandHandler.GetParser(arg:GetType())
         if not parser then 
             Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "parsers", "unknown", arg:GetType())
@@ -64,19 +56,67 @@ function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
         end
     end
 
-    -- If we have more arguments than required, we'll grab the remainding text and add it as the last argument.
-    if #args - 1 > #cmdArgs then
+    -- If the last argument is a remainder one, we'll pass the remaining text as a string.
+    local lastArg = cmdArgs[#cmdArgs]
+    if lastArg and lastArg:GetRemainder() then
         local remainder = ""
-        for i = #cmdArgs + 1, #args - 1 do
-            remainder = remainder .. args[i + 1]
+        for i = #cmdArgs, #args do
+            remainder = remainder .. args[i] .. " "
         end
 
-        parsedArgs[#parsedArgs + 1] = remainder
+        parsedArgs[#parsedArgs + 1] = remainder:sub(1, #remainder - 1)
     end
 
     -- And now we execute the command.
     cmd.Callback(ctx, unpack(parsedArgs))
+end
+
+function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
+    -- Check if the message starts with the prefix.
+    text = string.Trim(text)
+    if not string.StartWith(text, Advisor.Config.Commands.Prefix) or #text == 1 then return end
+
+    -- Remove the prefix
+    text = text:sub(2, #text):Trim()
+
+    local args = Advisor.Utils.ToStringArray(text)
+    if #args == 0 then return end
+
+    local commandTxt = args[1]
+    local cmd = Advisor.CommandHandler.GetCommand(commandTxt)
+
+    if Advisor.Config.Commands.CaseSensitive and commandTxt ~= cmd:GetName() then
+        cmd = nil
+    end
+
+    if not cmd then 
+        Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "commands", "unknown_command")
+        return ""
+    end
+
+    local cmdArgs = {}
+    for i = 2, #args do
+        cmdArgs[#cmdArgs + 1] = args[i]
+    end 
+
+    Advisor.CommandHandler.RunCommand(sender, text, cmd, cmdArgs)
     return ""
 end
 
 hook.Add("PlayerSay", "Advisor.HandleCommand", Advisor.CommandHandler.OnPlayerMessage)
+
+function Advisor.CommandHandler.HandleConCommand(sender, cmd, args, argsString)
+    if not cmd:StartWith("advisor_") then return end
+
+    local name = string.Split(cmd, "_")[2]
+    local advisorCmd = Advisor.CommandHandler.GetCommand(name)
+
+    if not advisorCmd then 
+        Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "commands", "unknown_command")
+        return
+    end
+
+    local cmdArgs = Advisor.Utils.ToStringArray(argsString)
+    local raw = cmd .. " " .. argsString
+    Advisor.CommandHandler.RunCommand(sender, raw, advisorCmd, cmdArgs)
+end

@@ -6,6 +6,11 @@ util.AddNetworkString("Advisor.LocalizedMessage")
 function Advisor.Utils.LocalizedMessage(ply, color, namespace, key, ...)
     local args = { ... }
 
+    -- Could be an attempt to send to the console, ignoring.
+    if not istable(ply) and not (IsValid(ply) and ply:IsPlayer()) then
+        return
+    end
+
     net.Start("Advisor.LocalizedMessage")
         net.WriteColor(color)
         net.WriteString(namespace)

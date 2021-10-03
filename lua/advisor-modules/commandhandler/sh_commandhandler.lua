@@ -52,13 +52,8 @@ function Advisor.CommandHandler.RegisterCommand(category, name, description)
         Advisor.Log.Debug(LogCommands, "Overwriting command '%s' due to already existing one.", name)
     end
 
-    Advisor.Log.Debug(LogCommands, "Registered command '%s' in category '%s'.", name, category)
-
-    if SERVER and not Advisor.Config.Commands.CaseSensitive then
-        name = name:lower()
-    end
-    
-    Advisor.CommandHandler.Commands[name] = cmd
+    Advisor.Log.Debug(LogCommands, "Registered command '%s' in category '%s'.", name, category)    
+    Advisor.CommandHandler.Commands[name:lower()] = cmd
 
     -- Add the command to the category ordered list.
     if not Advisor.CommandHandler.OrderedCommands[category] then 
@@ -67,10 +62,17 @@ function Advisor.CommandHandler.RegisterCommand(category, name, description)
 
     local tbl = Advisor.CommandHandler.OrderedCommands[category]
     tbl[#tbl + 1] = cmd
-    
+
+    -- Add a concommand for the new command.
+    if SERVER then
+        local concommandName = "advisor_" .. name:lower()
+        -- @todo autocomplete handler.
+        concommand.Add(concommandName, Advisor.CommandHandler.HandleConCommand, nil, cmd:GetDescription())
+    end
+
     return cmd
 end
 
 function Advisor.CommandHandler.GetCommand(txt)
-    return Advisor.CommandHandler.Commands[txt]
+    return Advisor.CommandHandler.Commands[txt:lower()]
 end
