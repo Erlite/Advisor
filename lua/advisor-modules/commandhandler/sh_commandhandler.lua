@@ -66,7 +66,7 @@ function Advisor.CommandHandler.RegisterCommand(category, name, description)
     -- Add a concommand for the new command.
     local concommandName = "advisor_" .. name:lower()
     -- @todo autocomplete handler.
-    concommand.Add(concommandName, Advisor.CommandHandler.HandleConCommand, nil, cmd:GetDescription())
+    concommand.Add(concommandName, Advisor.CommandHandler.HandleConCommand, Advisor.CommandHandler.HandleAutocompletion, cmd:GetDescription())
 
     return cmd
 end
@@ -78,7 +78,7 @@ end
 function Advisor.CommandHandler.HandleConCommand(sender, cmd, args, argsString)
     if not cmd:StartWith("advisor_") then return end
 
-    local name = string.Split(cmd, "_")[2]
+    local name = cmd:sub(#("advisor_") + 1, #cmd)
     local advisorCmd = Advisor.CommandHandler.GetCommand(name)
 
     if not advisorCmd then 
@@ -94,4 +94,61 @@ function Advisor.CommandHandler.HandleConCommand(sender, cmd, args, argsString)
     else
         Advisor.CommandHandler.RunCommand(sender, raw, advisorCmd, cmdArgs)
     end
+end
+
+function Advisor.CommandHandler.HandleAutocompletion(cmd, args)
+    if SERVER then return {} end
+
+    if not cmd:StartWith("advisor_") then return end
+
+    local name = cmd:sub(#("advisor_") + 1, #cmd)
+    local advCmd = Advisor.CommandHandler.GetCommand(name)
+
+    if not advCmd then return {} end
+
+    local cmdArgs = advCmd:GetArguments()
+    local splitArgs = Advisor.Utils.ToStringArray(args)
+
+    local displayArgs = string.Split(args, " ")
+    local toDisplay = " "
+    for i = 1, #displayArgs - 1 do
+        toDisplay = toDisplay .. displayArgs[i] .. " "
+    end
+
+    if #splitArgs >= #cmdArgs then
+        local lastArg = cmdArgs[#cmdArgs]
+        if lastArg and lastArg:GetRemainder() then 
+            local auto = { cmd .. toDisplay .. "[" .. lastArg:GetName() .. "]" }
+            if #lastArg:GetDescription() ~= 0 then 
+                auto = { cmd .. toDisplay .. "[" .. lastArg:GetName() .. "]: " .. lastArg:GetDescription() }
+            end
+
+            return auto
+        end
+    end
+
+    local currArg = cmdArgs[#splitArgs]
+    local rawCurrArg = splitArgs[#splitArgs]
+
+    -- If the raw args have a space which is culled by the string array function, move to the next argument
+    -- only if we actually have an argument before
+    if args:EndsWith(" ") and #args:Trim() ~= 0 and (splitArgs[#splitArgs] and not splitArgs[#splitArgs]:EndsWith(" ")) then 
+        currArg = cmdArgs[#splitArgs + 1]
+        rawCurrArg = ""
+    end
+
+    if not currArg then return {} end
+
+    local parser = Advisor.CommandHandler.GetParser(currArg:GetType())
+    if not parser then return {} end
+
+    local result = parser:Autocomplete(currArg, rawCurrArg)
+    if not result or not istable(result) then return {} end
+
+    local sanitized = {}
+    for i = 1, #result do
+        sanitized[i] = cmd .. args .. result[i] 
+    end
+
+    return sanitized
 end

@@ -105,4 +105,24 @@ function PlayerParser:Parse(ctx, rawArgument)
     return false, { namespace = "parsers", key = "no_target" }
 end
 
+function PlayerParser:Autocomplete(arg, rawArg)
+    rawArg = rawArg:Trim()
+    local found = 
+    {
+        "*",
+        "^",
+        "!^", 
+        "@",
+    }
+
+    for _, ply in ipairs(player.GetAll()) do
+        local contains = string.find(ply:Nick():lower(), rawArg, 1, true)
+        if contains then 
+            found[#found + 1] = string.format('"%s"', ply:Nick())
+        end
+    end
+
+    return found
+end
+
 Advisor.CommandHandler.RegisterParser("player", PlayerParser)

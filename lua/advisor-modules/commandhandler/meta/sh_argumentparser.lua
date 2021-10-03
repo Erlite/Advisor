@@ -10,3 +10,15 @@ Advisor.ArgumentParser = {}
 function Advisor.ArgumentParser:Parse(ctx, raw)
     return false, { namespace = "parsers", key = "unimplemented" }
 end
+
+function Advisor.ArgumentParser:Autocomplete(cmdArg, rawArg)
+    if #rawArg:Trim() == 0 then
+     local auto = { "[" .. cmdArg:GetName() .. "]" }
+     if #cmdArg:GetDescription() ~= 0 then 
+         auto = { "[" .. cmdArg:GetName() .. "]: " .. cmdArg:GetDescription() }
+     end
+     return auto
+    end 
+
+    return {}
+end
