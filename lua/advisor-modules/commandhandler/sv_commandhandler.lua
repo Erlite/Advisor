@@ -1,6 +1,8 @@
 Advisor = Advisor or {}
 Advisor.CommandHandler = Advisor.CommandHandler or {}
 
+util.AddNetworkString("Advisor.ServerRunConsoleCommand")
+
 function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
     if not cmd or getmetatable(cmd) ~= Advisor.Command then 
         PrintTable(cmd)
@@ -59,6 +61,8 @@ function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
     -- If the last argument is a remainder one, we'll pass the remaining text as a string.
     local lastArg = cmdArgs[#cmdArgs]
     if lastArg and lastArg:GetRemainder() then
+        local rawName = string.Split(raw, " ")[1]
+
         local remainder = ""
         for i = #cmdArgs, #args do
             remainder = remainder .. args[i] .. " "
@@ -105,18 +109,19 @@ end
 
 hook.Add("PlayerSay", "Advisor.HandleCommand", Advisor.CommandHandler.OnPlayerMessage)
 
-function Advisor.CommandHandler.HandleConCommand(sender, cmd, args, argsString)
-    if not cmd:StartWith("advisor_") then return end
+net.Receive("Advisor.ServerRunConsoleCommand", function(len, ply)
+    local name = net.ReadString()
 
-    local name = string.Split(cmd, "_")[2]
-    local advisorCmd = Advisor.CommandHandler.GetCommand(name)
+    local advisorCommand = Advisor.CommandHandler.GetCommand(name)
+    if not advisorCommand then return end
 
-    if not advisorCmd then 
-        Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "commands", "unknown_command")
-        return
+    local raw = net.ReadString()
+    local count = net.ReadUInt(16)
+    local args = {}
+
+    for i = 1, count do
+        args[#args + 1] = net.ReadString()
     end
 
-    local cmdArgs = Advisor.Utils.ToStringArray(argsString)
-    local raw = cmd .. " " .. argsString
-    Advisor.CommandHandler.RunCommand(sender, raw, advisorCmd, cmdArgs)
-end
+    Advisor.CommandHandler.RunCommand(ply, raw, advisorCommand, args)
+end)

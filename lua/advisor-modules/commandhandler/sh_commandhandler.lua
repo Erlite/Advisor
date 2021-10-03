@@ -64,15 +64,34 @@ function Advisor.CommandHandler.RegisterCommand(category, name, description)
     tbl[#tbl + 1] = cmd
 
     -- Add a concommand for the new command.
-    if SERVER then
-        local concommandName = "advisor_" .. name:lower()
-        -- @todo autocomplete handler.
-        concommand.Add(concommandName, Advisor.CommandHandler.HandleConCommand, nil, cmd:GetDescription())
-    end
+    local concommandName = "advisor_" .. name:lower()
+    -- @todo autocomplete handler.
+    concommand.Add(concommandName, Advisor.CommandHandler.HandleConCommand, nil, cmd:GetDescription())
 
     return cmd
 end
 
 function Advisor.CommandHandler.GetCommand(txt)
     return Advisor.CommandHandler.Commands[txt:lower()]
+end
+
+function Advisor.CommandHandler.HandleConCommand(sender, cmd, args, argsString)
+    if not cmd:StartWith("advisor_") then return end
+
+    local name = string.Split(cmd, "_")[2]
+    local advisorCmd = Advisor.CommandHandler.GetCommand(name)
+
+    if not advisorCmd then 
+        Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "commands", "unknown_command")
+        return
+    end
+
+    local cmdArgs = Advisor.Utils.ToStringArray(argsString)
+    local raw = cmd .. " " .. argsString
+
+    if CLIENT then
+        Advisor.CommandHandler.Server_RunCommand(raw, advisorCmd, cmdArgs) 
+    else
+        Advisor.CommandHandler.RunCommand(sender, raw, advisorCmd, cmdArgs)
+    end
 end
