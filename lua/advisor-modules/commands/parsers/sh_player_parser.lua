@@ -106,8 +106,8 @@ function PlayerParser:Parse(ctx, rawArgument)
 end
 
 function PlayerParser:Autocomplete(arg, rawArg)
-    rawArg = rawArg:Trim()
-    local found = 
+    rawArg = rawArg:Trim():lower()
+    local specifiers = 
     {
         "*",
         "^",
@@ -115,16 +115,17 @@ function PlayerParser:Autocomplete(arg, rawArg)
         "@",
     }
 
-    if (table.HasValue(found, rawArg)) then
-        return { rawArg }
-    end
+    local found = {}
 
-    if #rawArg > 0 then
-        found = {}
+    for _, v in ipairs(specifiers) do
+        if rawArg == v then return { v } end
+        if #rawArg == 0 or v:find(rawArg, 1, true) then
+            found[#found + 1] = v
+        end
     end
 
     for _, ply in ipairs(player.GetAll()) do
-        local contains = string.find(ply:Nick():lower(), rawArg:lower(), 1, true)
+        local contains = string.find(ply:Nick():lower(), rawArg, 1, true)
         if contains then 
             found[#found + 1] = string.format('"%s"', ply:Nick())
         end
