@@ -147,7 +147,7 @@ function Advisor.CommandHandler.HandleAutocompletion(cmd, args)
 
     local sanitized = {}
     for i = 1, #result do
-        sanitized[i] = cmd .. args .. result[i] 
+        sanitized[i] = cmd .. toDisplay .. result[i] 
     end
 
     return sanitized

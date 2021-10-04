@@ -115,8 +115,16 @@ function PlayerParser:Autocomplete(arg, rawArg)
         "@",
     }
 
+    if (table.HasValue(found, rawArg)) then
+        return { rawArg }
+    end
+
+    if #rawArg > 0 then
+        found = {}
+    end
+
     for _, ply in ipairs(player.GetAll()) do
-        local contains = string.find(ply:Nick():lower(), rawArg, 1, true)
+        local contains = string.find(ply:Nick():lower(), rawArg:lower(), 1, true)
         if contains then 
             found[#found + 1] = string.format('"%s"', ply:Nick())
         end
