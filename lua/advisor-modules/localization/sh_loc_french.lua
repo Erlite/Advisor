@@ -41,6 +41,7 @@ Language("french")
     Namespace("commands")
         Key("unknown_command", "Commande inconnue.")
         Key("missing_argument", "Argument manquant '%s'.")
+        Key("error_thrown", "Une erreur est survenue pendant l'exécution de la commande '%s': %s")
     EndNamespace()
 
 EndLanguage()
