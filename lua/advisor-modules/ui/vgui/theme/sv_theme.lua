@@ -1,0 +1,1 @@
+resource.AddFile("resource/fonts/rubik-regular.ttf")

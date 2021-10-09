@@ -109,3 +109,10 @@ function Advisor.Utils.ToStringArray(text)
     args[#args + 1] = currentArg
     return args
 end 
+
+function math.LerpColor(curr, target, alpha)
+    local currHSV = {ColorToHSV(curr)}
+    local targetHSV = {ColorToHSV(target)}
+
+    return HSVToColor({Lerp(alpha, currHSV[1], targetHSV[1]), Lerp(alpha, currHSV[2], targetHSV[2]), Lerp(alpha, currHSV[3], targetHSV[3])})
+end

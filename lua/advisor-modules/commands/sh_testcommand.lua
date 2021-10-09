@@ -26,3 +26,9 @@ local reloadCmd = Advisor.CommandHandler.RegisterCommand("Advisor", "reload", "R
 reloadCmd.Callback = function(ctx)
     RunConsoleCommand("changelevel", game.GetMap())
 end
+
+local menuCmd = Advisor.CommandHandler.RegisterCommand("Advisor", "menu", "Opens Advisor's user interface.")
+menuCmd.Callback = function(ctx)
+    if not IsValid(ctx:GetSender()) then return end
+    Advisor.UI.ClientOpenMenu(ctx:GetSender())
+end
