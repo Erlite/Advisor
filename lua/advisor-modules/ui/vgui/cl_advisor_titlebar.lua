@@ -5,7 +5,7 @@ GetterFunc(PANEL, "CornerRadius", "CornerRadius")
 function PANEL:Init()
     self.Title = ""
     self.Icon = nil
-    self.CornerRadius = 8
+    self.CornerRadius = Advisor.Theme.TitleBar.CornerRadius
 
     self:SetHeight(32)
     self:Dock(FILL)

@@ -9,12 +9,14 @@ function Advisor.UI.OpenMenu()
     end
 
     local main = vgui.Create("Advisor.Window")
-    main:MakePopup()
     main:SetTitle("Advisor")
-
     main:SetSize(1024, 512)
+    main:SetMinWidth(1024)
+    main:SetMinHeight(512)
     main:Center()
     main:SetDeleteOnClose(true)
+    main:SetSizable(true)
+    main:MakePopup()
 
     Advisor.UI.MainPanel = main
 end

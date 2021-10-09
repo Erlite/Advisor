@@ -1,5 +1,5 @@
 surface.CreateFont("Rubik.Header", 
 {
     font = "Rubik",
-    size = 24, 
+    size = 24,
 })
