@@ -2,13 +2,6 @@ Advisor = Advisor or {}
 Advisor.Command = Advisor.Command or {}
 Advisor.Command.__index = Advisor.Command
 
-Advisor.CommandRealm = 
-{
-    Client = 1,
-    Shared = 2,
-    Server = 3,
-}
-
 function Advisor.Command.new()
     local tbl = 
     {
@@ -18,7 +11,6 @@ function Advisor.Command.new()
         arguments = {},
         numRequired = 0,
         numOptional = 0,
-        realm = Advisor.CommandRealm.Server,
         Callback = nil,
     }
 
@@ -32,16 +24,7 @@ AccessorFunc(Advisor.Command, "description", "Description", FORCE_STRING)
 GetterFunc(Advisor.Command, "arguments", "Arguments")
 GetterFunc(Advisor.Command, "numRequired", "RequiredAmount")
 GetterFunc(Advisor.Command, "numOptional", "OptionalAmount")
-AccessorFunc(Advisor.Command, "realm", "Realm")
 
-function Advisor.Command:CanRunOnClient()
-    local valid = 
-    {
-        [Advisor.CommandRealm.Client] = true,
-        [Advisor.CommandRealm.Shared] = true,
-    }
-    return valid[self.realm]
-end
 
 --[[
     Adds an argument to this command.
