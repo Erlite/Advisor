@@ -1,6 +1,8 @@
 local PANEL = {}
 
 AccessorFunc(PANEL, "IsSelected", "Selected", FORCE_BOOL)
+AccessorFunc(PANEL, "BodyPanel", "BodyPanel")
+AccessorFunc(PANEL, "ScrollPanel", "ScrollPanel")
 
 function PANEL:Init()
     self:SetHeight(48)
@@ -42,8 +44,10 @@ function PANEL:Paint(w, h)
         surface.SetDrawColor(Advisor.Theme.MenuOption.SelectedBackground)
     elseif self:IsHovered() then 
         surface.SetDrawColor(Advisor.Theme.MenuOption.HoveredBackground)
+        self:SetCursor("hand")
     else
         surface.SetDrawColor(Advisor.Theme.MenuOption.IdleBackground)
+        self:SetCursor("arrow")
     end
 
     surface.DrawRect(0, 0, w, h)
@@ -58,6 +62,8 @@ function PANEL:OnMousePressed()
     if IsValid(self.ScrollPanel) then
         self.ScrollPanel:UpdateSelection(self)
     end
+
+    self:SetCursor("arrow")
 end
 
 vgui.Register("Advisor.MenuOption", PANEL, "EditablePanel")

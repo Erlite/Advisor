@@ -5,9 +5,16 @@ Advisor.Theme.FlavorText =
 {
     "Who needs ULX anyway?",
     "Protocol 3: Protect the community.",
-    "Also play Titanfall 2",
+    "Also play Titanfall 2!",
     "segmentation fault (core dumped)",
     "(⌐▨_▨)",
+    "The ultimate open-source administration framework!",
+    "Fun fact: this is the first time Erlite's worked on UI.",
+    "Tip: CAMI is implemented, so you should be good <3",
+    "Have a very safe day!",
+    "How are you holding up? Because I'm a potato.",
+    "Roxas, that's a stick.",
+    "Got it memorized?",
 }
 
 Advisor.Theme.Panel =

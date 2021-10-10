@@ -8,7 +8,14 @@ function Advisor.UI.OpenMenu()
         return
     end
 
+    local mp = Advisor.MenuProperty()
+    mp:AddOption("LANDING PAGE", "Home", vgui.Create("Advisor.Menu.Home"), 0xf015)
+    mp:AddOption("LANDING PAGE", "My Profile", vgui.Create("Advisor.Panel"), 0xf007)
+
+    hook.Run("Advisor.PopulateMenuOptions", mp)
+
     local main = vgui.Create("Advisor.Menu")
+    main:PopulateOptions(mp)
     main:MakePopup()
 
     Advisor.UI.MainPanel = main

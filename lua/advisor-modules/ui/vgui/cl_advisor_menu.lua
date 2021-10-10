@@ -21,4 +21,16 @@ function PANEL:Init()
     self.Categories:SetWidth(ScrW() * 0.1)
 end
 
+function PANEL:PopulateOptions(mp)
+    local cats = mp:GetCategories()
+
+    for cat, options in pairs(cats) do
+        self.Categories:AddCategory(cat)
+
+        for _, option in ipairs(options) do
+            self.Categories:AddOption(option.Name, option.Panel, option.Icon and unpack(option.Icon) or nil)
+        end
+    end
+end
+
 vgui.Register("Advisor.Menu", PANEL, "Advisor.Window")

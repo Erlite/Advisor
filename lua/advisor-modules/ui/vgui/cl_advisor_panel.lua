@@ -4,7 +4,6 @@ AccessorFunc(PANEL, "BackgroundColor", "BackgroundColor")
 
 function PANEL:Init()
     self:Dock(FILL)
-
     self:SetBackgroundColor(Advisor.Theme.Panel.Background)
 end
 

@@ -1,19 +1,8 @@
 local PANEL = {}
 
+AccessorFunc(PANEL, "SelectedPanel", "SelectedPanel")
+
 function PANEL:Init()
-    self:AddOption(vgui.Create("Advisor.MenuCategory")):SetCategoryName("LANDING PAGE")
-    local home = self:AddOption(vgui.Create("Advisor.MenuOption"))
-    home:SetOptionName("Home")
-    home:SetIcon(0xf015)
-
-    local profile = self:AddOption(vgui.Create("Advisor.MenuOption"))
-    profile:SetOptionName("My Profile")
-    profile:SetIcon(0xf007)
-
-    local users = self:AddOption(vgui.Create("Advisor.MenuOption"))
-    users:SetOptionName("Users")
-    users:SetIcon(0xf0c0)
-
     local vbar = self:GetVBar()
     vbar:SetHideButtons(true)
 
@@ -26,12 +15,32 @@ function PANEL:Init()
         surface.SetDrawColor(Advisor.Theme.ScrollPanel.VerticalGrip)
         surface.DrawRect(0, 0, w, h)
     end 
+
+    self:SetSelectedPanel(nil)
 end
 
-function PANEL:AddOption(panel)
-    self:AddItem(panel)
-    panel.ScrollPanel = self
-    return panel
+function PANEL:AddCategory(name)
+    local cat = vgui.Create("Advisor.MenuCategory")
+    cat:SetCategoryName(name)
+
+    self:AddItem(cat)
+end
+
+function PANEL:AddOption(name, panel, icon)
+    local option = vgui.Create("Advisor.MenuOption")
+    option:SetOptionName(name)
+    option:SetIcon(icon)
+    option:SetBodyPanel(panel)
+    option:SetScrollPanel(self)
+    panel:SetParent(self:GetParent())
+    panel:SetVisible(false)
+    self:AddItem(option)
+
+    if not IsValid(self:GetSelectedPanel()) then 
+        self:UpdateSelection(option)
+    end
+
+    return option
 end
 
 function PANEL:Paint(w, h)
@@ -40,8 +49,32 @@ function PANEL:Paint(w, h)
 end
 
 function PANEL:UpdateSelection(selection)
+    local bodyPanel = nil
     for _, child in ipairs(self:GetCanvas():GetChildren()) do
         child:SetSelected(child == selection)
+
+        if child.GetBodyPanel and IsValid(child:GetBodyPanel()) then 
+            if child == selection then 
+                bodyPanel = child:GetBodyPanel()
+            end
+            child:GetBodyPanel():SetVisible(child == selection)
+        end
+    end
+
+    self:SetSelectedPanel(selection)
+
+    local footer = self:GetParent().Footer
+
+    if IsValid(footer) then
+        if IsValid(bodyPanel) then
+            print(bodyPanel:GetName())
+            footer:SetParent(bodyPanel)
+        else
+            print("invalid")
+            bodyPanel = self:GetParent().Body
+            footer:SetParent(bodyPanel)
+            bodyPanel:SetVisible(true)
+        end
     end
 end
 
