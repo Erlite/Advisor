@@ -18,7 +18,7 @@ function Advisor.UI.OpenMenu()
     mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_users"), vgui.Create("Advisor.Panel"), 0xf0c0)
     mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_auditlogs"), vgui.Create("Advisor.Panel"), 0xf02d)
     mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_bans"), vgui.Create("Advisor.Panel"), 0xf0e3)
-    mp:AddOption(LOC("ui", "category_misc"), LOC("ui", "option_credits"), vgui.Create("Advisor.Panel"), 0xf004)
+    mp:AddOption(LOC("ui", "category_misc"), LOC("ui", "option_credits"), vgui.Create("Advisor.Menu.Credits"), 0xf004)
 
     hook.Run("Advisor.PopulateMenuOptions", mp)
 

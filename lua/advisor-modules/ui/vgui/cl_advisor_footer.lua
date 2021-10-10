@@ -1,6 +1,7 @@
 local PANEL = {}
 
 AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
+AccessorFunc(PANEL, "Window", "Window")
 
 function PANEL:Init()
     self:Dock(BOTTOM)
