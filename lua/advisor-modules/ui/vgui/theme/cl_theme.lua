@@ -1,6 +1,15 @@
 Advisor = Advisor or {}
 Advisor.Theme = Advisor.Theme or {}
 
+Advisor.Theme.FlavorText = 
+{
+    "Who needs ULX anyway?",
+    "Protocol 3: Protect the community.",
+    "Also play Titanfall 2",
+    "segmentation fault (core dumped)",
+    "(⌐▨_▨)",
+}
+
 Advisor.Theme.Panel =
 {
     -- Color of the panel's background

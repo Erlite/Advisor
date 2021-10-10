@@ -1,7 +1,13 @@
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetTitle("Advisor")
+    local title = "Advisor"
+    
+    if #Advisor.Theme.FlavorText ~= 0 then
+        title = title .. " - " .. Advisor.Theme.FlavorText[math.random(#Advisor.Theme.FlavorText)]
+    end
+
+    self:SetTitle(title)
     self:SetSize(ScrW() * 0.5, ScrH() * 0.5)
     self:SetMinWidth(ScrW() * 0.5)
     self:SetMinHeight(ScrH() * 0.5)

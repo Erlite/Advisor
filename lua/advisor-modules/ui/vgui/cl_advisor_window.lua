@@ -29,7 +29,7 @@ function PANEL:Init()
     self:SetTitle("Window")
 
     self.Body = vgui.Create("Advisor.Panel", self)	
-    self.Footer = vgui.Create("Advisor.Footer", self)
+    self.Footer = vgui.Create("Advisor.Footer", self.Body)
 
     self:SetMinWidth( 50 )
 	self:SetMinHeight( 50 )
