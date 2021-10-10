@@ -4,12 +4,23 @@
 
 -- Language
 CreateConVar("advisor_language", "english", { FCVAR_ARCHIVE }, "Chooses the language to use for the gamemode.")
+cvars.AddChangeCallback("advisor_language", function(convar, old, new)
+    local lang = new:lower()
+    if old ~= new then
+        if not Advisor.Localization.Languages[new] then 
+            Advisor.Log.Error(LogAdvisor, "Unknown language '%s', resetting to english.")
+            GetConVar("advisor_language"):SetString("english")
+            return
+        end
+        Advisor.Localization.ConfiguredLanguage = lang
+        Advisor.Log.Info(LogAdvisor, "Set language to '%s'.", lang)
+    end
+end, "Advisor.LanguageCallback")
 
 Advisor = Advisor or {}
 Advisor.Localization = Advisor.Localization or {}
 Advisor.Localization.ConfiguredLanguage = GetConVar("advisor_language"):GetString()
-
-local languages = languages or {}
+Advisor.Localization.Languages = Advisor.Localization.Languages or {}
 
 -- Used when saving new languages.
 local currentLanguage = nil
@@ -21,7 +32,7 @@ function Advisor.Localization.Language(name)
     if currentLanguage != nil then
         -- We'll clear the table.
         Advisor.Log.Error(LogLocalization, "We most likely have a broken language '%s', check the file for lua errors.", currentLanguage)
-        table.RemoveByValue(languages, currentLanguage)
+        table.RemoveByValue(Advisor.Localization.Languages, currentLanguage)
         currentLanguage = nil
     end
 
@@ -56,26 +67,26 @@ function Advisor.Localization.Key(name, value)
         return
     end
     -- Create the lang's table if it doesn't exist.
-    if not languages[currentLanguage] then
-        languages[currentLanguage] = {}
+    if not Advisor.Localization.Languages[currentLanguage] then
+        Advisor.Localization.Languages[currentLanguage] = {}
     end
 
     -- Create the namespace table if it doesn't exist.
-    if not languages[currentLanguage][currentNamespace] then
-        languages[currentLanguage][currentNamespace] = {}
+    if not Advisor.Localization.Languages[currentLanguage][currentNamespace] then
+        Advisor.Localization.Languages[currentLanguage][currentNamespace] = {}
     end
 
-    languages[currentLanguage][currentNamespace][name] = value
+    Advisor.Localization.Languages[currentLanguage][currentNamespace][name] = value
 end
 
 -- Used to get a localized string out of a namespace and key.
 function Advisor.Localization.Localize(namespace, key, ...)
-    if languages[Advisor.Localization.ConfiguredLanguage] == nil then
+    if Advisor.Localization.Languages[Advisor.Localization.ConfiguredLanguage] == nil then
         Advisor.Log.Error( LogLocalization, "Set to invalid language '%s', defaulting to english.", Advisor.Localization.ConfiguredLanguage or "nil" )
         Advisor.Localization.ConfiguredLanguage = "english"
     end
-    if languages[Advisor.Localization.ConfiguredLanguage][namespace] != nil && languages[Advisor.Localization.ConfiguredLanguage][namespace][key] then
-        return string.format(languages[Advisor.Localization.ConfiguredLanguage][namespace][key], ...)
+    if Advisor.Localization.Languages[Advisor.Localization.ConfiguredLanguage][namespace] != nil && Advisor.Localization.Languages[Advisor.Localization.ConfiguredLanguage][namespace][key] then
+        return string.format(Advisor.Localization.Languages[Advisor.Localization.ConfiguredLanguage][namespace][key], ...)
     else
         Advisor.Log.Error( LogLocalization, "Attempted to get localization for unknown key '%s'", key )
         return string.format("#%s.%s", namespace, key)

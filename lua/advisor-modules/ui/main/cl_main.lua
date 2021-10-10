@@ -3,26 +3,29 @@ Advisor.UI = Advisor.UI or {}
 Advisor.UI.MainPanel = Advisor.UI.MainPanel or nil
 
 function Advisor.UI.OpenMenu()
+    local LOC = Advisor.Localization.Localize
+
     if IsValid(Advisor.UI.MainPanel) then
         Advisor.UI.MainPanel:Remove()
         return
     end
 
     local mp = Advisor.MenuProperty()
-    mp:AddOption("LANDING PAGE", "Home", vgui.Create("Advisor.Menu.Home"), 0xf015)
-    mp:AddOption("LANDING PAGE", "My Profile", vgui.Create("Advisor.Panel"), 0xf007)
-    mp:AddOption("ADMINISTRATION", "Usergroups", vgui.Create("Advisor.Panel"), 0xf505)
-    mp:AddOption("ADMINISTRATION", "Users", vgui.Create("Advisor.Panel"), 0xf0c0)
-    mp:AddOption("ADMINISTRATION", "Audit Logs", vgui.Create("Advisor.Panel"), 0xf02d)
-    mp:AddOption("ADMINISTRATION", "Bans", vgui.Create("Advisor.Panel"), 0xf0e3)
-    mp:AddOption("MISCELLANEOUS", "Credits", vgui.Create("Advisor.Panel"), 0xf004)
+    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_home"), vgui.Create("Advisor.Menu.Home"), 0xf015)
+    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_myprofile"), vgui.Create("Advisor.Panel"), 0xf007)
+    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_settings"), vgui.Create("Advisor.Panel"), 0xf013)
+    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_usergroups"), vgui.Create("Advisor.Panel"), 0xf505)
+    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_users"), vgui.Create("Advisor.Panel"), 0xf0c0)
+    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_auditlogs"), vgui.Create("Advisor.Panel"), 0xf02d)
+    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_bans"), vgui.Create("Advisor.Panel"), 0xf0e3)
+    mp:AddOption(LOC("ui", "category_misc"), LOC("ui", "option_credits"), vgui.Create("Advisor.Panel"), 0xf004)
 
     hook.Run("Advisor.PopulateMenuOptions", mp)
 
     local main = vgui.Create("Advisor.Menu")
     main:PopulateOptions(mp)
     main:MakePopup()
-    main:SlideDown(1)
+    main:SlideDown(0.5)
 
     Advisor.UI.MainPanel = main
 end
