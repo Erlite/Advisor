@@ -113,3 +113,5 @@ local function UpdatePlayerData(ply)
 
     Advisor.SQL.Database:query(query, params, function() end)
 end
+
+hook.Add("PlayerDisconnected", "AdvisorUpdatePlayerLastSeenAt", UpdatePlayerData)
