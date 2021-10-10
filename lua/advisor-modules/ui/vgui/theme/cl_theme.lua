@@ -33,6 +33,7 @@ Advisor.Theme.ScrollPanel =
     Background = Color(31, 31, 31),
     VerticalBar = Color(75, 75, 75),
     VerticalGrip = Color(204, 127, 4),
+    BottomLeftCornerRadius = 4,
 }
 
 Advisor.Theme.Category = 

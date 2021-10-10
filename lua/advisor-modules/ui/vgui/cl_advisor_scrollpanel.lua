@@ -44,8 +44,7 @@ function PANEL:AddOption(name, panel, icon)
 end
 
 function PANEL:Paint(w, h)
-    surface.SetDrawColor(Advisor.Theme.ScrollPanel.Background)
-    surface.DrawRect(0, 0, w, h)
+    draw.RoundedBoxEx(Advisor.Theme.ScrollPanel.BottomLeftCornerRadius, 0, 0, w, h, Advisor.Theme.ScrollPanel.Background, false, false, true, false)
 end
 
 function PANEL:UpdateSelection(selection)
@@ -67,10 +66,8 @@ function PANEL:UpdateSelection(selection)
 
     if IsValid(footer) then
         if IsValid(bodyPanel) then
-            print(bodyPanel:GetName())
             footer:SetParent(bodyPanel)
         else
-            print("invalid")
             bodyPanel = self:GetParent().Body
             footer:SetParent(bodyPanel)
             bodyPanel:SetVisible(true)

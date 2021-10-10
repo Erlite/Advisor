@@ -10,7 +10,7 @@ function PANEL:Init()
 end
 
 function PANEL:Paint(w, h)
-    draw.RoundedBoxEx(Advisor.Theme.Panel.FooterBottomRadius, 0, 0, w, h, Advisor.Theme.Panel.Footer, false, false, true, true)
+    draw.RoundedBoxEx(Advisor.Theme.Panel.FooterBottomRadius, 0, 0, w, h, Advisor.Theme.Panel.Footer, false, false, false, true)
     draw.SimpleText(self:GetText(), "Rubik.Footer", self:GetWide() / 2, self:GetTall() / 2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 

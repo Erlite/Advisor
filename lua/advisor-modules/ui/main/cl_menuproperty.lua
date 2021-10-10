@@ -8,6 +8,7 @@ function Advisor.MenuProperty.new()
     local tbl = 
     {
         categories = {},
+        map = {},
     }
 
     setmetatable(tbl, Advisor.MenuProperty)
@@ -32,12 +33,13 @@ function Advisor.MenuProperty:AddOption(category, name, panel, ...)
 
     panel:SetName(name)
 
-    if not self.categories[category] then 
-        self.categories[category] = {}
+    if not self.map[category] then 
+        self.map[category] = #self.categories + 1
+        self.categories[#self.categories + 1] = { Name = category, Children = {} }
     end
 
-    local tbl = self.categories[category]
-    tbl[#tbl + 1] = { Name = name, Panel = panel, Icon = ... and {...} or nil }
+    local tbl = self.categories[self.map[category]]
+    tbl.Children[#tbl.Children + 1] = { Name = name, Panel = panel, Icon = ... and {...} or nil }
 
     panel:SetVisible(false)
 end

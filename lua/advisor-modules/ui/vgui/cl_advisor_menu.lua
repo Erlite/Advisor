@@ -24,10 +24,10 @@ end
 function PANEL:PopulateOptions(mp)
     local cats = mp:GetCategories()
 
-    for cat, options in pairs(cats) do
-        self.Categories:AddCategory(cat)
+    for _, cat in ipairs(cats) do
+        self.Categories:AddCategory(cat.Name)
 
-        for _, option in ipairs(options) do
+        for _, option in ipairs(cat.Children) do
             self.Categories:AddOption(option.Name, option.Panel, option.Icon and unpack(option.Icon) or nil)
         end
     end
