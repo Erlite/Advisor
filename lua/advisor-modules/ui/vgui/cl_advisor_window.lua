@@ -28,7 +28,8 @@ function PANEL:Init()
     self.TitleBar:Dock(TOP)
     self:SetTitle("Window")
 
-    self.Body = vgui.Create("Advisor.Panel", self)
+    self.Body = vgui.Create("Advisor.Panel", self)	
+    self.Footer = vgui.Create("Advisor.Footer", self)
 
     self:SetMinWidth( 50 )
 	self:SetMinHeight( 50 )
@@ -47,12 +48,19 @@ function PANEL:Init()
         self:GetParent():OnMousePressed(key)
     end
 
-    
+	function self.Footer:OnMousePressed(key)
+        self:GetParent():OnMousePressed(key)
+    end
+
     function self.TitleBar:OnMouseReleased(key)
         self:GetParent():OnMouseReleased(key)
     end
 
     function self.Body:OnMouseReleased(key)
+        self:GetParent():OnMouseReleased(key)
+    end
+
+	function self.Footer:OnMouseReleased(key)
         self:GetParent():OnMouseReleased(key)
     end
 end
@@ -124,9 +132,7 @@ function PANEL:Think()
 		if ( y < self.m_iMinHeight ) then y = self.m_iMinHeight elseif ( y > ScrH() - py && self:GetScreenLock() ) then y = ScrH() - py end
 
 		self:SetSize( x, y )
-		self:SetCursor( "sizenwse" )
-        self.TitleBar:SetCursor( "sizenwse" )
-        self.Body:SetCursor( "sizenwse" )
+		self:SetCursorAll( "sizenwse" )
 		return
 
 	end
@@ -135,23 +141,17 @@ function PANEL:Think()
     local _, _, boundsWidth, boundsHeight = self:GetBounds()
 	if ( self:IsChildHovered() && self.m_bSizable && mousex > ( screenX + self:GetWide() - 20 ) && mousey > ( screenY + boundsHeight - 20 ) ) then
 
-		self:SetCursor( "sizenwse" )
-        self.TitleBar:SetCursor( "sizenwse" )
-        self.Body:SetCursor( "sizenwse" )
+		self:SetCursorAll( "sizenwse" )
 		return
 
 	end
 
 	if ( self.TitleBar:IsHovered() && self:GetDraggable() && mousey < ( screenY + 24 ) ) then
-		self:SetCursor( "sizeall" )
-        self.TitleBar:SetCursor( "sizeall" )
-        self.Body:SetCursor( "sizeall" )
+		self:SetCursorAll( "sizeall" )
 		return
 	end
 
-	self:SetCursor( "arrow" )
-    self.TitleBar:SetCursor( "arrow" )
-    self.Body:SetCursor( "arrow" )
+	self:SetCursorAll( "arrow" )
 
 	-- Don't allow the frame to go higher than 0
 	if ( self.y < 0 ) then
@@ -175,7 +175,13 @@ function PANEL:OnMousePressed()
 		self:MouseCapture( true )
 		return
 	end
+end
 
+function PANEL:SetCursorAll(new)
+	self:SetCursor( new )
+    self.TitleBar:SetCursor( new )
+    self.Body:SetCursor( new )
+    self.Footer:SetCursor( new )
 end
 
 function PANEL:OnMouseReleased()
