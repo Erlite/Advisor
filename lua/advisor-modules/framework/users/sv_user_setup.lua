@@ -85,7 +85,6 @@ local function SetupPlayerData(ply)
 
     local params = 
     {
-        ["time"] = os.time(),
         ["steamid64"] = ply:SteamID64(),
     }
 
@@ -95,3 +94,22 @@ local function SetupPlayerData(ply)
 end
 
 hook.Add("Advisor.PlayerReady", "AdvisorSetupPlayerData", SetupPlayerData)
+
+local function UpdatePlayerData(ply)
+    if not IsValid(ply) or ply:IsBot() then return end
+    
+    local query = 
+    [[
+        UPDATE 'advisor_users'
+        SET last_seen = {{time}}
+        WHERE steamid64 = {{steamid64}};
+    ]]
+
+    local params = 
+    {
+        ["last_seen"] = os.time(),
+        ["steamid64"] = ply:SteamID64()
+    }
+
+    Advisor.SQL.Database:query(query, params, function() end)
+end
