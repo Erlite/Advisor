@@ -7,7 +7,7 @@ function PANEL:Init()
     self.Icon = nil
     self.CornerRadius = Advisor.Theme.TitleBar.CornerRadius
 
-    self:SetHeight(32)
+    self:SetHeight(40)
     self:Dock(FILL)
     self:DockPadding(8, 0, 0, 0)
 

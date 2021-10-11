@@ -5,7 +5,7 @@ AccessorFunc(PANEL, "Window", "Window")
 
 function PANEL:Init()
     self:Dock(BOTTOM)
-    self:SetHeight(24)
+    self:SetHeight(32)
 
     self:SetText("Copyright (c) 2021 Younes Meziane and Contributors. This software is licenced under the MIT Licence.")
 end

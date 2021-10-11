@@ -11,7 +11,7 @@ function PANEL:Init()
     self.Image:SetCursor("hand")
 
     function self.Image:OnMousePressed()
-        gui.OpenURL("https://github.com/Erlite/gmod-advisor")
+        gui.OpenURL(Advisor.RepositoryURL)
     end
 
     self.GCAImage = vgui.Create("DImage", self)

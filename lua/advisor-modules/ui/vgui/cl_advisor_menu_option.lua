@@ -55,7 +55,6 @@ function PANEL:Paint(w, h)
     if self:GetSelected() then 
         surface.SetDrawColor(Advisor.Theme.MenuOption.SelectedAccent)
         surface.DrawRect(0, 0, 4, h)
-        surface.DrawRect(w - 3, 0, w, h)
     end
 end
 

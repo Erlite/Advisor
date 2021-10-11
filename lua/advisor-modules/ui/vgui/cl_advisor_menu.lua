@@ -8,9 +8,9 @@ function PANEL:Init()
     end
 
     self:SetTitle(title)
-    self:SetSize(ScrW() * 0.5, ScrH() * 0.5)
-    self:SetMinWidth(ScrW() * 0.5)
-    self:SetMinHeight(ScrH() * 0.5)
+    self:SetSize(ScrW() * 0.6, ScrH() * 0.6)
+    self:SetMinWidth(ScrW() * 0.6)
+    self:SetMinHeight(ScrH() * 0.6)
     self:SetScreenLock(true) 
     self:Center()
     self:SetDeleteOnClose(true)

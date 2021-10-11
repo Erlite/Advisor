@@ -2,18 +2,28 @@ surface.CreateFont("Rubik.Header",
 {
     font = "Rubik",
     size = 24,
+    antialias = true,
 })
 
 surface.CreateFont("Rubik.Footer",
 {
     font = "Rubik",
-    size = 16,
+    size = 20,
+    antialias = true,
 })
 
 surface.CreateFont("Rubik.Body",
 {
     font = "Rubik",
     size = 20,
+    antialias = true,
+})
+
+surface.CreateFont("Rubik.Button",
+{
+    font = "Rubik",
+    size = 20,
+    antialias = true,
 })
 
 surface.CreateFont("Advisor.Awesome",
