@@ -13,14 +13,14 @@ Indeed, but this is the Garry's Mod version. Simply because s&box has no support
 
 ## What is λdvisor?
 
-λdvisor (read: Advisor) is an administration addon in heavily development, built to provide the following features to your servers:
+λdvisor (read: Advisor) is an administration addon in heavy development, built to provide the following features to your servers:
 
-- String based permission system.
-- Moderation commands.
+- Classic usergroup based permissions.
+- Expandable commands system with basic moderation and utility commands implemented.
 - Full administrative control of your server through an in-game menu.
 - Logging of user actions such as joining, leaving, chat messages, kills, bans and more.
-
-As well as more down the line once we get more access to S&box. We're open for suggestions!
+- Ability to add infractions to users (warnings, mutes, gags etc) and view them in-game.
+- Discord integration for chat, commands, logging is planned.
 
 ## I'm a developer, what would λdvisor bring to me?
 
