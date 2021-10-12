@@ -25,7 +25,6 @@ function PANEL:Init()
     self.DisplayText:SetFont("Rubik.Button")
 
     self:SetText("Button")
-    self:Dock(FILL)
     self:SetHeight(32)
 end
 
