@@ -1,12 +1,19 @@
 local PANEL = {}
 
 function PANEL:Init()
-    local button = vgui.Create("Advisor.Button", self)
-    button:DockMargin(16, 16, 16, 16)
-    button:Dock(TOP)
+    self.ButtonLayout = vgui.Create("Advisor.HorizontalLayout", self)
+    self.ButtonLayout:Dock(TOP)
+    self.ButtonLayout:SetHeight(32)
+    self.ButtonLayout:SetSpacing(8)
+    --self.ButtonLayout:DockPadding(8, 8, 8, 0)
 
-    function button:DoClick()
-        chat.AddText("Hello, World!")
+    for i = 1, 10 do
+        local button = self.ButtonLayout:Add("Advisor.Button")
+        button:SetText("Button " .. tostring(i))
+
+        function button:DoClick()
+            print("X: " .. self:GetWide())
+        end
     end
 end
 
