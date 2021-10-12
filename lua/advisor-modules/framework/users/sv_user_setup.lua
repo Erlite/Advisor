@@ -97,7 +97,7 @@ hook.Add("Advisor.PlayerReady", "AdvisorSetupPlayerData", SetupPlayerData)
 
 local function UpdatePlayerData(ply)
     if not IsValid(ply) or ply:IsBot() then return end
-    
+
     local query = 
     [[
         UPDATE 'advisor_users'
@@ -107,11 +107,17 @@ local function UpdatePlayerData(ply)
 
     local params = 
     {
-        ["last_seen"] = os.time(),
+        ["time"] = os.time(),
         ["steamid64"] = ply:SteamID64()
     }
 
-    Advisor.SQL.Database:query(query, params, function() end)
+    Advisor.SQL.Database:query(query, params, function(success, message)
+        if success then
+            Advisor.Log.Info(LogSQL, "Updated player data on database.")
+        else
+            Advisor.Log.Error(LogSQL, "Failed to update player data with error: %s", message)
+        end
+    end)
 end
 
 hook.Add("PlayerDisconnected", "AdvisorUpdatePlayerLastSeenAt", UpdatePlayerData)
