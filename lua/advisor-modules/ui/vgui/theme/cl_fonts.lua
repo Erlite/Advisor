@@ -33,3 +33,11 @@ surface.CreateFont("Advisor.Awesome",
     extended = true,
     size = 20,
 })
+
+surface.CreateFont("Advisor.SmallAwesome",
+{
+    font = "Font Awesome 5 Free Solid",
+    antialias = true,
+    extended = true,
+    size = 16,
+})

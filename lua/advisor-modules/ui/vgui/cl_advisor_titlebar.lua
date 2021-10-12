@@ -19,11 +19,41 @@ function PANEL:Init()
     function self.CloseButton:DoClick()
         local grandparent = self:GetParent() and self:GetParent():GetParent() or nil
         if IsValid(grandparent) then
-            if grandparent.Close then 
-                grandparent:Close()
-            else
-                grandparent:Remove()
-            end
+            grandparent:SlideUp(0.5)
+
+            timer.Simple(0.5, function()
+                if not IsValid(grandparent) then return end
+                if grandparent.Close then 
+                    grandparent:Close()
+                else
+                    grandparent:Remove()
+                end
+            end)
+        end
+    end
+
+    self.MaximizeButton = vgui.Create("Advisor.MaximizeButton", self)
+    self.MaximizeButton:Dock(RIGHT)
+
+    function self.MaximizeButton:DoClick()
+        local grandparent = self:GetParent() and self:GetParent():GetParent() or nil
+        if IsValid(grandparent) then
+            grandparent:MoveTo(0, 0, 0.5, 0, 0.1)
+            grandparent:SizeTo(ScrW(), ScrH(), 0.5, 0, 0.1)
+        end
+    end
+
+    self.MinimizeButton = vgui.Create("Advisor.MinimizeButton", self)
+    self.MinimizeButton:Dock(RIGHT)
+
+    function self.MinimizeButton:DoClick()
+        local grandparent = self:GetParent() and self:GetParent():GetParent() or nil
+        if IsValid(grandparent) then
+            local minW = grandparent:GetMinWidth()
+            local minH = grandparent:GetMinHeight()
+
+            grandparent:MoveTo(ScrW() / 2 - minW / 2, ScrH() / 2 - minH / 2, 0.5, 0, 0.1)
+            grandparent:SizeTo(minW, minH, 0.5, 0, 0.1)
         end
     end
 end

@@ -86,5 +86,21 @@ Advisor.Theme.Button =
         Hovered = Color(225, 45, 57),
         Pressed = Color(208, 17, 36),
         Disabled = Color(141, 141, 141)
-    }
+    },
+
+    Maximize = 
+    {
+        Idle = Color(24, 24, 24),
+        Hovered = Color(75, 75, 75),
+        Pressed = Color(52, 59, 59),
+        Disabled = Color(141, 141, 141)
+    },
+
+    Minimize = 
+    {
+        Idle = Color(24, 24, 24),
+        Hovered = Color(75, 75, 75),
+        Pressed = Color(52, 59, 59),
+        Disabled = Color(141, 141, 141)
+    },
 }

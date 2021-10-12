@@ -5,16 +5,16 @@ AccessorFunc(PANEL, "CornerRadius", "CornerRadius", FORCE_NUMBER)
 GetterFunc(PANEL, "isDepressed", "Depressed")
 
 function PANEL:Init()
-    self.RoundedCorners = { false, true, false, false }
+    self.RoundedCorners = { false, false, false, false }
     self.CornerRadius = 2
 
-    self.Colors = Advisor.Theme.Button.Close
+    self.Colors = Advisor.Theme.Button.Maximize
 
     -- Time it takes to lerp from a color to another.
     self.LerpDuration = 1
 
     self:SetFont("Advisor.SmallAwesome")
-    self:SetText(utf8.char(0xf00d))
+    self:SetText(utf8.char(0xf2d2))
     self:SetTextColor(Color(255, 255, 255))
 
     if IsValid(self:GetParent()) then 
@@ -46,4 +46,4 @@ function PANEL:OnReleased()
     self.isDepressed = false
 end
 
-vgui.Register("Advisor.CloseButton", PANEL, "DButton")
+vgui.Register("Advisor.MaximizeButton", PANEL, "DButton")
