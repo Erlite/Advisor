@@ -6,7 +6,7 @@ function PANEL:Init()
     self:SetHeight(36)
 
     self.Name = vgui.Create("DLabel", self)
-    self.Name:SetFont("Rubik.Body")
+    self.Name:SetFont("Advisor:Rubik.Body")
     self.Name:Dock(LEFT)
     self.Name:SetContentAlignment(5)
 

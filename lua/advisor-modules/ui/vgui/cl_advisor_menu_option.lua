@@ -9,7 +9,7 @@ function PANEL:Init()
     self:Dock(TOP)
 
     self.IconLabel = vgui.Create("DLabel", self)
-    self.IconLabel:SetFont("Advisor.Awesome")
+    self.IconLabel:SetFont("Advisor:Awesome")
     self.IconLabel:Dock(LEFT)
     self.IconLabel:DockMargin(16, 0, 0, 0)
     self.IconLabel:SetContentAlignment(5)
@@ -17,7 +17,7 @@ function PANEL:Init()
 
     self.Label = vgui.Create("DLabel", self)
     self.Label:SetText("Option")
-    self.Label:SetFont("Rubik.Body")
+    self.Label:SetFont("Advisor:Rubik.Body")
     self.Label:Dock(LEFT)
     self.Label:DockMargin(16, 0, 0, 0)
 
