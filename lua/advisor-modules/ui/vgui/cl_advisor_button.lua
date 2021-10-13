@@ -20,9 +20,9 @@ function PANEL:Init()
 
     self.DisplayText = vgui.Create("DLabel", self)
     self.DisplayText:Dock(FILL)
-    self.DisplayText:DockMargin(8, 8, 8, 8)
+    self.DisplayText:DockMargin(8, 8, 8, 8) // TODO: Check responsive issues with left and right margin
     self.DisplayText:SetContentAlignment(5)
-    self.DisplayText:SetFont("Rubik.Button")
+    self.DisplayText:SetFont("Advisor:Rubik.Button")
 
     self:SetText("Button")
     self:SetHeight(32)
