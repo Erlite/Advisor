@@ -56,7 +56,7 @@ Advisor.Theme.TitleBar =
     Background = Color(24, 24, 24),
 
     -- Font used for header displays.
-    Font = "Rubik.Header",
+    Font = "Advisor:Rubik.Header",
 
     -- Radius of rounded edges for title bars. Set to 0 to disable.
     CornerRadius = 4,

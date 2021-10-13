@@ -28,7 +28,7 @@ function PANEL:Init()
     self.CreditBody = vgui.Create("DTextEntry", self)
     self.CreditBody:SetEditable(false)
     self.CreditBody:SetMultiline(true)
-    self.CreditBody:SetFont("Rubik.Header")
+    self.CreditBody:SetFont("Advisor:Rubik.Header")
     
     local text = 
     [[
