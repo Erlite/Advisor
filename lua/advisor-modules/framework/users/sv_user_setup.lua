@@ -58,10 +58,7 @@ local function OnPlayerDataRetrieved(success, message, result, affectedRows, par
             Advisor.Utils.TimestampToReadableText(timestamp))
     else
         Advisor.Log.Info(LogSQL, "User '%s' connected for the first time.", ply:Nick())
-        user = Advisor.User()
-        user:SetSteamID64(ply:SteamID64())
-        user:SetJoinedAt(params["time"])
-        user:SetLastSeenAt(params["time"])
+        user = Advisor.User(ply)
     end
 
     net.Start("Advisor.BroadcastPlayerConnected")

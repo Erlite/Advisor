@@ -3,14 +3,14 @@ Advisor.User = {}
 Advisor.User.__index = Advisor.User
 
 -- Create a new user object from 
-function Advisor.User.new(user)
-    if not IsValid(user) or not isentity(user) or not user:IsPlayer() then
+function Advisor.User.new(ply)
+    if not IsValid(ply) or not isentity(ply) or not ply:IsPlayer() then
         error("Advisor.User can only be created from a valid player.")
     end
 
     local tbl = 
     {
-        steamid64 = user:GetSteamID64(),
+        steamid64 = ply:SteamID64(),
         joined_at = os.time(),
         last_seen = os.time(),
     }
