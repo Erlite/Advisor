@@ -72,4 +72,11 @@ end
 
 function PANEL:DoClick() end
 
+function PANEL:UpdateColors(tbl)
+    self:SetIdleColor(tbl.Idle)
+    self:SetHoveredColor(tbl.Hovered)
+    self:SetPressedColor(tbl.Pressed)
+    self:SetDisabledColor(tbl.Disabled)
+end
+
 vgui.Register("Advisor.Button", PANEL, "EditablePanel")

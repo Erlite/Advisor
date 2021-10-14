@@ -104,3 +104,14 @@ Advisor.Theme.Button =
         Disabled = Color(141, 141, 141)
     },
 }
+
+Advisor.Theme.HeaderBox = 
+{
+    HeaderTextColor = Color(255, 255, 255),
+    HeaderCornerRadius = 4,
+    HeaderAccentColor = Color(209, 129, 1),
+    HeaderBackgroundColor = Color(21, 21, 21),
+    BodyBackgroundColor = Color(31, 31, 31),
+    BodyTextColor = Color(255, 255, 255),
+    BodyCornerRadius = 4,
+}
