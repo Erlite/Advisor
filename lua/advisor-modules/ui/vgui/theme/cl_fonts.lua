@@ -6,28 +6,28 @@ local function GenerateAdvisorFonts()
   surface.CreateFont("Advisor:Rubik.Header",
   {
       font = "Rubik",
-      size = SizeByRatio(32),
+      size = SizeByRatio(24),
       antialias = true,
   })
 
   surface.CreateFont("Advisor:Rubik.Footer",
   {
       font = "Rubik",
-      size = SizeByRatio(26),
+      size = SizeByRatio(20),
       antialias = true,
   })
 
   surface.CreateFont("Advisor:Rubik.Body",
   {
       font = "Rubik",
-      size = SizeByRatio(27),
+      size = SizeByRatio(22),
       antialias = true,
   })
 
   surface.CreateFont("Advisor:Rubik.Button",
   {
       font = "Rubik",
-      size = SizeByRatio(24),
+      size = SizeByRatio(22),
       antialias = true,
   })
 
@@ -36,7 +36,7 @@ local function GenerateAdvisorFonts()
       font = "Font Awesome 5 Free Solid",
       antialias = true,
       extended = true,
-      size = SizeByRatio(27),
+      size = SizeByRatio(20),
   })
 
   surface.CreateFont("Advisor:SmallAwesome",
@@ -44,7 +44,7 @@ local function GenerateAdvisorFonts()
       font = "Font Awesome 5 Free Solid",
       antialias = true,
       extended = true,
-      size = SizeByRatio(23),
+      size = SizeByRatio(16),
   })
 end
 
