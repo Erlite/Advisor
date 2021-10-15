@@ -5,8 +5,8 @@ function PANEL:Init()
     self.AdvisorVersion:Dock(TOP)
     self.AdvisorVersion:DockMargin(16, 16, 16, 16)
     self.AdvisorVersion:SetHeaderText("Addon Information")
-    self.AdvisorVersion:SetBodyText("Welcome to Advisor's administration dashboard.")
-
+    self.AdvisorVersion:SetBodyText("Checking for updates...")
+    
     self.ButtonLayout = vgui.Create("Advisor.HorizontalLayout", self)
     self.ButtonLayout:Dock(TOP)
     self.ButtonLayout:DockMargin(16, 0, 16, 16)
@@ -34,6 +34,34 @@ function PANEL:Init()
     docButton:SetText("Documentation")
     docButton:SetIcon(0xf1c9)
     docButton:SetEnabled(false)
+
+    self:UpdateVersionDisplay()
+end
+
+function PANEL:UpdateVersionDisplay()
+    if Advisor.HasCheckedForUpdates then
+        if Advisor.UpToDate then
+            self.AdvisorVersion:SetBodyText(("This server's version of Advisor is up to date (%s)."):format(Advisor.Version))
+        else
+            self.AdvisorVersion:SetHeaderAccentColor(Color(255, 90, 90))
+            if Advisor.VersionCheckFailed then
+                self.AdvisorVersion:SetBodyText("Failed to check for updates! Please check the console for more details.")
+            else
+                local str = string.format("This server's version of Advisor is not up to date! The latest version is '%s', and the server is running version '%s'.",
+                    Advisor.LatestVersion, Advisor.Version)
+                self.AdvisorVersion:SetBodyText(str)
+            end
+        end
+    else
+        local panel = self
+        hook.Add("Advisor.OnVersionCheck", "Advisor.UpdateHomePanel", function()
+            if IsValid(panel) then
+                panel:UpdateVersionDisplay()
+            end
+        end)
+
+        self.AdvisorVersion:SetBodyText("Checking for updates...")
+    end
 end
 
 vgui.Register("Advisor.Menu.Home", PANEL, "Advisor.Panel")
