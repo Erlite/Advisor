@@ -69,6 +69,8 @@ Advisor.Theme.Button =
     RoundedCorners = { true, true, true, true },
     -- Radius of the rounded corners on buttons. Set to 0 to disable.
     CornerRadius = 4,
+    -- Space between the Icon and the Text on buttons.
+    IconMargin = 4,
 
     -- Default colors for buttons.
     Default = 

@@ -17,12 +17,15 @@ function PANEL:Init()
     local discordButton = self.ButtonLayout:Add("Advisor.Button")
     discordButton:SetText("Discord")
     discordButton:UpdateColors(Advisor.Theme.Button.Discord)
+    discordButton:SetIcon(0xf0c1)
+
     function discordButton:DoClick()
         gui.OpenURL("https://discord.gg/gca")
     end
 
     local githubButton = self.ButtonLayout:Add("Advisor.Button")
     githubButton:SetText("GitHub")
+    githubButton:SetIcon(0xf0c1)
     function githubButton:DoClick()
         gui.OpenURL(Advisor.RepositoryURL)
     end
