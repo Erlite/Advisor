@@ -13,7 +13,7 @@ function PANEL:Init()
     self:SetMinHeight(ScrH() * 0.6)
     self:SetScreenLock(true) 
     self:Center()
-    self:SetDeleteOnClose(true)
+    self:SetDeleteOnClose(false)
     self:SetSizable(true)
 
     self.Categories = vgui.Create("Advisor.ScrollPanel", self)
