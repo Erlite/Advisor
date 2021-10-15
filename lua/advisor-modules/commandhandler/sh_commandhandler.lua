@@ -110,7 +110,7 @@ function Advisor.CommandHandler.HandleAutocompletion(cmd, args)
     local splitArgs = Advisor.Utils.ToStringArray(args)
 
     local displayArgs = string.Split(args, " ")
-    local toDisplay = " "
+    local toDisplay = ""
     for i = 1, #displayArgs - 1 do
         toDisplay = toDisplay .. displayArgs[i] .. " "
     end
