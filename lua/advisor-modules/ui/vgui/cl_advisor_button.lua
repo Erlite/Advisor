@@ -77,6 +77,10 @@ function PANEL:UpdateColors(tbl)
     self:SetHoveredColor(tbl.Hovered)
     self:SetPressedColor(tbl.Pressed)
     self:SetDisabledColor(tbl.Disabled)
+
+    if IsColor(tbl.Text) then 
+        self.DisplayText:SetTextColor(tbl.Text)
+    end
 end
 
 vgui.Register("Advisor.Button", PANEL, "EditablePanel")

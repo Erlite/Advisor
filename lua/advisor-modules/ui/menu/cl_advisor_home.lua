@@ -15,7 +15,8 @@ function PANEL:Init()
     --self.ButtonLayout:DockPadding(8, 8, 8, 0)
 
     local discordButton = self.ButtonLayout:Add("Advisor.Button")
-    discordButton:SetText("Join Discord")
+    discordButton:SetText("Discord")
+    discordButton:UpdateColors(Advisor.Theme.Button.Discord)
     function discordButton:DoClick()
         gui.OpenURL("https://discord.gg/gca")
     end
@@ -25,6 +26,10 @@ function PANEL:Init()
     function githubButton:DoClick()
         gui.OpenURL(Advisor.RepositoryURL)
     end
+
+    local docButton = self.ButtonLayout:Add("Advisor.Button")
+    docButton:SetText("Documentation")
+    docButton:SetEnabled(false)
 end
 
 vgui.Register("Advisor.Menu.Home", PANEL, "Advisor.Panel")
