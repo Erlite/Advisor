@@ -74,6 +74,15 @@ function PANEL:SetTitle(title)
     self.TitleBar:SetTitle(title)
 end
 
+function PANEL:Open()
+	self:SetVisible(true)
+
+	self:OnOpen()
+end
+
+function PANEL:OnOpen()
+end
+
 function PANEL:Close()
 
 	self:SetVisible( false )
