@@ -6,7 +6,7 @@ function Advisor.UI.OpenMenu()
     local LOC = Advisor.Localization.Localize
 
     if IsValid(Advisor.UI.MainPanel) then
-        if ( Advisor.UI.MainPanel:IsVisible() ) then
+        if Advisor.UI.MainPanel:IsVisible() then
             Advisor.UI.MainPanel:Close()
         else
             Advisor.UI.MainPanel:Open()
