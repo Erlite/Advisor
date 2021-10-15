@@ -4,7 +4,7 @@ local tbl =
     description = "Advisor's core module containing the required logic to function.",
     loadOrder = 
     {
-        "metatables"
+        "meta/"
     }
 }
 
