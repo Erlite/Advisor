@@ -41,14 +41,14 @@ end
 function PANEL:UpdateVersionDisplay()
     if Advisor.HasCheckedForUpdates then
         if Advisor.UpToDate then
-            self.AdvisorVersion:SetBodyText(("This server's version of Advisor is up to date (%s)."):format(Advisor.Version))
+            self.AdvisorVersion:SetBodyText(("This server's version of Advisor is up to date (%s)."):format(Advisor.CurrentVersion))
         else
             self.AdvisorVersion:SetHeaderAccentColor(Color(255, 90, 90))
             if Advisor.VersionCheckFailed then
                 self.AdvisorVersion:SetBodyText("Failed to check for updates! Please check the console for more details.")
             else
                 local str = string.format("This server's version of Advisor is not up to date! The latest version is '%s', and the server is running version '%s'.",
-                    Advisor.LatestVersion, Advisor.Version)
+                    Advisor.LatestVersion, Advisor.CurrentVersion)
                 self.AdvisorVersion:SetBodyText(str)
             end
         end

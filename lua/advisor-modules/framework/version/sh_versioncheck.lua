@@ -11,8 +11,9 @@ local function OnSuccess(body, size, headers, httpCode)
         Advisor.VersionCheckFailed = true
         return
     end
-    local localVersion = Advisor.Version:Split(" ")
-    local remoteVersion = body:Split(" ")
+
+    local localVersion = Advisor.CurrentVersion:Split(".")
+    local remoteVersion = body:Split(".")
     Advisor.LatestVersion = body
 
     if #remoteVersion ~= #localVersion then
@@ -21,9 +22,9 @@ local function OnSuccess(body, size, headers, httpCode)
         return
     else
         Advisor.UpToDate = true
-        for i = #localVersion, 1 do
+        for i = #localVersion, 1, -1 do
             if not tonumber(remoteVersion[i]) or not tonumber(localVersion[i]) then
-                Advisor.Log.Error(LogAdvisor, "Invalid versioning detected. Current: '%s', Latest: '%s'", Advisor.Version, body)
+                Advisor.Log.Error(LogAdvisor, "Invalid versioning detected. Current: '%s', Latest: '%s'", Advisor.CurrentVersion, body)
                 return
             end
             if tonumber(remoteVersion[i]) > tonumber(localVersion[i]) then
@@ -36,7 +37,7 @@ local function OnSuccess(body, size, headers, httpCode)
     if Advisor.UpToDate then 
         Advisor.Log.Info(LogAdvisor, "Version check complete, already up to date.")
     else
-        Advisor.Log.Warning(LogAdvisor, "This version of Advisor is out of date! Current: '%s', Latest: '%s'", Advisor.Version, body)
+        Advisor.Log.Warning(LogAdvisor, "This version of Advisor is out of date! Current: '%s', Latest: '%s'", Advisor.CurrentVersion, body)
     end
 
     hook.Run("Advisor.OnVersionCheck")
