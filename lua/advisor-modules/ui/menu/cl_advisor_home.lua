@@ -25,13 +25,14 @@ function PANEL:Init()
 
     local githubButton = self.ButtonLayout:Add("Advisor.Button")
     githubButton:SetText("GitHub")
-    githubButton:SetIcon(0xf0c1)
+    githubButton:SetIcon(0xf126)
     function githubButton:DoClick()
         gui.OpenURL(Advisor.RepositoryURL)
     end
 
     local docButton = self.ButtonLayout:Add("Advisor.Button")
     docButton:SetText("Documentation")
+    docButton:SetIcon(0xf1c9)
     docButton:SetEnabled(false)
 end
 
