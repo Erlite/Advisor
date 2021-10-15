@@ -10,6 +10,7 @@ function Advisor.UI.OpenMenu()
             Advisor.UI.MainPanel:Close()
         else
             Advisor.UI.MainPanel:Open()
+            Advisor.UI.MainPanel:SlideDown(0.5)
         end
         return
     end
