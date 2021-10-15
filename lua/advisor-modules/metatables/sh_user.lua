@@ -3,7 +3,7 @@ Advisor.User = {}
 Advisor.User.__index = Advisor.User
 
 -- Create a new user object from 
-function Advisor.User.new(ply)
+function Advisor.User.new(self, ply)
     if not IsValid(ply) or not isentity(ply) or not ply:IsPlayer() then
         error("Advisor.User can only be created from a valid player.")
     end
