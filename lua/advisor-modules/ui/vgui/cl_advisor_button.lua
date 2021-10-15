@@ -33,7 +33,7 @@ end
 
 function PANEL:PerformLayout(w, h)
     local icon_width = 0
-    if ( #self:GetIcon() > 0 ) then
+    if #self:GetIcon() > 0 then
         icon_width = self.IconText:GetWide() + Advisor.Theme.Button.IconMargin
         self.IconText:SetPos( w / 2 - ( icon_width + self.DisplayText:GetWide() ) / 2, h / 2 - self.IconText:GetTall() / 2 )    
     end
