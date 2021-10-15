@@ -2,6 +2,13 @@ Advisor = Advisor or {}
 Advisor.UI = Advisor.UI or {}
 Advisor.UI.MainPanel = Advisor.UI.MainPanel or nil
 
+local function ResetMenu()
+    if IsValid(Advisor.UI.MainPanel) then
+        Advisor.UI.MainPanel:Remove()
+    end
+end
+concommand.Add("advisor_refreshmenu", ResetMenu, nil, "Removes Advisor's menu to allow for re-creation.")
+
 function Advisor.UI.OpenMenu()
     local LOC = Advisor.Localization.Localize
 

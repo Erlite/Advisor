@@ -27,8 +27,9 @@ local function GenerateAdvisorFonts()
   surface.CreateFont("Advisor:Rubik.Button",
   {
       font = "Rubik",
-      size = SizeByRatio(22),
+      size = SizeByRatio(26),
       antialias = true,
+      weight = 525,
   })
 
   surface.CreateFont("Advisor:Awesome",

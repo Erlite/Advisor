@@ -82,6 +82,15 @@ Advisor.Theme.Button =
         Disabled = Color(141, 141, 141),
     },
 
+    Discord = 
+    {
+        Text = Color(241, 232, 255),
+        Idle = Color(86, 99, 247),
+        Hovered = Color(77, 89, 218),
+        Pressed = Color(72, 83, 201),
+        Disabled = Color(141, 141, 141)
+    },
+
     Close = 
     {
         Idle = Color(24, 24, 24),
