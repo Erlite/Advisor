@@ -16,23 +16,27 @@ local function OnSuccess(body, size, headers, httpCode)
     local remoteVersion = body:Split(".")
     Advisor.LatestVersion = body
 
+    if not localVersion or not remoteVersion then 
+        Advisor.VersionCheckFailed = true
+        Advisor.UpToDate = false
+        Advisor.Log.Error(LogAdvisor, "Invalid versioning detected. Current: '%s', Latest: '%s'", Advisor.CurrentVersion, body)
+        return
+    end
+
     if #remoteVersion ~= #localVersion then
         Advisor.VersionCheckFailed = true
         Advisor.UpToDate = false
         Advisor.Log.Error(LogAdvisor, "Failed to check for update as versioning differs with remote '%s'", body)
         return
     else
-        localVersion = tonumber(table.concat(localVersion))
-        remoteVersion = tonumber(table.concat(remoteVersion))
-
-        if not localVersion or not remoteVersion then 
-            Advisor.VersionCheckFailed = true
-            Advisor.UpToDate = false
-            Advisor.Log.Error(LogAdvisor, "Invalid versioning detected. Current: '%s', Latest: '%s'", Advisor.CurrentVersion, body)
-            return
+        -- Check each number indivually
+        Advisor.UpToDate = true
+        for i = 1, #localVersion do
+            if localVersion[i] < remoteVersion[i] then
+                Advisor.UpToDate = false
+                break
+            end
         end
-
-        Advisor.UpToDate = localVersion >= remoteVersion
     end
 
     if Advisor.UpToDate then 
@@ -61,6 +65,7 @@ local function CheckAdvisorVersion()
         http.Fetch(Advisor.VersionFile, OnSuccess, OnFailure)    
     end
 end
+CheckAdvisorVersion()
 
 if CLIENT then
     hook.Add("InitPostEntity", "Advisor.VersionCheck", CheckAdvisorVersion)
