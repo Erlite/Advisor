@@ -65,7 +65,6 @@ local function CheckAdvisorVersion()
         http.Fetch(Advisor.VersionFile, OnSuccess, OnFailure)    
     end
 end
-CheckAdvisorVersion()
 
 if CLIENT then
     hook.Add("InitPostEntity", "Advisor.VersionCheck", CheckAdvisorVersion)
