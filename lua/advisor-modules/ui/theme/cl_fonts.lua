@@ -1,33 +1,33 @@
-local function SizeByRatio(x)
-  return x / 2560 * ScrW()
-end
+-- local function ScreenScale(x)
+--   return x / 2560 * ScrW()
+-- end
 
 local function GenerateAdvisorFonts()
     surface.CreateFont("Advisor:Rubik.Header",
     {
         font = "Rubik",
-        size = SizeByRatio(24),
+        size = ScreenScale(6),
         antialias = true,
     })
 
     surface.CreateFont("Advisor:Rubik.Footer",
     {
         font = "Rubik",
-        size = SizeByRatio(20),
+        size = ScreenScale(5),
         antialias = true,
     })
 
     surface.CreateFont("Advisor:Rubik.Body",
     {
         font = "Rubik",
-        size = SizeByRatio(22),
+        size = ScreenScale(5.5),
         antialias = true,
     })
 
     surface.CreateFont("Advisor:Rubik.Button",
     {
         font = "Rubik",
-        size = SizeByRatio(24),
+        size = ScreenScale(6),
         antialias = true,
         weight = 525,
     })
@@ -35,7 +35,7 @@ local function GenerateAdvisorFonts()
     surface.CreateFont("Advisor:Rubik.TextEntry", 
     {
         font = "Rubik",
-        size = SizeByRatio(20),
+        size = ScreenScale(5),
         antialias = true,
     })
 
@@ -44,7 +44,7 @@ local function GenerateAdvisorFonts()
         font = "Font Awesome 5 Free Solid",
         antialias = true,
         extended = true,
-        size = SizeByRatio(20),
+        size = ScreenScale(5),
     })
 
     surface.CreateFont("Advisor:SmallAwesome",
@@ -52,7 +52,7 @@ local function GenerateAdvisorFonts()
         font = "Font Awesome 5 Free Solid",
         antialias = true,
         extended = true,
-        size = SizeByRatio(16),
+        size = ScreenScale(4),
     })
 end
 
