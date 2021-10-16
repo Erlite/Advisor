@@ -4,7 +4,7 @@ Advisor.Utils = Advisor.Utils or {}
 util.AddNetworkString("Advisor.LocalizedMessage")
 
 function Advisor.Utils.LocalizedMessage(ply, color, namespace, key, ...)
-    local args = unpack({ ... })
+    local args = unpack({ ... }) or {}
 
     -- Could be an attempt to send to the console, ignoring.
     if not istable(ply) and not (IsValid(ply) and ply:IsPlayer()) then
