@@ -50,6 +50,9 @@ Special Thanks:
     self.CreditBody:SetText(text)
     self.CreditBody:SizeToContents()
     self.CreditBody:SetPaintBackground(false)
+
+    self.Footer = vgui.Create("Advisor.Footer", self)
+    self.Footer:Dock(BOTTOM)
 end
 
 function PANEL:PerformLayout(w, h)
