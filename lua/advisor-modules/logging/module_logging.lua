@@ -4,7 +4,7 @@ local tbl =
     description = "Logging library used to log messages to the console and other outputs.",
     loadOrder = 
     {
-        "meta",
+        "meta/",
         "sh_log.lua",
         "sh_log_globals.lua"
     }
