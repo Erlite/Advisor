@@ -17,21 +17,22 @@ local function OnSuccess(body, size, headers, httpCode)
     Advisor.LatestVersion = body
 
     if #remoteVersion ~= #localVersion then
+        Advisor.VersionCheckFailed = true
         Advisor.UpToDate = false
         Advisor.Log.Error(LogAdvisor, "Failed to check for update as versioning differs with remote '%s'", body)
         return
     else
-        Advisor.UpToDate = true
-        for i = #localVersion, 1, -1 do
-            if not tonumber(remoteVersion[i]) or not tonumber(localVersion[i]) then
-                Advisor.Log.Error(LogAdvisor, "Invalid versioning detected. Current: '%s', Latest: '%s'", Advisor.CurrentVersion, body)
-                return
-            end
-            if tonumber(remoteVersion[i]) > tonumber(localVersion[i]) then
-                Advisor.UpToDate = false
-                break
-            end
+        localVersion = tonumber(table.concat(localVersion))
+        remoteVersion = tonumber(table.concat(remoteVersion))
+
+        if not localVersion or not remoteVersion then 
+            Advisor.VersionCheckFailed = true
+            Advisor.UpToDate = false
+            Advisor.Log.Error(LogAdvisor, "Invalid versioning detected. Current: '%s', Latest: '%s'", Advisor.CurrentVersion, body)
+            return
         end
+
+        Advisor.UpToDate = localVersion >= remoteVersion
     end
 
     if Advisor.UpToDate then 
