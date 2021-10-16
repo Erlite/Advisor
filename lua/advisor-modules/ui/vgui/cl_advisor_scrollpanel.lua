@@ -5,6 +5,7 @@ AccessorFunc(PANEL, "SelectedPanel", "SelectedPanel")
 function PANEL:Init()
     local vbar = self:GetVBar()
     vbar:SetHideButtons(true)
+    vbar:SetWide(8)
 
     function vbar:Paint(w, h)
         surface.SetDrawColor(Advisor.Theme.ScrollPanel.VerticalBar)
