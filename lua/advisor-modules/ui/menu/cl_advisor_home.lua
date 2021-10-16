@@ -35,6 +35,10 @@ function PANEL:Init()
     docButton:SetIcon(0xf1c9)
     docButton:SetEnabled(false)
 
+    local entry = vgui.Create("Advisor.TextEntry", self)
+    entry:Dock(TOP)
+    entry:DockMargin(16, 0, 16, 16)
+
     self:UpdateVersionDisplay()
 end
 
