@@ -1,16 +1,14 @@
 -- User tables for profiles.
 -- Contains join date and last seen date.
-CREATE TABLE IF NOT EXISTS 'advisor_users' 
+CREATE TABLE IF NOT EXISTS advisor_users
 (
-    steamid64   VARCHAR(17) NOT NULL,
+    steamid64   VARCHAR(17) NOT NULL PRIMARY KEY,
     joined_at   INTEGER NOT NULL,
-    last_seen   INTEGER NOT NULL,
-
-    PRIMARY KEY (steamid64)
+    last_seen   INTEGER NOT NULL
 );
 
 -- Contains a list of known aliases for a user.
-CREATE TABLE IF NOT EXISTS 'advisor_user_aliases'
+CREATE TABLE IF NOT EXISTS advisor_user_aliases
 (
     steamid64   VARCHAR(17) NOT NULL,
     aliases     TEXT NOT NULL,
@@ -19,9 +17,9 @@ CREATE TABLE IF NOT EXISTS 'advisor_user_aliases'
 );
 
 -- Infractions table, contains all player infractions
-CREATE TABLE IF NOT EXISTS 'advisor_user_infractions'
+CREATE TABLE IF NOT EXISTS advisor_user_infractions
 (
-    id                  BIGINT AUTO_INCREMENT,
+    id                  BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_steamid64      VARCHAR(17) NOT NULL,
     issuer_steamid64    VARCHAR(17) NOT NULL,
     type                TINYINT NOT NULL,
@@ -29,26 +27,20 @@ CREATE TABLE IF NOT EXISTS 'advisor_user_infractions'
     issued_at           INTEGER NOT NULL,
     expires_at          INTEGER,
 
-    PRIMARY KEY (id)
     FOREIGN KEY (user_steamid64) REFERENCES advisor_users(steamid64)
     FOREIGN KEY (issuer_steamid64) REFERENCES advisor_users(steamid64)
 );
 
 -- Roles table
-CREATE TABLE IF NOT EXISTS 'advisor_roles'
+CREATE TABLE IF NOT EXISTS advisor_usergroups
 (
-    id                  BIGINT AUTO_INCREMENT,
-    name                TEXT NOT NULL,
-    color               INTEGER NOT NULL,
-    position            TINYINT NOT NULL,
-    hoisted             BIT NOT NULL,
-    weight              TINYINT NOT NULL,
-
-    PRIMARY KEY (id)
+    name                TEXT NOT NULL PRIMARY KEY,
+    display_name        TEXT,
+    color               INTEGER NOT NULL
 );
 
 -- Contains the permissions assigned to a role.
-CREATE TABLE IF NOT EXISTS 'advisor_role_permissions'
+CREATE TABLE IF NOT EXISTS advisor_usergroup_permissions
 (
     role_id             BIGINT NOT NULL,
     permission          TEXT NOT NULL,
@@ -56,13 +48,3 @@ CREATE TABLE IF NOT EXISTS 'advisor_role_permissions'
 
     FOREIGN KEY (role_id) REFERENCES advisor_roles(id)
 );
-
--- Contains the permissions assigned to a user.
-CREATE TABLE IF NOT EXISTS 'advisor_user_permissions'
-(
-    steamid64           BIGINT NOT NULL,
-    permission          TEXT NOT NULL,
-    value               BIT NOT NULL,
-
-    FOREIGN KEY (steamid64) REFERENCES advisor_users(steamid64)
-)
