@@ -4,7 +4,13 @@ Advisor.UI.MainPanel = Advisor.UI.MainPanel or nil
 
 local function ResetMenu()
     if IsValid(Advisor.UI.MainPanel) then
+        local was_visible = Advisor.UI.MainPanel:IsVisible()
         Advisor.UI.MainPanel:Remove()
+
+        -- Re-open the menu if it was visible before 
+        if was_visible then
+            Advisor.UI.OpenMenu()
+        end
     end
 end
 concommand.Add("advisor_refreshmenu", ResetMenu, nil, "Removes Advisor's menu to allow for re-creation.")
@@ -17,7 +23,6 @@ function Advisor.UI.OpenMenu()
             Advisor.UI.MainPanel:Close()
         else
             Advisor.UI.MainPanel:Open()
-            Advisor.UI.MainPanel:SlideDown(0.5)
         end
         return
     end
@@ -37,7 +42,7 @@ function Advisor.UI.OpenMenu()
     local main = vgui.Create("Advisor.Menu")
     main:PopulateOptions(mp)
     main:MakePopup()
-    main:SlideDown(0.5)
+    main:Open()
 
     Advisor.UI.MainPanel = main
 end
