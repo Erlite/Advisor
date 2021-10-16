@@ -216,7 +216,10 @@ local function LoadModule(moduleName, numRecursions)
                 local files, dirs = file.Find(loadPath .. "/*", "LUA")
 
                 -- If already loaded, hecc off.
-                if Advisor.Modules.LoadedDirectories[fileModulePath] then continue end
+                if Advisor.Modules.LoadedDirectories[fileModulePath .. "/"] then continue end
+                
+                -- Avoid reloading the directory
+                Advisor.Modules.LoadedDirectories[fileModulePath .. "/"] = true
 
                 -- TODO: Check that we still have things to load here (i.e. haven't been loaded via loadOrder yet)
                 local loadRecSpace = string.rep(" ", (numRecursions + 1) * 2)
@@ -251,13 +254,17 @@ local function LoadModule(moduleName, numRecursions)
                 end
             end
         end
+    else
+        -- Print current folder
+        local loadRecSpace = string.rep(" ", numRecursions * 2)
+        print(loadRecSpace .. "[" .. moduleName .. "/" .. "]")
     end
 
     -- Load other files in current directory.
     for _, f in pairs(moduleFiles) do
         local fi = string.lower(f) 
         local moduleFile = "module_" .. moduleName .. ".lua"
-        if string.EndsWith(fi, ".lua") && fi != moduleFile  then 
+        if string.EndsWith(fi, ".lua") && fi != moduleFile then 
             RealmInclude(modulePath, fi, recSpace)
         end 
     end 
