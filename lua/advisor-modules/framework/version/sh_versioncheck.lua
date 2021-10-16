@@ -35,6 +35,8 @@ local function OnSuccess(body, size, headers, httpCode)
             if localVersion[i] < remoteVersion[i] then
                 Advisor.UpToDate = false
                 break
+            elseif localVersion[i] > remoteVersion[i] then
+                break
             end
         end
     end
