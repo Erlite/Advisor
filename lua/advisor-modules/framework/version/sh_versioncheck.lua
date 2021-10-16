@@ -32,10 +32,17 @@ local function OnSuccess(body, size, headers, httpCode)
         -- Check each number indivually
         Advisor.UpToDate = true
         for i = 1, #localVersion do
-            if localVersion[i] < remoteVersion[i] then
+            local l, r = tonumber(localVersion[i]), tonumber(remoteVersion[i])
+            if not l or not r then 
+                Advisor.UpToDate = false 
+                Advisor.VersionCheckFailed = true
+                Advisor.Log.Error(LogAdvisor, "Invalid versioning detected. Current: '%s', Latest: '%s'", Advisor.CurrentVersion, body)
+                return
+            end
+            if l < r then
                 Advisor.UpToDate = false
                 break
-            elseif localVersion[i] > remoteVersion[i] then
+            elseif l > r then
                 break
             end
         end
