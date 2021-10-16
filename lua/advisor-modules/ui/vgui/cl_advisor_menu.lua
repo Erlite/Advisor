@@ -13,6 +13,18 @@ function PANEL:Init()
     self.Categories = vgui.Create("Advisor.ScrollPanel", self)
     self.Categories:Dock(LEFT)
     self.Categories:SetWidth(ScrW() * 0.1)
+
+    local menuWindow = self
+    function self.Categories:OnSelectionUpdated(selection)
+        local body = selection:GetBodyPanel()
+        function body:OnMousePressed(key)
+            menuWindow:OnMousePressed(key)
+        end
+    
+        function body:OnMouseReleased(key)
+            menuWindow:OnMouseReleased(key)
+        end
+    end
 end
 
 function PANEL:PopulateOptions(mp)

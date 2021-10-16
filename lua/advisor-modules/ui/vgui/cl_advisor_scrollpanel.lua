@@ -34,6 +34,8 @@ function PANEL:AddOption(name, panel, icon)
     option:SetScrollPanel(self)
     panel:SetParent(self:GetParent())
     panel:SetVisible(false)
+    panel:SetMouseInputEnabled(true)
+    
     self:AddItem(option)
 
     if not IsValid(self:GetSelectedPanel()) then 
@@ -61,18 +63,10 @@ function PANEL:UpdateSelection(selection)
     end
 
     self:SetSelectedPanel(selection)
+    self:OnSelectionUpdated(selection)
+end
 
-    local footer = self:GetParent().Footer
-
-    if IsValid(footer) then
-        if IsValid(bodyPanel) then
-            footer:SetParent(bodyPanel)
-        else
-            bodyPanel = self:GetParent().Body
-            footer:SetParent(bodyPanel)
-            bodyPanel:SetVisible(true)
-        end
-    end
+function PANEL:OnSelectionUpdated(selection)
 end
 
 vgui.Register("Advisor.ScrollPanel", PANEL, "DScrollPanel")

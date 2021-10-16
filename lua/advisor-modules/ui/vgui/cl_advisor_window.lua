@@ -29,8 +29,6 @@ function PANEL:Init()
     self:SetTitle("Window")
 
     self.Body = vgui.Create("Advisor.Panel", self)	
-    self.Footer = vgui.Create("Advisor.Footer", self.Body)
-	self.Footer:SetWindow(self)
 
     self:SetMinWidth( 50 )
 	self:SetMinHeight( 50 )
@@ -49,20 +47,12 @@ function PANEL:Init()
         self:GetParent():OnMousePressed(key)
     end
 
-	function self.Footer:OnMousePressed(key)
-        self:GetWindow():OnMousePressed(key)
-    end
-
     function self.TitleBar:OnMouseReleased(key)
         self:GetParent():OnMouseReleased(key)
     end
 
     function self.Body:OnMouseReleased(key)
         self:GetParent():OnMouseReleased(key)
-    end
-
-	function self.Footer:OnMouseReleased(key)
-        self:GetWindow():OnMouseReleased(key)
     end
 end
 
@@ -191,7 +181,6 @@ function PANEL:SetCursorAll(new)
 	self:SetCursor( new )
     self.TitleBar:SetCursor( new )
     self.Body:SetCursor( new )
-    self.Footer:SetCursor( new )
 end
 
 function PANEL:OnMouseReleased()

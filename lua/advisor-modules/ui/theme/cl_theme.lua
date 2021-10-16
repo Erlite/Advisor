@@ -10,7 +10,6 @@ Advisor.Theme.FlavorText =
     "(⌐▨_▨)",
     "The ultimate open-source administration framework!",
     "Fun fact: this is the first time Erlite's worked on UI.",
-    "Tip: CAMI is implemented, so you should be good <3",
     "Have a very safe day!",
     "How are you holding up? Because I'm a potato.",
     "Roxas, that's a stick.",
@@ -125,4 +124,15 @@ Advisor.Theme.HeaderBox =
     BodyBackgroundColor = Color(31, 31, 31),
     BodyTextColor = Color(255, 255, 255),
     BodyCornerRadius = 4,
+}
+
+Advisor.Theme.TextEntry = 
+{
+    CornerRadius = 4,
+    BackgroundColor =  Color(31, 31, 31),
+    IdleAccentColor = Color(21, 21, 21),
+    SelectedAccentColor = Color(209, 129, 1),
+    TextColor = Color(255, 255, 255),
+    HighlightColor = Color(209, 129, 1),
+    CursorColor = Color(209, 129, 1),
 }
