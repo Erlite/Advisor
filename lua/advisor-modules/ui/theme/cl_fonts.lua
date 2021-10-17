@@ -1,6 +1,9 @@
+local TextScaleConVar = CreateClientConVar("advisor_text_scale", "1", true, false, "Scale the Advisor font according to your screen's pixel density", 0.5, 2)
+
 local function SizeByRatio(x)
-  return x / 2560 * ScrW()
+  return (x / 2560 * ScrW()) * TextScaleConVar:GetFloat()
 end
+
 
 local function GenerateAdvisorFonts()
     surface.CreateFont("Advisor:Rubik.Header",
@@ -57,4 +60,9 @@ local function GenerateAdvisorFonts()
 end
 
 GenerateAdvisorFonts()
+
 hook.Add("OnScreenSizeChanged", "Advisor:OnScreenSizeChanged:ReGenerateFonts", GenerateAdvisorFonts)
+-- Update the fonts when the text size convar is updated
+cvars.AddChangeCallback("advisor_text_scale", function(name, old, new)
+    GenerateAdvisorFonts()
+end)
