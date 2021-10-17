@@ -6,7 +6,7 @@ function Advisor.Usergroup.new()
     local tbl =
     {
         name = "",
-        displayName = "",
+        display_name = "",
         color = 0xFFFFFF,
         can_delete = false,
         inherits = "",
@@ -38,11 +38,11 @@ function Advisor.Usergroup:GetReplicatedProperties(rt)
 end
 
 function Advisor.Usergroup:GetDisplayName()
-    return (self.displayName and #self.displayName > 0) and self.displayName or self.name
+    return (self.display_name and #self.display_name > 0) and self.display_name or self.name
 end
 
 function Advisor.Usergroup:SetDisplayName(name)
-    self.name = tostring(name)
+    self.display_name = tostring(name)
 end
 
 -- Convert the 4-byte integer representation of the color to a Color table
