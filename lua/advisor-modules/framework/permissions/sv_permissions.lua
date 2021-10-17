@@ -1,40 +1,41 @@
 Advisor = Advisor or {}
 Advisor.Permissions = Advisor.Permissions or {}
-Advisor.Permissions.Roles = Advisor.Permissions.Roles or {}
+Advisor.Permissions.Usergroups = Advisor.Permissions.Usergroups or {}
 
--- local function OnPermissionsReceived(success, msg, result, affected)
---     if not success then
---         Advisor.Log.Error(LogSQL, "Failed to retrieve permissions, this is a fatal error as no permissions will be granted.")
---         Advisor.Log.Error(LogSQL, msg)
---         return
---     end
+local function OnUsergroupsRetrieved(success, message, result, affectedRows)
+    PrintTable(result)
+end
 
-    
--- end
+local function InitializeUsergroups()
+    local query =
+    [[
+        -- Add the user, admin and superadmin usergroups if they've been forcefully deleted, or just don't exist yet.
+        INSERT INTO advisor_usergroups
+        SELECT 'user', 'User', 4294967295, 0, 'user'
+        WHERE NOT EXISTS (SELECT * FROM advisor_usergroups WHERE name='user');
 
--- local function OnRolesReceived(success, msg, result, affected)
---     if not success then 
---         Advisor.Log.Error(LogSQL, "Failed to retrieve roles, this is a fatal error and Advisor will not function.")
---         Advisor.Log.Error(LogSQL, msg)
---         return
---     end
+        INSERT INTO advisor_usergroups
+        SELECT 'admin', 'Administrator', 4294967295, 0, 'user'
+        WHERE NOT EXISTS (SELECT * FROM advisor_usergroups WHERE name='admin');
 
---     for k, role in ipairs(result) do
---         setmetatable(role, Advisor.Role)
---         Advisor.Permissions.Roles[k] = role
---     end
+        INSERT INTO advisor_usergroups
+        SELECT 'superadmin', 'Super Administrator', 4294967295, 0, 'admin'
+        WHERE NOT EXISTS (SELECT * FROM advisor_usergroups WHERE name='superadmin');
 
---     Advisor.Log.Info(LogSQL, "Successfully loaded %i role(s).", #Advisor.Permissions.Roles)
---     local rolePermissionsQuery = "SELECT * FROM 'advisor_role_permissions';" 
---     db:query(rolePermissionsQuery, {}, OnPermissionsReceived)
--- end
+        -- Sanity check, they cannot be deleted.
+        UPDATE advisor_usergroups
+        SET can_delete = 0
+        WHERE name = 'user' OR name = 'admin' OR name = 'superadmin';
 
--- local function OnDatabaseReady()
---     -- Get all the roles
---     local roleQuery = "SELECT * FROM 'advisor_roles';"
+        SELECT * FROM advisor_usergroups
+        LEFT JOIN advisor_usergroup_permissions ON advisor_usergroups.name = advisor_usergroup_permissions.usergroup_name;
+    ]]
 
---     local db = Advisor.SQL.Database
---     db:query(roleQuery, {}, OnRolesReceived)
--- end
+    Advisor.SQL.Database:query(query, {}, OnUsergroupsRetrieved)
+end
 
--- hook.Add("Advisor.DatabaseReady", "InitializeAdvisorPerms", OnDatabaseReady)
+if Advisor.SQL.IsInitialized then
+    InitializeUsergroups()
+else
+    hook.Add("Advisor.DatabaseReady", "Advisor.InitializePermissions", InitializeUsergroups)
+end
