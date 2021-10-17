@@ -61,7 +61,7 @@ function TimeParser:Parse(ctx, raw)
             parsedTime = parsedTime + number
         end
     elseif #converterType > 0 then
-        return false, { namespace = "parsers", key = "no_time_amount", args = { converterType } }
+        return false, { namespace = "parsers", key = "no_time_amount" }
     end
 
     return true, parsedTime
