@@ -22,13 +22,6 @@ function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
     ctx:SetRawMessage(raw)
     ctx:SetParsedArguments(parsedArgs)
 
-    -- Checks if the arguments are not empty
-    for i = 1, #args do
-        if string.len(args[i]) < 1 then
-            args[i] = nil
-        end
-    end
-
     -- Check that we have enough arguments to satisfy the command's request.
     if #args < cmd:GetRequiredAmount() then
         local missingArg = cmdArgs[#args]
@@ -49,7 +42,7 @@ function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
             return ""
         end
 
-        if msgArg then
+        if msgArg and IsValid(msgArg) then
             local success, result = parser:Parse(ctx, msgArg)
             if not success then 
                 Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), result.namespace, result.key, unpack(result.args or {}))
