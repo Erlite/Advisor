@@ -145,6 +145,14 @@ function ReplicationTemplate:AddOrderedList(name, valueType, bits)
     return self:AddProperty(prop)
 end
 
+function ReplicationTemplate:AddValueTable(name, bits)
+    bits = (bits and isnumber(bits)) and bits or 16
+    local prop = RepProperty(name, ReplicationType.ValueTable)
+    prop:SetBits(bits)
+
+    return self:AddProperty(prop)
+end
+
 -- Validates the template.
 function ReplicationTemplate:AssertValid()
     for key, prop in ipairs(self:GetProperties()) do
