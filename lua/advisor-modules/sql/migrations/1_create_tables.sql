@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS advisor_users
 CREATE TABLE IF NOT EXISTS advisor_user_aliases
 (
     steamid64   VARCHAR(17) NOT NULL,
-    aliases     TEXT NOT NULL,
+    alias       TEXT NOT NULL,
+    time        INTEGER NOT NULL,
 
     FOREIGN KEY (steamid64) 
         REFERENCES advisor_users(steamid64)
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS advisor_user_infractions
 -- Usergroups table
 CREATE TABLE IF NOT EXISTS advisor_usergroups
 (
-    name                TEXT NOT NULL PRIMARY KEY,
+    name                TEXT NOT NULL PRIMARY KEY CHECK (LENGTH(name) > 0 AND LENGTH(name) < 32),
     display_name        TEXT,
     color               INTEGER NOT NULL,
     can_delete          BIT NOT NULL,
