@@ -36,6 +36,8 @@ Language("french")
         Key("self_is_console", "Vous ne pouvez pas vous cibler sur la console.")
         Key("no_target", "Impossible de trouver une cible.")
         Key("ambiguous_target", "Plusieurs cibles correspondent au nom donné, veuillez ré-essayer avec un nom plus précis.")
+        Key("no_time_converter", "Impossible de convertir '%s' en temps.")
+        Key("no_time_amount", "Impossible de trouver le temps à convertir.")
     EndNamespace()
 
     Namespace("commands")
