@@ -2,16 +2,34 @@ Advisor = Advisor or {}
 Advisor.Usergroup = {}
 Advisor.Usergroup.__index = Advisor.Usergroup
 
-function Advisor.Usergroup.new()
-    local tbl =
-    {
-        name = "",
-        display_name = "",
-        color = 0xFFFFFF,
-        can_delete = false,
-        inherits = "",
-        permissions = {}
-    }
+-- Data is expected to be a row from advisor_usergroups
+function Advisor.Usergroup.new(self, data)
+    local tbl = nil
+    if data then
+        tbl = 
+        {
+            name = data["name"],
+            display_name = data["display_name"],
+            color = data["color"],
+            can_delete = data["can_delete"],
+            inherits = data["inherits"],
+            source = "Advisor",
+            partial_control = false,
+            permissions = {}
+        }
+    else
+        tbl =
+        {
+            name = "",
+            display_name = "",
+            color = 0xFFFFFF,
+            can_delete = false,
+            inherits = "",
+            source = "",
+            partial_control = false,
+            permissions = {}
+        }
+    end
 
     setmetatable(tbl, Advisor.Usergroup)
     return tbl
@@ -21,6 +39,8 @@ AccessorFunc(Advisor.Usergroup, "name", "Name", FORCE_STRING)
 AccessorFunc(Advisor.Usergroup, "permissions", "Permissions")
 AccessorFunc(Advisor.Usergroup, "can_delete", "CanDelete", FORCE_BOOL)
 AccessorFunc(Advisor.Usergroup, "inherits", "Inherits", FORCE_STRING)
+AccessorFunc(Advisor.Usergroup, "source", "Source", FORCE_STRING)
+AccessorFunc(Advisor.Usergroup, "partial_control", "PartialControl", FORCE_BOOL)
 
 function Advisor.Usergroup:GetReplicatedProperties(rt)
     rt:AddString("name")
@@ -28,13 +48,19 @@ function Advisor.Usergroup:GetReplicatedProperties(rt)
         :SetReplicationCondition(function(tbl) return tbl.displayName and #tbl.displayName > 0 end)
         :SetDefaultValue("")
     rt:AddUInt("color", 24)
-        :SetReplicationCondition(function(tbl) return tbl.color ~= Color(255, 255, 255) end)
+        :SetReplicationCondition(function(tbl) return tbl:GetColor() ~= Color(255, 255, 255) end)
         :SetDefaultValue(Color(255, 255, 255))
     rt:AddBool("can_delete")
     rt:AddString("inherits")
-        :SetReplicationCondition(function (tbl) return tbl.inherits ~= "user" end)
+        :SetReplicationCondition(function(tbl) return tbl.inherits ~= "user" end)
         :SetDefaultValue("user")
+    rt:AddString("source")
+        :SetReplicationCondition(function(tbl) return tbl.source ~= "Advisor" end)
+        :SetDefaultValue("Advisor")
+    rt:AddBool("partial_control")
     rt:AddValueTable("permissions", 16)
+        :SetReplicationCondition(function(tbl) return #tbl.permissions ~= 0 end)
+        :SetDefaultValue({})
 end
 
 function Advisor.Usergroup:GetDisplayName()
@@ -69,6 +95,18 @@ end
 
 function Advisor.Usergroup:HasPermission(perm)
     return self.permissions[perm]
+end
+
+function Advisor.Usergroup:SetPermission(name, value)
+    self.permissions[name] = value and true or false
+end
+
+function Advisor.Usergroup:GetCAMIUsergroup()
+    return { Name = self.name, Inherits = self.inherits } 
+end
+
+function Advisor.Usergroup:IsControlledByAdvisor()
+    return self.partial_control or self.source == "Advisor"
 end
 
 setmetatable(Advisor.Usergroup, {__call = Advisor.Usergroup.new})
