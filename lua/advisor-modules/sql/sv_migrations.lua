@@ -133,6 +133,7 @@ function Advisor.SQL.OnVersionRetrieved(success, message, result, affectedRows)
 
     if #migrations == 0 or #migrations <= currentVersion then
         Advisor.Log.Info(LogSQL, "No migrations to run, already up to date.")
+        Advisor.SQL.OnMigrationSucceeded()
         return
     end
 

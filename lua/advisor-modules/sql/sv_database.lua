@@ -40,12 +40,11 @@ function Advisor.SQL.OnInitialized()
         return
     end
 
-    Advisor.SQL.IsInitialized = true
-
     -- Handle migrating the database if it is out of date (or doesn't exist)
     Advisor.SQL.Migrate()
 end
 
 function Advisor.SQL.OnMigrationSucceeded()
+    Advisor.SQL.IsInitialized = true
     hook.Run("Advisor.DatabaseReady")
 end
