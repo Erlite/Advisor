@@ -36,6 +36,7 @@ loaderConfig =
         "localization", -- Localization module used to translate 
         "replicate", -- A high performance networking library for tables.
         "metatables", -- Advisor's metatables.
+        "cami", -- Common Admin Mod Interface
         "sql", -- Advisor's data persistence module.
         "framework", -- Advisor's core module.
     },
