@@ -56,10 +56,11 @@ CREATE TABLE IF NOT EXISTS advisor_usergroups
 -- Contains the permissions assigned to a role.
 CREATE TABLE IF NOT EXISTS advisor_usergroup_permissions
 (
-    usergroup_name      TEXT NOT NULL PRIMARY KEY,
+    name                TEXT NOT NULL,
     permission          TEXT NOT NULL,
+    value               BIT NOT NULL,
 
-    FOREIGN KEY (usergroup_name) 
+    FOREIGN KEY (name) 
         REFERENCES advisor_usergroups(name)
         ON DELETE CASCADE
 );
