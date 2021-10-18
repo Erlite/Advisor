@@ -42,7 +42,7 @@ function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
             return ""
         end
 
-        if msgArg then
+        if msgArg and #msgArg > 0 then
             local success, result = parser:Parse(ctx, msgArg)
             if not success then 
                 Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), result.namespace, result.key, unpack(result.args or {}))
