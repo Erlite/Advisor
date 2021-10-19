@@ -48,6 +48,8 @@ Language("english")
         Key("self_is_console", "You cannot target yourself on the console.")
         Key("no_target", "Could not find any target.")
         Key("ambiguous_target", "Found multiple targets from the given name, please try again with a more accurate one.")
+        Key("no_time_converter", "Could not convert '%s' into a valid time unit (valid units are (s)econds, (m)inutes, (h)ours, (d)ays, (w)eeks, (mo)nths and (y)ears).")
+        Key("no_time_amount", "Could not find the time amount to convert.")
     EndNamespace()
 
     Namespace("commands")

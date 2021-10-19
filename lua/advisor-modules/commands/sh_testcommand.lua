@@ -32,3 +32,20 @@ menuCmd.Callback = function(ctx)
     if not IsValid(ctx:GetSender()) then return end
     Advisor.UI.ClientOpenMenu(ctx:GetSender())
 end
+
+local clockCmd = Advisor.CommandHandler.RegisterCommand("Advisor", "clock", "Show the current date and time. Can handle additional time.")
+clockCmd:AddOptionalArgument("add_time", "time", 0)
+clockCmd.Callback = function(ctx, time)
+    local totalTime = os.time() + time
+    local dateText = os.date("%d/%m/%Y - %H:%M:%S", totalTime)
+    if time > 0 then
+        dateText = os.date("%d/%m/%Y - %H:%M:%S") .. " => " .. dateText
+    end
+
+    local ply = ctx:GetSender()
+    if not IsValid(ply) then
+        print(dateText)
+    else
+        PrintMessage(HUD_PRINTTALK, dateText)
+    end
+end
