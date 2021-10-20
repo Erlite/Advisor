@@ -3,12 +3,28 @@ Advisor.Permissions = Advisor.Permissions or {}
 Advisor.Permissions.Usergroups = Advisor.Permissions.Usergroups or {}
 Advisor.Permissions.UsergroupMap = Advisor.Permissions.UsergroupMap or {}
 
-local defaultUsergroups =
-{
-    ["user"] = true,
-    ["admin"] = true,
-    ["superadmin"] = true,
-}
+util.AddNetworkString("Advisor.ClientSendUsergroups")
+
+local function SynchronizeClientUsergroups(ply)
+    if istable(ply) and #ply == 0 then return end
+
+    -- We only send usergroups controlled by Advisor.
+    -- Others come from other admin mods and are registered on both client/servers anyway (CAMI)
+    net.Start("Advisor.ClientSendUsergroups")
+        for i = 1, #Advisor.Permissions.Usergroups do
+            local group = Advisor.Permissions.Usergroups[i]
+            if group:IsControlledByAdvisor() then
+                net.WriteBool(true)
+                Replicate.WriteTable(group)
+            end
+        end
+
+        -- Means there's no more usergroups to read.
+        net.WriteBool(false)
+    net.Send(ply)
+end
+
+hook.Add("Advisor.PlayerReady", "Advisor.SynchronizeUsergroups", SynchronizeClientUsergroups)
 
 local function OnUsergroupsRetrieved(success, message, results, affectedRows)
     if not success then 
@@ -27,14 +43,14 @@ local function OnUsergroupsRetrieved(success, message, results, affectedRows)
             -- Check that the usergroup isn't in CAMI already.
             -- If it is, flag it as partial_control
             local registeredGroup = CAMI.GetUsergroup(newGroup:GetName()) 
-            if registeredGroup and registeredGroup.CAMI_Source ~= "Advisor" then
+            if registeredGroup and registeredGroup.CAMI_Source ~= Advisor.Source then
                 newGroup:SetPartialControl(true)
                 newGroup:SetSource(registeredGroup.CAMI_Source or "Unknown")
             end
 
             -- Notify CAMI of the newly added usergroup.
-            if not defaultUsergroups[newGroup:GetName()] then
-                CAMI.RegisterUsergroup(newGroup:GetCAMIUsergroup(), "Advisor")
+            if not Advisor.Permissions.DefaultUsergroups[newGroup:GetName()] then
+                CAMI.RegisterUsergroup(newGroup:GetCAMIUsergroup(), Advisor.Source)
             end
         end
 
@@ -53,12 +69,16 @@ local function OnUsergroupsRetrieved(success, message, results, affectedRows)
             local thirdPartyGroup = Advisor.Usergroup()
             thirdPartyGroup:SetName(camiGroup.Name)
             thirdPartyGroup:SetInherits(camiGroup.Inherits)
-            thirdPartyGroup:SetSource(camiGroup.CAMI_Source)
+            thirdPartyGroup:SetSource(camiGroup.CAMI_Source or "Unknown")
 
             Advisor.Permissions.Usergroups[#Advisor.Permissions.Usergroups + 1] = thirdPartyGroup
             Advisor.Permissions.UsergroupMap[camiGroup.Name] = thirdPartyGroup
         end
     end
+
+    -- TODO: Broadcast usergroups to all players. Normally this shouldn't ever happen, as this is called before players even get to join.
+    -- But you never know. 
+    SynchronizeClientUsergroups(player.GetAll())
 end
 
 local function InitializeUsergroups()
