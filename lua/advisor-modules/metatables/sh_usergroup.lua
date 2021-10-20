@@ -5,15 +5,15 @@ Advisor.Usergroup.__index = Advisor.Usergroup
 -- Data is expected to be a row from advisor_usergroups
 function Advisor.Usergroup.new(self, data)
     local tbl = nil
-    if data then
+    if istable(data) then
         tbl = 
         {
             name = data["name"],
             display_name = data["display_name"],
-            color = data["color"],
-            can_delete = data["can_delete"],
+            color = tonumber(data["color"]) or 0xFFFFFF,
+            can_delete = data["can_delete"] ~= "0",
             inherits = data["inherits"],
-            source = "Advisor",
+            source = Advisor.Source,
             partial_control = false,
             permissions = {}
         }
@@ -102,11 +102,19 @@ function Advisor.Usergroup:SetPermission(name, value)
 end
 
 function Advisor.Usergroup:GetCAMIUsergroup()
-    return { Name = self.name, Inherits = self.inherits } 
+    return { Name = self.name, Inherits = self.inherits, CAMI_Source = self.source } 
 end
 
 function Advisor.Usergroup:IsControlledByAdvisor()
-    return self.partial_control or self.source == "Advisor"
+    return self.partial_control or self.source == Advisor.Source
+end
+
+function Advisor.Usergroup.FromCAMIGroup(group)
+    local newGroup = Advisor.Usergroup()
+    newGroup:SetName(group.Name)
+    newGroup:SetInherits(group.Inherits)
+    newGroup:SetSource(group.CAMI_Source or "Unknown")
+    return newGroup
 end
 
 setmetatable(Advisor.Usergroup, {__call = Advisor.Usergroup.new})
