@@ -13,7 +13,7 @@ function PANEL:Init()
     -- Time it takes to lerp from a color to another.
     self.LerpDuration = 1
 
-    self:SetFont("Advisor:SmallAwesome")
+    self:SetFont("Advisor:SmallFontAwesome")
     self:SetText(utf8.char(0xf00d))
     self:SetTextColor(Color(255, 255, 255))
 

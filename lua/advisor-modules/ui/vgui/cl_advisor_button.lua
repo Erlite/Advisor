@@ -24,7 +24,7 @@ function PANEL:Init()
 
     self.IconText = vgui.Create("DLabel", self)
     self.IconText:SetText( "" )
-    self.IconText:SetFont("Advisor:Awesome")
+    self.IconText:SetFont("Advisor:FontAwesome")
     self.IconText:SetContentAlignment(5)
 
     self:SetText("Button")
@@ -83,6 +83,10 @@ function PANEL:SetIcon(...)
 
     self.IconText:SetText(icon)
     self.IconText:SizeToContentsX()
+end
+
+function PANEL:SetIconFont(font)
+    self.IconText:SetFont(font)
 end
 
 function PANEL:OnMousePressed()
