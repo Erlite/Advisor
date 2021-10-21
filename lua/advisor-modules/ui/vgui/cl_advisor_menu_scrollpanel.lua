@@ -27,15 +27,16 @@ function PANEL:AddCategory(name)
     self:AddItem(cat)
 end
 
-function PANEL:AddOption(name, icon, font)
-    icon = icon or ""
-    font = font or "Advisor:FontAwesome"
-
-    local option = vgui.Create("Advisor.ScrollPanelOption")
+function PANEL:AddOption(name, panel, icon, font)
+    local option = vgui.Create("Advisor.MenuOption")
     option:SetOptionName(name)
     option:SetIcon(icon)
     option:SetIconFont(font)
+    option:SetBodyPanel(panel)
     option:SetScrollPanel(self)
+    panel:SetParent(self:GetParent())
+    panel:SetVisible(false)
+    panel:SetMouseInputEnabled(true)
     
     self:AddItem(option)
 
@@ -51,8 +52,16 @@ function PANEL:Paint(w, h)
 end
 
 function PANEL:UpdateSelection(selection)
+    local bodyPanel = nil
     for _, child in ipairs(self:GetCanvas():GetChildren()) do
         child:SetSelected(child == selection)
+
+        if child.GetBodyPanel and IsValid(child:GetBodyPanel()) then 
+            if child == selection then 
+                bodyPanel = child:GetBodyPanel()
+            end
+            child:GetBodyPanel():SetVisible(child == selection)
+        end
     end
 
     self:SetSelectedPanel(selection)
@@ -62,4 +71,4 @@ end
 function PANEL:OnSelectionUpdated(selection)
 end
 
-vgui.Register("Advisor.ScrollPanel", PANEL, "DScrollPanel")
+vgui.Register("Advisor.MenuScrollPanel", PANEL, "DScrollPanel")

@@ -1,7 +1,6 @@
 local PANEL = {}
 
 AccessorFunc(PANEL, "IsSelected", "Selected", FORCE_BOOL)
-AccessorFunc(PANEL, "BodyPanel", "BodyPanel")
 AccessorFunc(PANEL, "ScrollPanel", "ScrollPanel")
 
 function PANEL:Init()
@@ -39,6 +38,10 @@ function PANEL:SetOptionName(name)
     self.Label:SizeToContentsX()
 end
 
+function PANEL:SetOptionColor(color)
+    self.Label:SetTextColor(color)
+end
+
 function PANEL:Paint(w, h) 
     if self:GetSelected() then 
         surface.SetDrawColor(Advisor.Theme.MenuOption.SelectedBackground)
@@ -66,4 +69,4 @@ function PANEL:OnMousePressed()
     self:SetCursor("arrow")
 end
 
-vgui.Register("Advisor.MenuOption", PANEL, "EditablePanel")
+vgui.Register("Advisor.ScrollPanelOption", PANEL, "EditablePanel")

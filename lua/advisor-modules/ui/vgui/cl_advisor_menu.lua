@@ -10,7 +10,7 @@ function PANEL:Init()
     self:SetDeleteOnClose(false)
     self:SetSizable(true)
 
-    self.Categories = vgui.Create("Advisor.ScrollPanel", self)
+    self.Categories = vgui.Create("Advisor.MenuScrollPanel", self)
     self.Categories:Dock(LEFT)
     self.Categories:SetWidth(ScrW() * 0.1)
 
@@ -34,7 +34,7 @@ function PANEL:PopulateOptions(mp)
         self.Categories:AddCategory(cat.Name)
 
         for _, option in ipairs(cat.Children) do
-            self.Categories:AddOption(option.Name, option.Panel, option.Icon and unpack(option.Icon) or nil)
+            self.Categories:AddOption(option.Name, option.Panel, option.Icon, option.IconFont)
         end
     end
 end

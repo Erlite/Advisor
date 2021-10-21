@@ -16,8 +16,9 @@ function PANEL:Init()
 
     local discordButton = self.ButtonLayout:Add("Advisor.Button")
     discordButton:SetText("Discord")
+    discordButton:SetIconFont("Advisor:ForkAwesome")
     discordButton:UpdateColors(Advisor.Theme.Button.Discord)
-    discordButton:SetIcon(0xf0c1)
+    discordButton:SetIcon(0xf2ee)
 
     function discordButton:DoClick()
         gui.OpenURL("https://discord.gg/gca")

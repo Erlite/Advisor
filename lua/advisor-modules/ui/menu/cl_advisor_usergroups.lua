@@ -19,6 +19,25 @@ function PANEL:Init()
     self.Usergroups = vgui.Create("Advisor.ScrollPanel", self)
     self.Usergroups:Dock(LEFT)
     self.Usergroups:SetWidth(ScrW() * 0.1)
+
+    hook.Add("Advisor.OnUsergroupsUpdated", self, self.OnUsergroupsUpdated)
+    -- Populate the usergroup list.
+    self:OnUsergroupsUpdated()
+end
+
+function PANEL:OnRemove()
+    -- Cleanup hooks to avoid dangling references
+    hook.Remove("Advisor.OnUsergroupsUpdated", self)
+end
+
+function PANEL:OnUsergroupsUpdated()
+    self.Usergroups:Clear()
+
+    for _, group in ipairs(Advisor.Permissions.Usergroups) do
+        local panel = vgui.Create("Advisor.UsergroupOption", nil, group:GetName())
+        panel:SetUsergroup(group:GetName())
+        self.Usergroups:AddItem(panel)
+    end
 end
 
 vgui.Register("Advisor.Menu.Usergroups", PANEL, "Advisor.Panel")
