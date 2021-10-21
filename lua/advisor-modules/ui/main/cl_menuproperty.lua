@@ -15,7 +15,9 @@ function Advisor.MenuProperty.new()
     return tbl
 end
 
-function Advisor.MenuProperty:AddOption(category, name, panel, ...)
+function Advisor.MenuProperty:AddOption(category, name, panel, icon, font)
+    font = font or "Advisor:FontAwesome"
+
     if not isstring(category) or #category == 0 then
         ErrorNoHaltWithStack(string.format("Cannot add a menu option with invalid category '%s'", category or "nil"))
         return 
@@ -39,7 +41,7 @@ function Advisor.MenuProperty:AddOption(category, name, panel, ...)
     end
 
     local tbl = self.categories[self.map[category]]
-    tbl.Children[#tbl.Children + 1] = { Name = name, Panel = panel, Icon = ... and {...} or nil }
+    tbl.Children[#tbl.Children + 1] = { Name = name, Panel = panel, Icon = icon, IconFont = font }
 
     panel:SetVisible(false)
 end
