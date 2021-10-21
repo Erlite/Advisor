@@ -39,7 +39,7 @@ local function GenerateAdvisorFonts()
         antialias = true,
     })
 
-    surface.CreateFont("Advisor:Awesome",
+    surface.CreateFont("Advisor:FontAwesome",
     {
         font = "Font Awesome 5 Free Solid",
         antialias = true,
@@ -47,9 +47,25 @@ local function GenerateAdvisorFonts()
         size = SizeByRatio(20),
     })
 
-    surface.CreateFont("Advisor:SmallAwesome",
+    surface.CreateFont("Advisor:SmallFontAwesome",
     {
         font = "Font Awesome 5 Free Solid",
+        antialias = true,
+        extended = true,
+        size = SizeByRatio(16),
+    })
+
+    surface.CreateFont("Advisor:ForkAwesome",
+    {
+        font = "forkawesome",
+        antialias = true,
+        extended = true,
+        size = SizeByRatio(20),
+    })
+
+    surface.CreateFont("Advisor:SmallForkAwesome",
+    {
+        font = "forkawesome",
         antialias = true,
         extended = true,
         size = SizeByRatio(16),
