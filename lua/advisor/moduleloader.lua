@@ -132,7 +132,7 @@ local function LoadModule(moduleName, numRecursions)
  
     local recSpace = string.rep(" ", numRecursions * 2)
 
-    if lastLoadedModule != moduleName and numRecursions == 0 then
+    if lastLoadedModule ~= moduleName and numRecursions == 0 then
         print()
     end
     lastLoadedModule = moduleName
@@ -235,7 +235,8 @@ local function LoadModule(moduleName, numRecursions)
 
                 -- Load subdirectories.
                 for _, dir in pairs(dirs) do
-                    LoadModule(moduleName .. "/" .. dir, numRecursions + 1)
+                    local subdirPath = string.format("%s/%s/%s", moduleName, path, dir):Replace("\\", "/"):Replace("//", "/")
+                    LoadModule(subdirPath, numRecursions + 1)
                 end
             else -- then we just load the file. 
                 -- If already loaded, hecc off.
