@@ -76,6 +76,21 @@ local function OnUsergroupsRetrieved(success, message, results, affectedRows)
         end
     end
 
+    local group = Advisor.Usergroup()
+    group:SetName("moderator")
+    group:SetInherits("vip")
+    group:SetSource(Advisor.Source)
+    
+    local otherGroup = Advisor.Usergroup()
+    otherGroup:SetName("vip")
+    otherGroup:SetInherits("user")
+    otherGroup:SetSource(Advisor.Source)
+
+    Advisor.Permissions.Usergroups[#Advisor.Permissions.Usergroups + 1] = group
+    Advisor.Permissions.UsergroupMap["moderator"] = group
+    Advisor.Permissions.Usergroups[#Advisor.Permissions.Usergroups + 1] = otherGroup
+    Advisor.Permissions.UsergroupMap["vip"] = otherGroup
+
     -- TODO: Broadcast usergroups to all players. Normally this shouldn't ever happen, as this is called before players even get to join.
     -- But you never know. 
     SynchronizeClientUsergroups(player.GetAll())
