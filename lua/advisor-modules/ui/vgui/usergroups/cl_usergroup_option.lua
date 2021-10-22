@@ -3,8 +3,7 @@ local PANEL = {}
 GetterFunc(PANEL, "usergroup", "Usergroup")
 
 function PANEL:Init()
-    self:SetIcon()
-
+    self:SetIcon(utf8.char(0xf007))
     hook.Add("Advisor.OnUsergroupUpdated", self, self.UpdateUsergroup)
 end
 
@@ -28,6 +27,14 @@ function PANEL:UpdateUsergroup(name)
 
     self:SetOptionName(group:GetDisplayName())
     self:SetOptionColor(group:GetColor())
+end
+
+function PANEL:Paint(w, h)
+    local base = vgui.GetControlTable(self.Base)
+    base.Paint(self, w, h)
+    
+    surface.SetDrawColor(Color(75,75,75))
+    surface.DrawLine(0, h - 1, w, h - 1)
 end
 
 vgui.Register("Advisor.UsergroupOption", PANEL, "Advisor.ScrollPanelOption")
