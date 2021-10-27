@@ -82,7 +82,10 @@ end
 
 function PANEL:SetBodyText(text)
     self.BodyText:SetText(text)
-    self.BodyText:SizeToContents()
+
+    -- Update Label to his Content (for unknown reasons surface.GetTextSize is more reliable in the tall)
+    surface.SetFont(self.BodyText:GetFont())
+    self.BodyText:SetSize(surface.GetTextSize(text))
 end
 
 function PANEL:PerformLayout(w, h)
