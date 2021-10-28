@@ -6,7 +6,7 @@ function plyMeta:SetAdvisorReady(value)
 end
 
 function plyMeta:IsAdvisorReady()
-    return self:IsBot() or self.advisor_ready == true
+    return self:IsBot() or (!!self.advisor_ready)
 end
 
 local function OnPlayerReady(len, ply)
