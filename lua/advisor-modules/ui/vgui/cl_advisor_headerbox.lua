@@ -63,8 +63,6 @@ function PANEL:Init()
         local _, top, _, bottom = parent.BodyText:GetDockMargin()
         self:SetHeight(parent.BodyText:GetTall() + top + bottom)
     end
-
-    self:SetBodyText("Hello, World!")
 end
 
 function PANEL:GetHeaderText()

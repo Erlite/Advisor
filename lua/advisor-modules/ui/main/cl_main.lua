@@ -39,12 +39,21 @@ function Advisor.UI.OpenMenu()
 
     hook.Run("Advisor.PopulateMenuOptions", mp)
 
-    local main = vgui.Create("Advisor.Menu")
-    main:PopulateOptions(mp)
-    main:MakePopup()
-    main:Open()
-
-    Advisor.UI.MainPanel = main
+    local res, msg = pcall(function()
+        local main = vgui.Create("Advisor.Menu")
+        main:PopulateOptions(mp)
+        main:MakePopup()
+        main:Open()
+    
+        Advisor.UI.MainPanel = main
+    end)
+    
+    if not res then 
+        Advisor.Log.Error(LogUI, "An error occured while opening the menu: %s", msg)
+        if IsValid(Advisor.UI.MainPanel) then
+            Advisor.UI.MainPanel:Remove()
+        end
+    end
 end
 
 net.Receive("Advisor.ClientOpenMenu", function(len, ply)

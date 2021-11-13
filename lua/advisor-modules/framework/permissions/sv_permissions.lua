@@ -78,6 +78,8 @@ local function OnUsergroupsRetrieved(success, message, results, affectedRows)
 
     local group = Advisor.Usergroup()
     group:SetName("moderator")
+    group:SetDisplayName("[Staff] Mod")
+    group:SetColor(Color(255, 0, 0))
     group:SetInherits("vip")
     group:SetSource(Advisor.Source)
     

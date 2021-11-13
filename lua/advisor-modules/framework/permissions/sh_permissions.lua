@@ -16,7 +16,6 @@ function Advisor.Permissions.GetUsergroup(name)
     return Advisor.Permissions.UsergroupMap[name]
 end
 
-
 -- Called when an admin mod registers a usergroup using CAMI
 -- No need to network anything here, other admin mods are expected to register in CAMI on both sides.
 -- If they don't, screw them.

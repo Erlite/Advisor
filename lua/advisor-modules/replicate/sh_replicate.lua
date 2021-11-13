@@ -216,7 +216,6 @@ end
 
 function Replicate.Funcs.WriteUInt(prop, value)
     Replicate.Assert.IsValidBitAmount(prop:GetBits())
-    PrintTable(value)
     net.WriteUInt(value, prop:GetBits())
 end
 

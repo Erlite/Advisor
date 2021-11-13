@@ -113,10 +113,20 @@ Advisor.Theme.Button =
         Pressed = Color(52, 59, 59),
         Disabled = Color(141, 141, 141)
     },
+
+    Delete = 
+    {
+        Idle = Color(255, 90, 90),
+        Hovered = Color(233, 77, 77),
+        Pressed = Color(196, 68, 68),
+        Disabled = Color(141, 141, 141),
+    },
 }
 
 Advisor.Theme.HeaderBox = 
 {
+    HeaderValidationAccent = Color(60, 241, 60),
+    HeaderErrorAccent = Color(255, 90, 90),
     HeaderTextColor = Color(255, 255, 255),
     HeaderCornerRadius = 4,
     HeaderAccentColor = Color(209, 129, 1),

@@ -23,7 +23,7 @@ function Advisor.Usergroup.new(self, data)
             name = "",
             display_name = "",
             color = 0xFFFFFF,
-            can_delete = false,
+            can_delete = true,
             inherits = "",
             source = "",
             partial_control = false,
@@ -44,8 +44,8 @@ AccessorFunc(Advisor.Usergroup, "partial_control", "PartialControl", FORCE_BOOL)
 
 function Advisor.Usergroup:GetReplicatedProperties(rt)
     rt:AddString("name")
-    rt:AddString("displayName")
-        :SetReplicationCondition(function(tbl) return tbl.displayName and #tbl.displayName > 0 end)
+    rt:AddString("display_name")
+        :SetReplicationCondition(function(tbl) return tbl.display_name and #tbl.display_name > 0 end)
         :SetDefaultValue("")
     rt:AddUInt("color", 24)
         :SetReplicationCondition(function(tbl) return tbl:GetColor() ~= Color(255, 255, 255) end)
@@ -55,8 +55,8 @@ function Advisor.Usergroup:GetReplicatedProperties(rt)
         :SetReplicationCondition(function(tbl) return tbl.inherits ~= "user" end)
         :SetDefaultValue("user")
     rt:AddString("source")
-        :SetReplicationCondition(function(tbl) return tbl.source ~= "Advisor" end)
-        :SetDefaultValue("Advisor")
+        :SetReplicationCondition(function(tbl) return tbl.source ~= Advisor.Source end)
+        :SetDefaultValue(Advisor.Source)
     rt:AddBool("partial_control")
     rt:AddValueTable("permissions", 16)
         :SetReplicationCondition(function(tbl) return #tbl.permissions ~= 0 end)
@@ -84,11 +84,11 @@ function Advisor.Usergroup:SetColor(color)
     if not color or not IsColor(color) then
         error("Cannot set role color to invalid color: " .. color or "nil")
     end
-
+    
     local c = 0
-    c = bit.bor(c, bit.lshift(color.R, 16))
-    c = bit.bor(c, bit.lshift(color.G, 8))
-    c = bit.bor(c, color.B)
+    c = bit.bor(c, bit.lshift(color.r, 16))
+    c = bit.bor(c, bit.lshift(color.g, 8))
+    c = bit.bor(c, color.b)
 
     self.color = c
 end
