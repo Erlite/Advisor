@@ -129,10 +129,27 @@ Advisor.Theme.HeaderBox =
 Advisor.Theme.TextEntry = 
 {
     CornerRadius = 4,
-    BackgroundColor =  Color(31, 31, 31),
+    BackgroundColor = Color(31, 31, 31),
     IdleAccentColor = Color(21, 21, 21),
     SelectedAccentColor = Color(209, 129, 1),
     TextColor = Color(255, 255, 255),
     HighlightColor = Color(209, 129, 1),
     CursorColor = Color(209, 129, 1),
+}
+
+Advisor.Theme.Slider = 
+{
+    CornerRadius = 6,
+    SliderHeight = 8,
+    NotchHeight = 20,
+    NotchWidth = 2,
+
+    KnobWidth = 8,
+    KnobColor = Color(218, 218, 218),
+
+    BackgroundColor = Color(105, 105, 105),
+    NotchColor = Color(105, 105, 105),
+    TextColor = Color(105, 105, 105),
+    SelectedAccentColor = Color(209, 129, 1),
+    SelectedTextColor = Color(209, 129, 1),
 }

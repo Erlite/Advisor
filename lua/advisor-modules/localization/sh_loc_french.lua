@@ -58,6 +58,8 @@ Language("french")
         Key("option_auditlogs", "Journal d'Audit")
         Key("option_bans", "Bannissements")
         Key("option_credits", "Crédits")
+        Key("option_appearance", "Apparence")
+        Key("field_text_scale", "Échelle du texte")
     EndNamespace()
 
 EndLanguage()
