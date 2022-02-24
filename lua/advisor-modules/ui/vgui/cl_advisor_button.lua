@@ -9,6 +9,8 @@ AccessorFunc(PANEL, "PressedColor", "PressedColor")
 AccessorFunc(PANEL, "DisabledColor", "DisabledColor")
 
 function PANEL:Init()
+    self:DockPadding( 4, 4, 4, 4 )
+    
     self:SetRoundedCorners(Advisor.Theme.Button.RoundedCorners)
     self:SetCornerRadius(Advisor.Theme.Button.CornerRadius)
     self:SetIdleColor(Advisor.Theme.Button.Default.Idle)
@@ -39,6 +41,10 @@ function PANEL:PerformLayout(w, h)
     end
 
     self.DisplayText:SetPos( w / 2 - ( self.DisplayText:GetWide() - icon_width ) / 2, h / 2 - self.DisplayText:GetTall() / 2 )
+
+    self.DisplayText:SizeToContents()
+    self.IconText:SizeToContents()
+    self:SizeToChildren(false, true)
 end
 
 function PANEL:Paint(w, h)
