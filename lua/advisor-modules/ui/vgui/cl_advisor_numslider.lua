@@ -2,52 +2,52 @@ local PANEL = {}
 
 function PANEL:Init()
     local parent = self
-    
+
     -- Replacing some GUI with ours (https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/vgui/dnumslider.lua)
-    
+
     -- Replace DSlider with Advisor.Slider
     self.Slider:Remove()
-	self.Slider = self:Add("Advisor.Slider", self)
-	self.Slider:SetLockY(0.5)
-	self.Slider:Dock(FILL)
-	self.Slider:SetHeight(16)
-	local oldTranslate = self.Slider.TranslateValues
-	function self.Slider:TranslateValues(x, y) 
-		return parent:TranslateSliderValues(oldTranslate(self, x, y))
-	end
-	function self.Slider.Knob:OnMousePressed(mcode)
-		if mcode == MOUSE_MIDDLE then
-			parent:ResetToDefaultValue()
-			return
-		end
-		parent.Slider:OnMousePressed(mcode)
-	end
+    self.Slider = self:Add("Advisor.Slider", self)
+    self.Slider:SetLockY(0.5)
+    self.Slider:Dock(FILL)
+    self.Slider:SetHeight(16)
+    local oldTranslate = self.Slider.TranslateValues
+    function self.Slider:TranslateValues(x, y) 
+        return parent:TranslateSliderValues(oldTranslate(self, x, y))
+    end
+    function self.Slider.Knob:OnMousePressed(mcode)
+        if mcode == MOUSE_MIDDLE then
+            parent:ResetToDefaultValue()
+            return
+        end
+        parent.Slider:OnMousePressed(mcode)
+    end
 
-	-- Replace DTextEntry with Advisor.TextEntry 
-	self.TextArea:Remove()
-	self.TextArea = vgui.Create("Advisor.TextEntry", self)
-	self.TextArea:Dock(RIGHT)
-	self.TextArea:DockMargin(self.Slider:GetCornerRadius() * 2, 0, 0, 0)
-	self.TextArea:SetPaintBackground(false)
-	self.TextArea:SetNumeric(true)
-	function self.TextArea:OnEnter() 
-		-- Clamp value to min & max
-		self:SetText(math.Clamp(self:GetValue(), parent:GetMin(), parent:GetMax()))
+    -- Replace DTextEntry with Advisor.TextEntry 
+    self.TextArea:Remove()
+    self.TextArea = vgui.Create("Advisor.TextEntry", self)
+    self.TextArea:Dock(RIGHT)
+    self.TextArea:DockMargin(self.Slider:GetCornerRadius() * 2, 0, 0, 0)
+    self.TextArea:SetPaintBackground(false)
+    self.TextArea:SetNumeric(true)
+    function self.TextArea:OnEnter() 
+        -- Clamp value to min & max
+        self:SetText(math.Clamp(self:GetValue(), parent:GetMin(), parent:GetMax()))
 
-		parent:SetValue(self:GetValue())
-		parent:OnValueApplied(parent:GetValue())
-	end
+        parent:SetValue(self:GetValue())
+        parent:OnValueApplied(parent:GetValue())
+    end
 
-	-- Bind OnValueApplied callback to Slider's Mouse Release
-	local oldMouseRelease = self.Slider.OnMouseReleased
-	function self.Slider:OnMouseReleased(keyCode)
-		oldMouseRelease(self, keyCode)
-		
-		parent:SetValue(math.Round(parent:GetValue(), parent:GetDecimals()))
-		parent:OnValueApplied(parent:GetValue())
-	end
+    -- Bind OnValueApplied callback to Slider's Mouse Release
+    local oldMouseRelease = self.Slider.OnMouseReleased
+    function self.Slider:OnMouseReleased(keyCode)
+        oldMouseRelease(self, keyCode)
+        
+        parent:SetValue(math.Round(parent:GetValue(), parent:GetDecimals()))
+        parent:OnValueApplied(parent:GetValue())
+    end
 
-	self.Label:SetFont("Advisor:Rubik.Body")
+    self.Label:SetFont("Advisor:Rubik.Body")
 end
 
 function PANEL:PerformLayout(w, h)
