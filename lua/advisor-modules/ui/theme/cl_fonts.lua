@@ -1,8 +1,17 @@
-local function SizeByRatio(x)
-  return x / 2560 * ScrW()
+local convarTextScale = CreateClientConVar("advisor_text_scale", "1", true, false, "Change text font scale from 50% to 200%", 0.5, 2)
+
+local function SizeByRatio(x, is_static)
+  return x / 2560 * ScrW() * ( is_static and 1 or convarTextScale:GetFloat() )
 end
 
 local function GenerateAdvisorFonts()
+    surface.CreateFont("Advisor:Rubik.StaticSmall",
+    {
+        font = "Rubik",
+        size = SizeByRatio(16, true),
+        antialias = true,
+    })
+
     surface.CreateFont("Advisor:Rubik.Header",
     {
         font = "Rubik",
@@ -54,7 +63,12 @@ local function GenerateAdvisorFonts()
         extended = true,
         size = SizeByRatio(16),
     })
+
+    if Advisor.UI and IsValid(Advisor.UI.MainPanel) then
+        Advisor.UI.MainPanel:InvalidateChildren(true)
+    end
 end
 
 GenerateAdvisorFonts()
-hook.Add("OnScreenSizeChanged", "Advisor:OnScreenSizeChanged:ReGenerateFonts", GenerateAdvisorFonts)
+cvars.AddChangeCallback(convarTextScale:GetName(), GenerateAdvisorFonts, "Advisor.GenerateAdvisorFonts")
+hook.Add("OnScreenSizeChanged", "Advisor:OnScreenSizeChanged:ReGenerateFonts", GenerateAdvisorFonts)    
