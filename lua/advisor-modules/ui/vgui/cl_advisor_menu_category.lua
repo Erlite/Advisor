@@ -22,6 +22,10 @@ function PANEL:SetCategoryName(name)
     self.Name:SizeToContentsX()
 end
 
+function PANEL:PerformLayout(w, h)
+    self.Name:SizeToContentsX()
+end
+
 function PANEL:Paint(w, h)
     surface.SetDrawColor(Advisor.Theme.Category.Background)
     surface.DrawRect(0, 0, w, h)

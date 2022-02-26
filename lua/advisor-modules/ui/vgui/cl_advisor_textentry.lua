@@ -1,5 +1,6 @@
 local PANEL = {}
 
+AccessorFunc(PANEL, "Suffix", "Suffix", FORCE_STRING)
 AccessorFunc(PANEL, "CornerRadius", "CornerRadius", FORCE_NUMBER)
 AccessorFunc(PANEL, "TextColor", "TextColor")
 AccessorFunc(PANEL, "HighlightColor", "HighlightColor")
@@ -22,22 +23,37 @@ function PANEL:Init()
 
     self:SetFont("Advisor:Rubik.TextEntry")
     self:SetHeight(32)
+
+    self:SetSuffix("")
 end
 
 function PANEL:Paint(w, h)
-    local radius = self:GetCornerRadius()
-    local accent = (self:IsEditing() and self:IsEnabled()) and self:GetSelectedAccentColor() or self:GetIdleAccentColor()
+    if self:GetPaintBackground() then
+        local radius = self:GetCornerRadius()
+        local accent = self:IsEditing() and self:GetSelectedAccentColor() or self:GetIdleAccentColor()
 
-    if radius > 0 then
-        draw.RoundedBox(radius, 0, 0, w, h, accent)
-        draw.RoundedBox(radius, 1, 1, w - 2, h - 2, self:GetBackgroundColor())
-    else
-        surface.SetDrawColor(self:GetBackgroundColor())
-        surface.DrawRect(0, 0, w, h)
-        surface.SetDrawColor(accent)
-        surface.DrawOutlinedRect(0, 0, w, h, 1)
+        if radius > 0 then 
+            draw.RoundedBox(radius, 0, 0, w, h, accent)
+            draw.RoundedBox(radius, 1, 1, w - 2, h - 2, self:GetBackgroundColor())
+        else
+            surface.SetDrawColor(self:GetBackgroundColor())
+            surface.DrawRect(0, 0, w, h)
+            surface.SetDrawColor(accent)
+            surface.DrawOutlinedRect(0, 0, w, h, 1)
+        end
     end
+
     self:DrawTextEntryText(self:GetTextColor(), self:GetHighlightColor(), self:GetCursorColor())
+
+    -- Draw suffix
+    local suffix = self:GetSuffix()
+    if #suffix > 0 then
+        surface.SetFont(self:GetFont())
+        local textWidth, textHeight = surface.GetTextSize(self:GetText() .. " ")
+        surface.SetTextPos(math.ceil(textWidth), math.ceil(h / 2 - textHeight / 2))
+        surface.SetTextColor(self:GetTextColor())
+        surface.DrawText(suffix)
+    end
 end
 
 function PANEL:Think()

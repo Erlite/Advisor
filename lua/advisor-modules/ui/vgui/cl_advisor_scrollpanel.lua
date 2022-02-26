@@ -1,6 +1,7 @@
 local PANEL = {}
 
 AccessorFunc(PANEL, "SelectedPanel", "SelectedPanel")
+AccessorFunc(PANEL, "MinWidth", "MinWidth", FORCE_NUMBER)
 
 function PANEL:Init()
     local vbar = self:GetVBar()
@@ -18,6 +19,7 @@ function PANEL:Init()
     end 
 
     self:SetSelectedPanel(nil)
+    self:SetMinWidth(50)
 end
 
 function PANEL:AddCategory(name)
@@ -44,6 +46,37 @@ function PANEL:AddOption(name, icon, font)
     end
 
     return option
+end
+
+function PANEL:PopulateOptions(mp)
+    local cats = mp:GetCategories()
+
+    for _, cat in ipairs(cats) do
+        self:AddCategory(cat.Name)
+
+        for _, option in ipairs(cat.Children) do
+            self:AddOption(option.Name, option.Panel, option.Icon and unpack(option.Icon) or nil)
+        end
+    end
+end
+
+function PANEL:PerformLayout(w, h)
+    --  Base call
+    self:PerformLayoutInternal()
+ 
+    --  Size to children
+    local maxChildWidth = self:GetMinWidth()
+    for i, v in ipairs(self:GetCanvas():GetChildren()) do
+        local label = v.Label or v.Name
+        if not IsValid(label) then continue end
+
+        local font = label:GetFont()
+        surface.SetFont(font)
+        local textWidth = surface.GetTextSize(label:GetText())
+        maxChildWidth = math.max(maxChildWidth, label:GetX() * 1.5 + label:GetWide())
+    end
+
+    self:SetWidth(maxChildWidth)
 end
 
 function PANEL:Paint(w, h)
