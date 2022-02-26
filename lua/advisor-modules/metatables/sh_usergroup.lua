@@ -117,5 +117,16 @@ function Advisor.Usergroup.FromCAMIGroup(group)
     return newGroup
 end
 
+local defaults = 
+{
+    ["user"] = true,
+    ["admin"] = true,
+    ["superadmin"] = true
+}
+
+function Advisor.Usergroup:IsDefaultUsergroup()
+    return defaults[self.name]
+end
+
 setmetatable(Advisor.Usergroup, {__call = Advisor.Usergroup.new})
 Replicate.SetupMetaTable(Advisor.Usergroup, "Advisor.Usergroup")

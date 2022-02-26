@@ -53,7 +53,7 @@ end
 function PANEL:OnOpen()
     self:GenerateFlavorText()
 
-    self:SlideDown(0.5)
+    self:SlideDown(0.3)
 end
 
 vgui.Register("Advisor.Menu", PANEL, "Advisor.Window")

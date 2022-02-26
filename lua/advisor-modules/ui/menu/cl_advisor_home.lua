@@ -1,7 +1,7 @@
 local PANEL = {}
 
 function PANEL:Init()
-    self.AdvisorVersion = vgui.Create("Advisor.HeaderBox", self)
+    self.AdvisorVersion = vgui.Create("Advisor.HeaderBoxText", self)
     self.AdvisorVersion:Dock(TOP)
     self.AdvisorVersion:DockMargin(16, 16, 16, 16)
     self.AdvisorVersion:SetHeaderText("Addon Information")
@@ -35,10 +35,6 @@ function PANEL:Init()
     docButton:SetText("Documentation")
     docButton:SetIcon(0xf1c9)
     docButton:SetEnabled(false)
-
-    local entry = vgui.Create("Advisor.TextEntry", self)
-    entry:Dock(TOP)
-    entry:DockMargin(16, 0, 16, 16)
 
     self:UpdateVersionDisplay()
 end

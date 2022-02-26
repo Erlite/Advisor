@@ -5,8 +5,6 @@ AccessorFunc(PANEL, "HeaderBackgroundColor", "HeaderBackgroundColor")
 AccessorFunc(PANEL, "HeaderCornerRadius", "HeaderCornerRadius", FORCE_NUMBER)
 AccessorFunc(PANEL, "BodyBackgroundColor", "BodyBackgroundColor")
 AccessorFunc(PANEL, "BodyCornerRadius", "BodyCornerRadius", FORCE_NUMBER)
-AccessorFunc(PANEL, "MinWidth", "MinWidth", FORCE_NUMBER)
-GetterFunc(PANEL, "BodyBox", "BodyBox")
 
 -- TODO: Make responsive.
 
@@ -28,12 +26,12 @@ function PANEL:Init()
         local parent = self:GetParent()
         local accent = parent:GetHeaderAccentColor()
 
-        if accent then
+        if accent then 
             draw.RoundedBoxEx(parent:GetHeaderCornerRadius(), 0, 0, w, h, parent:GetHeaderAccentColor(), true, true, false, false)
 
             surface.SetDrawColor(parent:GetHeaderBackgroundColor())
             surface.DrawRect(0, 4, w, h)
-        else
+        else 
             draw.RoundedBoxEx(parent:GetHeaderCornerRadius(), 0, 0, w, h, parent:GetHeaderBackgroundColor(), true, true, false, false)
         end
     end
@@ -47,8 +45,13 @@ function PANEL:Init()
 
     self.BodyBox = vgui.Create("EditablePanel", self)
     self.BodyBox:Dock(TOP)
-    self.BodyBox:DockPadding(16, 16, 16, 16)
     self.BodyBox:SetContentAlignment(4)
+
+    self.BodyText = vgui.Create("DLabel", self.BodyBox)
+    self.BodyText:Dock(TOP)
+    self.BodyText:DockMargin(16, 16, 16, 16)
+    self.BodyText:SetFont("Advisor:Rubik.Body")
+    self.BodyText:SetTextColor(Advisor.Theme.HeaderBox.BodyTextColor)
 
     function self.BodyBox:Paint(w, h)
         local parent = self:GetParent()
@@ -56,31 +59,10 @@ function PANEL:Init()
     end
 
     function self.BodyBox:PerformLayout(w, h)
-
-        local _, top, _, bottom = self:GetDockPadding()
-
-        local height = top
-        local children = self:GetChildren()
-        for i = 1, #children do
-            local child = children[i]
-            local _, cTop, _, cBottom = child:GetDockMargin()
-
-            local _, cHeight = child:GetContentSize()
-            if cHeight then
-                height = height + cHeight + cTop + cBottom
-            else
-                height = height + children[i]:GetTall() + cTop + cBottom
-            end
-        end
-
-        height = height + bottom
-
-        if self:GetTall() ~= height then
-            self:SetTall(height)
-        end
+        local parent = self:GetParent()
+        local _, top, _, bottom = parent.BodyText:GetDockMargin()
+        self:SetHeight(parent.BodyText:GetTall() + top + bottom)
     end
-
-    self:SetMinWidth(256)
 end
 
 function PANEL:GetHeaderText()
@@ -92,8 +74,20 @@ function PANEL:SetHeaderText(text)
     self.HeaderLabel:SizeToContents()
 end
 
+function PANEL:GetBodyText()
+    return self.BodyText:GetText()
+end
+
+function PANEL:SetBodyText(text)
+    self.BodyText:SetText(text)
+
+    -- Update Label to his Content (for unknown reasons surface.GetTextSize is more reliable in the tall)
+    surface.SetFont(self.BodyText:GetFont())
+    self.BodyText:SetSize(surface.GetTextSize(text))
+end
+
 function PANEL:PerformLayout(w, h)
     self:SizeToChildren(false, true)
 end
 
-vgui.Register("Advisor.HeaderBox", PANEL, "EditablePanel")
+vgui.Register("Advisor.HeaderBoxText", PANEL, "EditablePanel")

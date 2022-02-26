@@ -1,8 +1,8 @@
-local tbl = 
+local tbl =
 {
     name = "UI",
     description = "Contains Advisor's user interfaces.",
-    loadOrder = 
+    loadOrder =
     {
         "theme/",
         "vgui/",

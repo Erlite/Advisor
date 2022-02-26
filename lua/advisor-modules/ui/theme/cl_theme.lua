@@ -14,6 +14,7 @@ Advisor.Theme.FlavorText =
     "How are you holding up? Because I'm a potato.",
     "Roxas, that's a stick.",
     "Got it memorized?",
+    "Sir, finishing the mission.",
 }
 
 Advisor.Theme.Panel =
@@ -136,7 +137,7 @@ Advisor.Theme.HeaderBox =
     BodyCornerRadius = 4,
 }
 
-Advisor.Theme.TextEntry = 
+Advisor.Theme.TextEntry =
 {
     CornerRadius = 4,
     BackgroundColor =  Color(31, 31, 31),
@@ -145,4 +146,30 @@ Advisor.Theme.TextEntry =
     TextColor = Color(255, 255, 255),
     HighlightColor = Color(209, 129, 1),
     CursorColor = Color(209, 129, 1),
+}
+
+Advisor.Theme.SettingOption = 
+{
+    SeparatorColor = Color(100, 100, 100),
+}
+
+Advisor.Theme.ColorButton = 
+{
+    CornerRadius = 4,
+    EmptyOutlineColor = Color(100, 100, 100),
+}
+
+Advisor.Theme.Tooltip = 
+{
+    CornerRadius = 4,
+    BackgroundColor = Color(24, 25, 28),
+    OutlineColor = Color(209, 129, 1),
+    TextColor = Color(255, 255, 255),
+}
+
+Advisor.Theme.ColorPicker = 
+{
+    CornerRadius = 4,
+    BackgroundColor = Color(25, 25, 25),
+    OutlineColor = Color(209, 129, 1),
 }

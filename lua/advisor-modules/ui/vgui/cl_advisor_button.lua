@@ -8,6 +8,9 @@ AccessorFunc(PANEL, "HoveredColor", "HoveredColor")
 AccessorFunc(PANEL, "PressedColor", "PressedColor")
 AccessorFunc(PANEL, "DisabledColor", "DisabledColor")
 
+AccessorFunc(PANEL, "AdvisorTooltip", "AdvisorTooltip", FORCE_STRING)
+AccessorFunc(PANEL, "AdvisorTooltipDirection", "AdvisorTooltipDirection", FORCE_NUMBER)
+
 function PANEL:Init()
     self:SetRoundedCorners(Advisor.Theme.Button.RoundedCorners)
     self:SetCornerRadius(Advisor.Theme.Button.CornerRadius)

@@ -30,15 +30,19 @@ function PANEL:Init()
         surface.SetDrawColor(Advisor.Theme.ScrollPanel.Background)
         surface.DrawRect(0, 0, w, h)
     end
-    
+
     self.CreateButton = self.ButtonPanel:Add("Advisor.Button")
     self.CreateButton:SetText("Create New")
     self.CreateButton:SetIcon(0xf055)
+    self.CreateButton:SetAdvisorTooltip("Create a new usergroup")
+    self.CreateButton:SetAdvisorTooltipDirection(RIGHT)
 
     self.DeleteButton = self.ButtonPanel:Add("Advisor.Button")
     self.DeleteButton:SetText("Delete")
     self.DeleteButton:SetIcon(0xf056)
     self.DeleteButton:UpdateColors(Advisor.Theme.Button.Delete)
+    self.DeleteButton:SetAdvisorTooltip("Delete the currently selected usergroup")
+    self.DeleteButton:SetAdvisorTooltipDirection(RIGHT)
 
     self.UsergroupSettings = vgui.Create("Advisor.Panel", self, "UsergroupSettings")
     self.UsergroupSettings:Dock(FILL)
@@ -56,8 +60,57 @@ function PANEL:Init()
     end
 
 
-    self.PartialControlHeader = vgui.Create("Advisor.HeaderBox", self.UsergroupSettings)
-    self.PartialControlHeader:Dock(FILL)
+    self.PartialControlHeader = vgui.Create("Advisor.HeaderBoxText", self.UsergroupSettings)
+    self.PartialControlHeader:Dock(TOP)
+
+    self.SettingsPanel = vgui.Create("Advisor.HeaderBox", self.UsergroupSettings)
+    self.SettingsPanel:Dock(FILL)
+    self.SettingsPanel:SetHeaderText("Usergroup Settings")
+    self.SettingsPanel:DockPadding(0, 16, 0, 0)
+
+    local settingsBody = self.SettingsPanel:GetBodyBox()
+    local settingsLayout = vgui.Create("Advisor.VerticalLayout", settingsBody)
+    settingsLayout:Dock(FILL)
+    settingsLayout:SetSpacing(8)
+    settingsLayout:SetFlexibleHeight(true)
+
+    -- Add basic usergroup settings like name, display name and color.
+    local ugPanel = self
+
+    self.UGNameOption = settingsLayout:Add("Advisor.TextSettingOption")
+    self.UGNameOption:SetTitle("Name")
+    self.UGNameOption:SetDescription("The internal name of this usergroup, used by addons.")
+
+    function self.UGNameOption:UpdateDisplayedData()
+        local selection = ugPanel:GetSelection()
+
+        if IsValid(selection) then
+            local group = Advisor.Permissions.GetUsergroup(selection:GetUsergroup())
+            if group then
+                self.TextBox:SetText(group:GetName())
+                self.TextBox:SetEnabled(not group:GetPartialControl() and group:GetSource() == Advisor.Source)
+            end
+        end
+    end
+
+    self.UGDisplayNameOption = settingsLayout:Add("Advisor.TextSettingOption")
+    self.UGDisplayNameOption:SetTitle("Display Name")
+    self.UGDisplayNameOption:SetDescription("The name that will be displayed instead of the internal name, if any.")
+
+    function self.UGDisplayNameOption:UpdateDisplayedData()
+        local selection = ugPanel:GetSelection()
+
+        if IsValid(selection) then
+            local group = Advisor.Permissions.GetUsergroup(selection:GetUsergroup())
+            if group then
+                self.TextBox:SetText(group:GetDisplayName())
+            end
+        end
+    end
+
+    self.UGColorOption = settingsLayout:Add("Advisor.ColorSettingOption")
+    self.UGColorOption:SetTitle("Color")
+    self.UGColorOption:SetDescription("The color to use when displaying the usergroup.")
 
     self:SetSelection(nil)
 
@@ -76,6 +129,8 @@ function PANEL:UpdateSelection(selection)
     self:SetSelection(selection)
     self.Usergroups:UpdateSelection(selection)
 
+    -- Update control state header.
+    -- TODO: Localize text
     local group = Advisor.Permissions.GetUsergroup(selection:GetUsergroup())
     if group:GetPartialControl() then
         self.PartialControlHeader:SetHeaderAccentColor(Advisor.Theme.HeaderBox.HeaderAccentColor)
@@ -91,7 +146,14 @@ function PANEL:UpdateSelection(selection)
         self.PartialControlHeader:SetBodyText("This usergroup is entirely controlled by Advisor.")
     end
 
+    -- Disable the delete button if we can't delete this usergroup.
     self.DeleteButton:SetEnabled(group:GetCanDelete())
+
+    -- Update basic settings.
+    self.UGNameOption:KillFocus()
+    self.UGNameOption:UpdateDisplayedData()
+    self.UGDisplayNameOption:KillFocus()
+    self.UGDisplayNameOption:UpdateDisplayedData()
 end
 
 function PANEL:OnUsergroupsUpdated()
@@ -116,6 +178,8 @@ function PANEL:GetSortedUsergroups()
     {
         ["user"] = {}
     }
+
+    if #Advisor.Permissions.Usergroups == 0 then return {} end
 
     self:GetInheritedUsergroups(usergroups, inheritanceSort["user"], "user")
     self:FlattenHierarchy(inheritanceSort, inheritanceSort["user"])

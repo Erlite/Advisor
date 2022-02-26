@@ -19,9 +19,9 @@ function PANEL:Init()
     function self.CloseButton:DoClick()
         local grandparent = self:GetParent() and self:GetParent():GetParent() or nil
         if IsValid(grandparent) then
-            grandparent:SlideUp(0.5)
+            grandparent:SlideUp(0.3)
 
-            timer.Simple(0.5, function()
+            timer.Simple(0.3, function()
                 if not IsValid(grandparent) then return end
                 if grandparent.Close then 
                     grandparent:Close()

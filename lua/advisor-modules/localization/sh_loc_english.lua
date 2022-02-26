@@ -72,4 +72,13 @@ Language("english")
         Key("option_credits", "Credits")
     EndNamespace()
 
+    Namespace("usergroups")
+        Key("usergroup_fullcontrol_title", "Total Control")
+        Key("usergroup_fullcontrol_desc", "This usergroup is entirely controlled by Advisor.")
+        Key("usergroup_partialcontrol_title", "Partial Control")
+        Key("usergroup_partialcontrol_desc", "This usergroup may be affected by the following addon:\n\n- %s")
+        Key("usergroup_nocontrol_title", "Third Party Control")
+        Key("usergroup_nocontrol_desc", "This usergroup is entirely controlled by the following addon:\n\n- %s")
+    EndNamespace()
+
 EndLanguage()

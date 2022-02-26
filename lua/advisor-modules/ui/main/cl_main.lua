@@ -4,19 +4,34 @@ Advisor.UI.MainPanel = Advisor.UI.MainPanel or nil
 
 local function ResetMenu()
     if IsValid(Advisor.UI.MainPanel) then
-        local was_visible = Advisor.UI.MainPanel:IsVisible()
+        local wasVisible = Advisor.UI.MainPanel:IsVisible()
         Advisor.UI.MainPanel:Remove()
 
         -- Re-open the menu if it was visible before 
-        if was_visible then
+        if wasVisible then
             Advisor.UI.OpenMenu()
         end
     end
 end
+
+hook.Add("OnScreenSizeChanged", "Advisor.ResetMenuOnScreenSizeChanged", ResetMenu)
 concommand.Add("advisor_refreshmenu", ResetMenu, nil, "Removes Advisor's menu to allow for re-creation.")
+
+-- Return the tooltip widget used for displaying custom UI tooltips.
+-- Only one instance should exist at all times.
+function Advisor.UI:GetTooltip()
+    if not self.TooltipWidget then
+        self.TooltipWidget = vgui.Create("Advisor.Tooltip")
+    end
+
+    return self.TooltipWidget
+end
 
 function Advisor.UI.OpenMenu()
     local LOC = Advisor.Localization.Localize
+
+    -- Spawn a tooltip widget if we don't have one.
+    Advisor.UI:GetTooltip()
 
     if IsValid(Advisor.UI.MainPanel) then
         if Advisor.UI.MainPanel:IsVisible() then

@@ -24,6 +24,20 @@ local function GenerateAdvisorFonts()
         antialias = true,
     })
 
+    surface.CreateFont("Advisor:Rubik.OptionTitle",
+    {
+        font = "Rubik",
+        size = SizeByRatio(20),
+        antialias = true,
+    })
+
+    surface.CreateFont("Advisor:Rubik.OptionDescription",
+    {
+        font = "Rubik",
+        size = SizeByRatio(18),
+        antialias = true,
+    })
+
     surface.CreateFont("Advisor:Rubik.Button",
     {
         font = "Rubik",

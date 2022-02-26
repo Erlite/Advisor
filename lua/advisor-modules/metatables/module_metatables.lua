@@ -4,7 +4,7 @@ local tbl =
     description = "Contains all of Advisor's metatables.",
     loadOrder =
     {
-        "sh_permission.lua"
+        "sh_usergroup_permission.lua"
     }
 }
 
