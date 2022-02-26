@@ -39,10 +39,6 @@ function PANEL:SetOptionName(name)
     self.Label:SizeToContentsX()
 end
 
-function PANEL:PerformLayout(w, h)
-    self.Label:SizeToContentsX()
-end
-
 function PANEL:Paint(w, h) 
     if self:GetSelected() then 
         surface.SetDrawColor(Advisor.Theme.MenuOption.SelectedBackground)

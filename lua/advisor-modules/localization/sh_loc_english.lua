@@ -70,8 +70,6 @@ Language("english")
         Key("option_auditlogs", "Audit Logs")
         Key("option_bans", "Bans")
         Key("option_credits", "Credits")
-        Key("option_appearance", "Appearance")
-        Key("field_text_scale", "Text Scale")
     EndNamespace()
 
     Namespace("usergroups")

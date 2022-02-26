@@ -43,14 +43,14 @@ function Advisor.UI.OpenMenu()
     end
 
     local mp = Advisor.MenuProperty()
-    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_home"), vgui.Create("Advisor.Menu.Home"), 0xf015)
-    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_myprofile"), vgui.Create("Advisor.Panel"), 0xf007)
-    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_settings"), vgui.Create("Advisor.Menu.Settings"), 0xf013)
-    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_usergroups"), vgui.Create("Advisor.Menu.Usergroups"), 0xf505)
-    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_users"), vgui.Create("Advisor.Panel"), 0xf0c0)
-    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_auditlogs"), vgui.Create("Advisor.Panel"), 0xf02d)
-    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_bans"), vgui.Create("Advisor.Panel"), 0xf0e3)
-    mp:AddOption(LOC("ui", "category_misc"), LOC("ui", "option_credits"), vgui.Create("Advisor.Menu.Credits"), 0xf004)
+    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_home"), vgui.Create("Advisor.Menu.Home"), utf8.char(0xf015))
+    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_myprofile"), vgui.Create("Advisor.Panel"), utf8.char(0xf007))
+    mp:AddOption(LOC("ui", "category_landing"), LOC("ui", "option_settings"), vgui.Create("Advisor.Panel"), utf8.char(0xf013))
+    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_usergroups"), vgui.Create("Advisor.Menu.Usergroups"), utf8.char(0xf505))
+    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_users"), vgui.Create("Advisor.Panel"), utf8.char(0xf0c0))
+    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_auditlogs"), vgui.Create("Advisor.Panel"), utf8.char(0xf02d))
+    mp:AddOption(LOC("ui", "category_admin"), LOC("ui", "option_bans"), vgui.Create("Advisor.Panel"), utf8.char(0xf0e3))
+    mp:AddOption(LOC("ui", "category_misc"), LOC("ui", "option_credits"), vgui.Create("Advisor.Menu.Credits"), utf8.char(0xf004))
 
     hook.Run("Advisor.PopulateMenuOptions", mp)
 

@@ -93,9 +93,6 @@ function PANEL:SetHeaderText(text)
 end
 
 function PANEL:PerformLayout(w, h)
-    if IsValid( self.BodyText ) then
-        self.BodyText:SizeToContents()
-    end
     self:SizeToChildren(false, true)
 end
 

@@ -10,7 +10,7 @@ function PANEL:Init()
     self.ButtonLayout = vgui.Create("Advisor.HorizontalLayout", self)
     self.ButtonLayout:Dock(TOP)
     self.ButtonLayout:DockMargin(16, 0, 16, 16)
-    self.ButtonLayout:SetHeight(48)
+    self.ButtonLayout:SetHeight(32)
     self.ButtonLayout:SetSpacing(32)
     --self.ButtonLayout:DockPadding(8, 8, 8, 0)
 

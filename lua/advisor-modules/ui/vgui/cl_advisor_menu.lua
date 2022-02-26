@@ -12,7 +12,7 @@ function PANEL:Init()
 
     self.Categories = vgui.Create("Advisor.MenuScrollPanel", self)
     self.Categories:Dock(LEFT)
-    self.Categories:SetMinWidth(ScrW() * 0.1)
+    self.Categories:SetWidth(ScrW() * 0.1)
 
     local menuWindow = self
     function self.Categories:OnSelectionUpdated(selection)
@@ -28,7 +28,15 @@ function PANEL:Init()
 end
 
 function PANEL:PopulateOptions(mp)
-    self.Categories:PopulateOptions(mp)
+    local cats = mp:GetCategories()
+
+    for _, cat in ipairs(cats) do
+        self.Categories:AddCategory(cat.Name)
+
+        for _, option in ipairs(cat.Children) do
+            self.Categories:AddOption(option.Name, option.Panel, option.Icon, option.IconFont)
+        end
+    end
 end
 
 function PANEL:GenerateFlavorText()

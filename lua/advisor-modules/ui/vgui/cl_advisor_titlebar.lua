@@ -67,10 +67,6 @@ function PANEL:SetTitle(txt)
     self.TitleLabel:SizeToContentsX()
 end
 
-function PANEL:PerformLayout(w, h)
-	self.TitleLabel:SizeToContentsX()
-end
-
 function PANEL:Paint(w, h)
     draw.RoundedBoxEx(self.CornerRadius, 0, 0, w, h, Advisor.Theme.TitleBar.Background, true, true, false, false)
 end
