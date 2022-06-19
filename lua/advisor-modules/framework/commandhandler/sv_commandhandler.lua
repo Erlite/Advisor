@@ -76,7 +76,7 @@ function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
     if success then return "" end
 
     Advisor.Log.Error(LogCommands, "An error has occured while executing command '%s': %s", cmd:GetName(), errorMsg)
-    Advisor.Utils.LocalizedMessage(sender, Color(255, 90, 90), "commands", "error_thrown", { cmd:GetName(), errorMsg } )
+    Advisor.Utils.LocalizedMessage(sender, Color(255, 90, 90), "commands", "error_thrown", cmd:GetName(), errorMsg )
 end
 
 function Advisor.CommandHandler.OnPlayerMessage(sender, text, teamChat)
