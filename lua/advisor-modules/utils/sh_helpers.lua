@@ -42,6 +42,8 @@ end
 
 function Advisor.Utils.ToStringArray(text)
     text = string.Trim(text)
+    if #text == 0 then return {} end
+
     local args = {}
     local currentArg = ""
 
