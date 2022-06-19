@@ -22,3 +22,12 @@ function Advisor.ArgumentParser:Autocomplete(cmdArg, rawArg)
 
     return {}
 end
+
+--[[ 
+    Get the default value when the Argument is set as optional without a set default value
+    @param ctx The context of the command being executed.
+    @returns Value (any)
+--]]
+function Advisor.ArgumentParser:GetDefault(ctx)
+    return nil
+end

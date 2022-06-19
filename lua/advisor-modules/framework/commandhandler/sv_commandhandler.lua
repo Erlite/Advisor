@@ -51,7 +51,11 @@ function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
 
             parsedArgs[#parsedArgs + 1] = result
         elseif arg:GetOptional() then
-            parsedArgs[#parsedArgs + 1] = arg:GetDefault()
+            local default = arg:GetDefault()
+            if default == nil or default == NULL then
+                default = parser:GetDefault(ctx)
+            end
+            parsedArgs[#parsedArgs + 1] = default
         else
             Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "commands", "missing_argument", arg:GetName())
             return ""

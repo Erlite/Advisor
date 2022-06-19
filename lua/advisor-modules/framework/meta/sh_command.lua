@@ -86,7 +86,7 @@ function Advisor.Command:AddOptionalArgument(name, argType, default, description
     end
 
     -- Check that there is no remainder argument before this one, as this is illegal.
-    if #self.arguments > 0 and self.arguments[#self.arguments]:GetOptional() then
+    if #self.arguments > 0 and self.arguments[#self.arguments]:GetRemainder() then
         ErrorNoHaltWithStack(string.format("Cannot add an optional argument after a remainder one."))
         return
     end
