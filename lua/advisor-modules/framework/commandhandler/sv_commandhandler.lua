@@ -24,7 +24,7 @@ function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
 
     -- Check that we have enough arguments to satisfy the command's request.
     if #args < cmd:GetRequiredAmount() then
-        local missingArg = cmdArgs[#args]
+        local missingArg = cmdArgs[math.max( 1, #args )]
         Advisor.Utils.LocalizedMessage(sender, Color(255, 185, 0), "commands", "missing_argument", missingArg:GetName())
         return ""
     end
