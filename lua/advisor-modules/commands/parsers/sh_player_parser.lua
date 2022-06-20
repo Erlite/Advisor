@@ -134,4 +134,8 @@ function PlayerParser:Autocomplete(arg, rawArg)
     return found
 end
 
+function PlayerParser:GetDefault(ctx)
+    return {{ steamid = ctx.sender:SteamID64(), ply = ctx.sender }}
+end
+
 Advisor.CommandHandler.RegisterParser("player", PlayerParser)
