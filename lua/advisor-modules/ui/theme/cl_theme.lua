@@ -173,3 +173,10 @@ Advisor.Theme.ColorPicker =
     BackgroundColor = Color(25, 25, 25),
     OutlineColor = Color(209, 129, 1),
 }
+
+Advisor.Theme.ComboBox = 
+{
+    CornerRadius = 4,
+    BackgroundColor = Color(20, 20, 20),
+    OutlineColor = Color(209, 129, 1),
+}

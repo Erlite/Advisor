@@ -5,7 +5,6 @@ util.AddNetworkString("Advisor.ServerRunConsoleCommand")
 
 function Advisor.CommandHandler.RunCommand(sender, raw, cmd, args)
     if not cmd or getmetatable(cmd) ~= Advisor.Command then 
-        PrintTable(cmd)
         ErrorNoHaltWithStack(string.format("Expected Advisor.Command, got: '%s'", cmd and type(cmd) or "nil"))
         return 
     end

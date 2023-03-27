@@ -53,7 +53,7 @@ function PANEL:Init()
         if not self:GetEmpty() then
             self.Picker:SetColor(self:GetColor())
         end
-        
+
         local cPicker = self
         function self.Picker:OnRemove()
             if cPicker then

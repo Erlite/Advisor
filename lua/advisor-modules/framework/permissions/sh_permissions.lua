@@ -5,7 +5,7 @@ Advisor.Permissions.UsergroupMap = Advisor.Permissions.UsergroupMap or {}
 
 
 -- Do NOT modify this. This should only hold the default Source engine usergroups.
-Advisor.Permissions.DefaultUsergroups = 
+Advisor.Permissions.DefaultUsergroups =
 {
     ["superadmin"] = true,
     ["admin"] = true,
@@ -14,6 +14,10 @@ Advisor.Permissions.DefaultUsergroups =
 
 function Advisor.Permissions.GetUsergroup(name)
     return Advisor.Permissions.UsergroupMap[name]
+end
+
+function Advisor.Permissions.GetUsergroups()
+    return Advisor.Permissions.Usergroups
 end
 
 -- Called when an admin mod registers a usergroup using CAMI
@@ -61,4 +65,4 @@ local function OnUsergroupUnregistered(group, source)
     hook.Run("Advisor.OnUsergroupRemoved", knownGroup)
 end
 
-hook.Add("CAMI.OnUsergroupUnregistered", "Advisor.HandleCAMIUnreagisteredGroup", OnUsergroupUnregistered)
+hook.Add("CAMI.OnUsergroupUnregistered", "Advisor.HandleCAMIUnregisteredGroup", OnUsergroupUnregistered)

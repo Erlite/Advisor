@@ -108,9 +108,58 @@ function PANEL:Init()
         end
     end
 
+    self.UGInheritanceOption = settingsLayout:Add("Advisor.DropDownSettingOption")
+    self.UGInheritanceOption:SetTitle("Inherits")
+    self.UGInheritanceOption:SetDescription("The usergroup from which to inherit permissions. By default, usergroups inherit from 'user'.")
+
+    function self.UGInheritanceOption:UpdateDisplayedData()
+        local selection = ugPanel:GetSelection()
+        self.ComboBox:Clear()
+
+        if IsValid(selection) then
+            local group = Advisor.Permissions.GetUsergroup(selection:GetUsergroup())
+            if group then
+                local allowedGroups = group:GetInheritableUsergroups()
+                local sortedGroups = ugPanel:GetSortedUsergroups()
+                local sortedAllowed = {}
+
+                for i = 1, #sortedGroups do
+                    local curr = sortedGroups[i]
+                    for j = 1, #allowedGroups do
+                        local allowed = allowedGroups[j]
+                        if curr == allowed then
+                            sortedAllowed[#sortedAllowed + 1] = curr
+                            break
+                        end
+                    end
+                end
+
+                for i = 1, #sortedAllowed do
+                    local name = sortedAllowed[i]
+                    self.ComboBox:AddChoice(name)
+
+                    if name == group:GetInherits() then
+                        self.ComboBox:ChooseOption(name, i)
+                    end
+                end
+            end
+        end
+    end
+
     self.UGColorOption = settingsLayout:Add("Advisor.ColorSettingOption")
     self.UGColorOption:SetTitle("Color")
     self.UGColorOption:SetDescription("The color to use when displaying the usergroup.")
+
+    function self.UGColorOption:UpdateDisplayedData()
+        local selection = ugPanel:GetSelection()
+
+        if IsValid(selection) then
+            local group = Advisor.Permissions.GetUsergroup(selection:GetUsergroup())
+            if group then
+                self:SetColor(group:GetColor())
+            end
+        end
+    end
 
     self:SetSelection(nil)
 
@@ -135,11 +184,11 @@ function PANEL:UpdateSelection(selection)
     if group:GetPartialControl() then
         self.PartialControlHeader:SetHeaderAccentColor(Advisor.Theme.HeaderBox.HeaderAccentColor)
         self.PartialControlHeader:SetHeaderText("Partial Control")
-        self.PartialControlHeader:SetBodyText("This usergroup may be affected by the following addon:\n\n- " .. group:GetSource())
+        self.PartialControlHeader:SetBodyText("This usergroup may be affected by the following addon: " .. group:GetSource())
     elseif group:GetSource() ~= Advisor.Source then
         self.PartialControlHeader:SetHeaderAccentColor(Advisor.Theme.HeaderBox.HeaderErrorAccent)
         self.PartialControlHeader:SetHeaderText("Third Party Control")
-        self.PartialControlHeader:SetBodyText("This usergroup is entirely controlled by the following addon:\n\n- " .. group:GetSource())
+        self.PartialControlHeader:SetBodyText("This usergroup is entirely controlled by the following addon: " .. group:GetSource())
     else
         self.PartialControlHeader:SetHeaderAccentColor(Advisor.Theme.HeaderBox.HeaderValidationAccent)
         self.PartialControlHeader:SetHeaderText("Total Control")
@@ -154,6 +203,8 @@ function PANEL:UpdateSelection(selection)
     self.UGNameOption:UpdateDisplayedData()
     self.UGDisplayNameOption:KillFocus()
     self.UGDisplayNameOption:UpdateDisplayedData()
+    self.UGInheritanceOption:UpdateDisplayedData()
+    self.UGColorOption:UpdateDisplayedData()
 end
 
 function PANEL:OnUsergroupsUpdated()

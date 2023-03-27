@@ -84,7 +84,7 @@ function Advisor.Usergroup:SetColor(color)
     if not color or not IsColor(color) then
         error("Cannot set role color to invalid color: " .. color or "nil")
     end
-    
+
     local c = 0
     c = bit.bor(c, bit.lshift(color.r, 16))
     c = bit.bor(c, bit.lshift(color.g, 8))
@@ -126,6 +126,37 @@ local defaults =
 
 function Advisor.Usergroup:IsDefaultUsergroup()
     return defaults[self.name]
+end
+
+-- Returns the usergroups this group can inherit from.
+function Advisor.Usergroup:GetInheritableUsergroups()
+    local allowed = { "user" }
+    if self:GetName() == "user" then
+        return allowed
+    end
+
+    for _, group in ipairs(Advisor.Permissions.GetUsergroups()) do
+        if group:GetName() ~= self:GetName() and group:GetName() ~= "user" then
+            local currentBase = group:GetInherits()
+            local isAllowed = true
+            while currentBase ~= "user" and currentBase ~= nil do
+                if currentBase == self:GetName() then
+                    isAllowed = false 
+                    break
+                end
+
+                local baseGroup = Advisor.Permissions.GetUsergroup(currentBase)
+                if not baseGroup then break end
+                currentBase = baseGroup:GetInherits()
+            end
+
+            if isAllowed then
+                allowed[#allowed + 1] = group:GetName()
+            end
+        end
+    end
+
+    return allowed
 end
 
 setmetatable(Advisor.Usergroup, {__call = Advisor.Usergroup.new})

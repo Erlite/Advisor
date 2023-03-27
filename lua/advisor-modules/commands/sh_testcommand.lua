@@ -49,3 +49,62 @@ clockCmd.Callback = function(ctx, time)
         PrintMessage(HUD_PRINTTALK, dateText)
     end
 end
+
+local pairsTest = Advisor.CommandHandler.RegisterCommand("Advisor", "pairsTest", "Test the speed of pairs().")
+pairsTest.Callback = function(ctx)
+    local tbl = {}
+    while #tbl < 100000 do
+        tbl[#tbl + 1] = math.random(1, 10)
+    end
+    local accumulated = 0 
+    local tries = 0
+    for i = 1, 5000 do 
+        tries = tries + 1
+        local time = SysTime() 
+        for k, v in pairs(tbl) do
+            local x = k
+        end 
+        accumulated = accumulated + (SysTime() - time)
+    end 
+    
+    print("pairs() time over 5000 tries: " .. accumulated / tries)
+end
+
+local ipairsTest = Advisor.CommandHandler.RegisterCommand("Advisor", "ipairsTest", "Test the speed of ipairs().")
+ipairsTest.Callback = function(ctx)
+    local tbl = {}
+    while #tbl < 100000 do
+        tbl[#tbl + 1] = math.random(1, 10)
+    end
+    local accumulated = 0 
+    local tries = 0
+    for i = 1, 5000 do 
+        tries = tries + 1
+        local time = SysTime() 
+        for k, v in ipairs(tbl) do
+            local x = k
+        end 
+        accumulated = accumulated + (SysTime() - time)
+    end 
+    
+    print("ipairs() time over 5000 tries: " .. accumulated / tries)
+end
+
+local forTest = Advisor.CommandHandler.RegisterCommand("Advisor", "forTest", "Test the speed of a for loop.")
+forTest.Callback = function(ctx)
+    local tbl = {}
+    while #tbl < 100000 do
+        tbl[#tbl + 1] = math.random(1, 10)
+    end
+    local accumulated = 0 
+    local tries = 0
+    for i = 1, 5000 do 
+        tries = tries + 1
+        local time = SysTime() 
+        for i = 1, #tbl do
+        end 
+        accumulated = accumulated + (SysTime() - time)
+    end 
+    
+    print("for loop time over 5000 tries: " .. accumulated / tries)
+end

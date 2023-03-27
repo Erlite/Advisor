@@ -55,12 +55,10 @@ function Advisor.UI.OpenMenu()
     hook.Run("Advisor.PopulateMenuOptions", mp)
 
     local res, msg = pcall(function()
-        local main = vgui.Create("Advisor.Menu")
-        main:PopulateOptions(mp)
-        main:MakePopup()
-        main:Open()
-    
-        Advisor.UI.MainPanel = main
+        Advisor.UI.MainPanel = vgui.Create("Advisor.Menu")
+        Advisor.UI.MainPanel:PopulateOptions(mp)
+        Advisor.UI.MainPanel:MakePopup()
+        Advisor.UI.MainPanel:Open()
     end)
     
     if not res then 
